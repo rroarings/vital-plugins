@@ -10,8 +10,6 @@ import net.runelite.api.Player;
 import net.runelite.api.TileItem;
 import net.runelite.api.coords.WorldArea;
 
-import javax.naming.InvalidNameException;
-
 public class Gather implements ScriptTask
 {
 	private static final WorldArea COOKING_GUILD_2 = new WorldArea(3138, 3444, 10, 10, 2);
@@ -45,7 +43,7 @@ public class Gather implements ScriptTask
 
 		if(waitfucker == 2 && Inventory.getFreeSlots() > 1) {
 
-			Time.sleep(Rand.nextInt(56000, 62500));
+			Time.sleep(Rand.nextInt(58500, 62500));
 
 			waitfucker = 0;
 		}

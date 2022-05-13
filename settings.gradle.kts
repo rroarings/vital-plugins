@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Owain van Brakel <https:github.com/Owain94>
+ * Copyright (c) 2019 Vitalflea <https:github.com/vitalflea>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,25 +23,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "unethicalite-plugins"
+rootProject.name = "vital-plugins"
 
-include("hoot-fighter")
-include("hoot-oneclick")
-include("hoot-agility")
-include("hoot-autologin")
-include("hoot-tempoross")
-include("hoot-blackjack")
-include("hoot-trawler")
-include("hoot-pickpocket")
-include("hoot-aerialfishing")
-include("hoot-chins")
-include("hoot-notifier")
-include("hoot-butler")
-include("kebab-buyer-script")
-include("vital-wine")
-include("unethical-prayer")
-include("example-kotlin")
-include("example-utils")
+include("vital-fighter")
 include("vital-wine")
 
 for (project in rootProject.children) {
@@ -53,4 +37,4 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
-
+include("vital-fisher")

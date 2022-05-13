@@ -10,6 +10,7 @@ import dev.unethicalite.api.widgets.Dialog;
 import net.runelite.api.DialogOption;
 import net.runelite.api.Item;
 import net.runelite.api.ItemID;
+import net.runelite.api.MenuAction;
 import net.runelite.api.Player;
 
 public class MakeWine implements ScriptTask
@@ -38,7 +39,7 @@ public class MakeWine implements ScriptTask
 		Time.sleep(Rand.nextInt(1800, 2500));
 
 		Keyboard.sendSpace();
-
+		System.out.println(MenuAction.WIDGET_FIRST_OPTION.name());
 		return Rand.nextInt(2000, 4000);
 	}
 }

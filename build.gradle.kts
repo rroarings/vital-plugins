@@ -81,5 +81,10 @@ allprojects {
         compileKotlin {
             kotlinOptions.jvmTarget = "11"
         }
+
+        register<Copy>("copyDeps") {
+            into("./build/deps/")
+            from(configurations["runtimeClasspath"])
+        }
     }
 }

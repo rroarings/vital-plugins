@@ -86,5 +86,15 @@ allprojects {
             into("./build/deps/")
             from(configurations["runtimeClasspath"])
         }
+
+        register<Copy>("copyPlugins") {
+            into("C:/Users/Admin/IdeaProjects/vital-plugins-release")
+            from("./release/")
+        }
+
+        register<Copy>("copyMani") {
+            into("C:/Users/Admin/IdeaProjects/vital-plugins-release")
+            from("./plugins.json")
+        }
     }
 }

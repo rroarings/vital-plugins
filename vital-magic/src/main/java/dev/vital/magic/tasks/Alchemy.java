@@ -2,6 +2,7 @@ package dev.vital.magic.tasks;
 
 import com.google.inject.Inject;
 import dev.unethicalite.api.commons.Rand;
+import dev.unethicalite.api.commons.Time;
 import dev.unethicalite.api.items.Inventory;
 import dev.unethicalite.api.magic.Magic;
 import dev.unethicalite.api.magic.SpellBook;
@@ -25,7 +26,7 @@ public class Alchemy implements ScriptTask
 
 		if (Movement.isWalking() && !config.alchemyWhileMoving()) {
 
-			return 1000;
+			return Rand.nextInt(800, 900);
 		}
 
 		if(Magic.isSpellSelected(SpellBook.Standard.HIGH_LEVEL_ALCHEMY)) {
@@ -37,8 +38,8 @@ public class Alchemy implements ScriptTask
 		else {
 
 			Magic.selectSpell(SpellBook.Standard.HIGH_LEVEL_ALCHEMY);
-
-			return Rand.nextInt(550, 1400);
 		}
+
+		return Rand.nextInt(550, 1400);
 	}
 }

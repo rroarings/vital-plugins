@@ -46,4 +46,20 @@ public interface VitalMagicConfig extends Config
 			position = 4
 	)
 	default int maximumDelay() { return 0; }
+
+	@ConfigItem(
+			keyName = "tickMinDelay",
+			name = "Minimum tick delay",
+			description = "Minimum amount of ticks to wait after casting.",
+			position = 5
+	)
+	default int tickMinDelay() { return 0; }
+
+	@ConfigItem(
+			keyName = "tickMaxDelay",
+			name = "Maximum tick delay",
+			description = "Maximum amount of ticks to wait after casting.",
+			position = 6
+	)
+	default int tickMaxDelay() { return 0; }
 }

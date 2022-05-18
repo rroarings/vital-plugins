@@ -1,4 +1,4 @@
-version = "0.0.2"
+version = "0.0.7"
 
 project.extra["PluginName"] = "Vital Magic"
 project.extra["PluginDescription"] = "High alchemy only supported for now"

@@ -39,7 +39,7 @@ public class GoFish implements ScriptTask {
 
 		var fishspot = NPCs.getNearest(6825);
 		if(fishspot == null) {
-			Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea().getCenter());
+			Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea().getRandom());
 		}
 		else {
 

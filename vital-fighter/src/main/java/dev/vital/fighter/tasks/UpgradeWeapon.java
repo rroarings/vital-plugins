@@ -1,17 +1,17 @@
 package dev.vital.fighter.tasks;
 
-import dev.unethicalite.api.account.LocalPlayer;
-import dev.unethicalite.api.commons.Rand;
-import dev.unethicalite.api.commons.Time;
-import dev.unethicalite.api.entities.NPCs;
-import dev.unethicalite.api.entities.TileObjects;
-import dev.unethicalite.api.game.Skills;
-import dev.unethicalite.api.items.Bank;
-import dev.unethicalite.api.items.Equipment;
-import dev.unethicalite.api.items.Inventory;
-import dev.unethicalite.api.movement.Movement;
-import dev.unethicalite.api.movement.Reachable;
-import dev.unethicalite.api.quests.Quest;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.commons.Rand;
+import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.game.Skills;
+import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.items.Equipment;
+import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
+import net.unethicalite.api.quests.Quest;
 import net.runelite.api.EquipmentInventorySlot;
 import net.runelite.api.ItemID;
 import net.runelite.api.NPC;
@@ -75,7 +75,7 @@ public class UpgradeWeapon implements ScriptTask
 	@Override
 	public int execute() {
 
-		Player local = LocalPlayer.getEntity();
+		Player local = LocalPlayer.get();
 
 		if (local.isAnimating() || Movement.isWalking()) {
 

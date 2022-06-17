@@ -1,7 +1,7 @@
-version = "0.0.7"
+version = "0.0.13"
 
 project.extra["PluginName"] = "Vital Magic"
-project.extra["PluginDescription"] = "High alchemy only supported for now"
+project.extra["PluginDescription"] = "Enchant, Alch and Teleport"
 
 tasks {
     jar {

@@ -1,6 +1,7 @@
 package dev.vital.fighter;
 
-import dev.unethicalite.api.plugins.Script;
+import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.plugins.Script;
 import dev.vital.fighter.tasks.ScriptTask;
 import dev.vital.fighter.tasks.UpgradeHelmet;
 import dev.vital.fighter.tasks.UpgradeWeapon;
@@ -19,6 +20,7 @@ public class VitalFighter extends Script {
 	@Override
 	public void onStart(String... args) {
 
+		int waterRune = Inventory.query().names("Water rune").stackable(true).results().size();
 	}
 
 	@Override

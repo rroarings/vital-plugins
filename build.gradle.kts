@@ -20,7 +20,7 @@ project.extra["GithubRepoName"] = "vital-plugins-release"
 apply<BootstrapPlugin>()
 
 allprojects {
-    group = "dev.unethicalite"
+    group = "net.unethicalite"
 
     project.extra["PluginProvider"] = "Vitalflea"
     project.extra["ProjectSupportUrl"] = "https://discord.gg/qzkwwtCPkY"

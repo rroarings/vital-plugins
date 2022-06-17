@@ -1,6 +1,6 @@
 package dev.vital.fisher;
 
-import dev.unethicalite.api.plugins.Script;
+import net.unethicalite.api.plugins.Script;
 import dev.vital.fisher.tasks.GearUp;
 import dev.vital.fisher.tasks.GoFish;
 import dev.vital.fisher.tasks.ScriptTask;

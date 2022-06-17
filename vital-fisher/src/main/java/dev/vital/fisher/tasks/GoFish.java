@@ -1,13 +1,13 @@
 package dev.vital.fisher.tasks;
 
 import com.openosrs.client.game.WorldLocation;
-import dev.unethicalite.api.account.LocalPlayer;
-import dev.unethicalite.api.commons.Rand;
-import dev.unethicalite.api.entities.NPCs;
-import dev.unethicalite.api.entities.TileObjects;
-import dev.unethicalite.api.items.Bank;
-import dev.unethicalite.api.items.Inventory;
-import dev.unethicalite.api.movement.Movement;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.commons.Rand;
+import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Movement;
 import net.runelite.api.ItemID;
 import net.runelite.api.Player;
 import net.runelite.api.coords.WorldArea;
@@ -17,7 +17,7 @@ public class GoFish implements ScriptTask {
 	@Override
 	public boolean validate() {
 
-		Player local = LocalPlayer.getEntity();
+		Player local = LocalPlayer.get();
 
 		return local != null && Inventory.contains(ItemID.FISHING_ROD) && Inventory.contains(ItemID.SANDWORMS);
 	}
@@ -25,7 +25,7 @@ public class GoFish implements ScriptTask {
 	@Override
 	public int execute() {
 
-		Player local = LocalPlayer.getEntity();
+		Player local = LocalPlayer.get();
 
 		if (local.isAnimating() || Movement.isWalking()) {
 

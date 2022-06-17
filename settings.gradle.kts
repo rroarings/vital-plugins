@@ -29,6 +29,18 @@ include("vital-fighter")
 include("vital-wine")
 include("vital-fisher")
 include("vital-magic")
+include("vital-prayer")
+include("vital-bank-stander")
+include("vital-construction")
+include("vital-guardians")
+include("vital-garden")
+include("vital-motherlode")
+include("vital-smithing")
+include("vital-birdhouse")
+include("vital-aerial")
+include("vital-quester")
+include("vital-agility")
+include("vital-cat")
 
 for (project in rootProject.children) {
     project.apply {
@@ -39,4 +51,3 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
-include("vital-prayer")

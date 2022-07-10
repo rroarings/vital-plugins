@@ -8,9 +8,13 @@ import net.runelite.api.DynamicObject;
 import net.runelite.api.GameObject;
 import net.runelite.api.ItemID;
 import net.runelite.api.Skill;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.unethicalite.api.Interactable;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.MenuAutomated;
@@ -19,6 +23,7 @@ import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.config.ConfigManager;
@@ -61,49 +66,74 @@ public class VitalThieving extends LoopedPlugin
 			return -1;
 		}
 
-		var local_player = LocalPlayer.get();
-		if (local_player.isAnimating() || local_player.getGraphic() == 245) {
+		if(config.thievingType().equals(ThievingType.TEA_STALL)) {
+
+			if(Inventory.isFull()) {
+
+				while(Inventory.contains(ItemID.CUP_OF_TEA_1978)) {
+
+					Inventory.getFirst(ItemID.CUP_OF_TEA_1978).interact("Drop");
+
+					Time.sleep(400);
+				}
+			}
+			else {
+				var tea_stall = TileObjects.getFirstAt(new WorldPoint(3269, 3410, 0), x -> x.hasAction("Steal-from"));
+				if(tea_stall != null && Reachable.isInteractable(tea_stall)) {
+
+					tea_stall.interact("Steal-from");
+					return -2;
+				}
+				else {
+
+					Movement.walkTo(new WorldPoint(3269, 3410, 0));
+				}
+			}
 
 			return -1;
 		}
-		//var knighta = ((Actor)NPCs.getNearest("Man")).getClickPoint();
-//var r = knighta.getClickPoint();
-		//Static.getClient().interact(2133,10,0,0,
-		//		r.getX(), r.getY());
+		else if(config.thievingType().equals(ThievingType.ARDOUGNE_KNIGHT)) {
 
-		int current_hp = Static.getClient().getBoostedSkillLevel(Skill.HITPOINTS);
-		int max_hp = Static.getClient().getRealSkillLevel(Skill.HITPOINTS);
-		if(current_hp < (max_hp / 2)) {
-			Inventory.getFirst(ItemID.JUG_OF_WINE).interact("Drink");
+			var local_player = LocalPlayer.get();
+			if (local_player.isAnimating() || local_player.getGraphic() == 245) {
+
+				return -1;
+			}
+
+			int current_hp = Static.getClient().getBoostedSkillLevel(Skill.HITPOINTS);
+			int max_hp = Static.getClient().getRealSkillLevel(Skill.HITPOINTS);
+			if(current_hp < (max_hp / 2)) {
+				Inventory.getFirst(ItemID.JUG_OF_WINE).interact("Drink");
+			}
+			else if(Inventory.getCount(true, ItemID.COIN_POUCH_22531) == 28) {
+
+				Inventory.getFirst(ItemID.COIN_POUCH_22531).interact("Open-all");
+			}
+			else if(!Inventory.contains(config.foodID())) {
+
+				getItem(config.foodID(), 23);
+			}
+			else if(!Inventory.contains(ItemID.DODGY_NECKLACE)) {
+
+				getItem(ItemID.DODGY_NECKLACE, 3);
+			}
+			else if(Bank.isOpen()) {
+
+				Bank.close();
+			}
+			else if(!Equipment.contains(ItemID.DODGY_NECKLACE)) {
+
+				Inventory.getFirst(ItemID.DODGY_NECKLACE).interact("Wear");
+			}
+			else {
+
+				return Rand.nextInt(config.minDelay(), config.maxDelay());
+			}
+
+			return -2;
 		}
-		else if(Inventory.getCount(true, ItemID.COIN_POUCH_22531) == 28) {
 
-			Inventory.getFirst(ItemID.COIN_POUCH_22531).interact("Open-all");
-		}
-		else if(!Inventory.contains(config.foodID())) {
-
-			getItem(config.foodID(), 23);
-		}
-		else if(!Inventory.contains(ItemID.DODGY_NECKLACE)) {
-
-			getItem(ItemID.DODGY_NECKLACE, 3);
-		}
-		else if(Bank.isOpen()) {
-
-			Bank.close();
-		}
-		else if(!Equipment.contains(ItemID.DODGY_NECKLACE)) {
-
-			Inventory.getFirst(ItemID.DODGY_NECKLACE).interact("Wear");
-		}
-		else {
-
-
-
-			return Rand.nextInt(config.minDelay(), config.maxDelay());
-		}
-
-		return -2;
+		return -1;
 	}
 
 	@Provides

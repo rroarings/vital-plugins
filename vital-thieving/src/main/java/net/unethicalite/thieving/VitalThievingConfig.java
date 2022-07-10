@@ -8,6 +8,14 @@ import net.runelite.client.config.ConfigItem;
 public interface VitalThievingConfig extends Config
 {
 	@ConfigItem(
+			keyName = "thievingType",
+			name = "Thieving Type",
+			description = "",
+			position = 0
+	)
+	default ThievingType thievingType() { return ThievingType.TEA_STALL; }
+
+	@ConfigItem(
 			keyName = "foodID",
 			name = "Food ID",
 			description = "",

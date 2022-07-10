@@ -1,4 +1,4 @@
-import ProjectVersions.openosrsVersion
+import ProjectVersions.unethicaliteVersion
 
 buildscript {
     repositories {
@@ -52,8 +52,8 @@ allprojects {
         annotationProcessor(Libraries.lombok)
         annotationProcessor(Libraries.pf4j)
 
-        compileOnly("com.openosrs:runelite-api:$openosrsVersion+")
-        compileOnly("com.openosrs:runelite-client:$openosrsVersion+")
+        compileOnly("net.unethicalite:runelite-api:$unethicaliteVersion+")
+        compileOnly("net.unethicalite:runelite-client:$unethicaliteVersion+")
 
         compileOnly(Libraries.guice)
         compileOnly(Libraries.javax)

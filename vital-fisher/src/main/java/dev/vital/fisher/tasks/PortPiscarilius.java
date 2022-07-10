@@ -2,7 +2,6 @@ package dev.vital.fisher.tasks;
 
 import com.openosrs.client.game.WorldLocation;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.movement.Movement;
 import net.runelite.api.Player;
 import net.runelite.api.coords.WorldArea;
@@ -24,11 +23,11 @@ public class PortPiscarilius implements ScriptTask {
 
 		if (local.isAnimating() || Movement.isWalking()) {
 
-			return 1000;
+			return -1;
 		}
 
 		Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea().getCenter());
 
-		return Rand.nextInt(50, 200);
+		return -1;
 	}
 }

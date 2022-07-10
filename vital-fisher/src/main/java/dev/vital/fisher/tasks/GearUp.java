@@ -1,8 +1,6 @@
 package dev.vital.fisher.tasks;
 
-import com.openosrs.client.game.WorldLocation;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
@@ -28,10 +26,11 @@ public class GearUp implements ScriptTask {
 
 		if (local.isAnimating() || Movement.isWalking()) {
 
-			return 1000;
+			return -1;
 		}
 
 		if(!Bank.isOpen()) {
+
 			var booth = TileObjects.getNearest("Bank booth");
 			if (booth != null) {
 
@@ -54,9 +53,9 @@ public class GearUp implements ScriptTask {
 			}
 			else {
 
-				Bank.deposit(ItemID.RAW_ANGLERFISH, 26);
+				Bank.depositAllExcept(ItemID.SANDWORMS, ItemID.FISHING_ROD);
 			}
 		}
-		return Rand.nextInt(400, 1200);
+		return -2;
 	}
 }

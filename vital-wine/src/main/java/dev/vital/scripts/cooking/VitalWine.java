@@ -7,11 +7,10 @@ import dev.vital.scripts.cooking.tasks.FillJugs;
 import dev.vital.scripts.cooking.tasks.GoUpstairs;
 import dev.vital.scripts.cooking.tasks.ScriptTask;
 import lombok.extern.slf4j.Slf4j;
+import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.events.LoginStateChanged;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.input.Keyboard;
-import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.plugins.LoopedPlugin;
 import dev.vital.scripts.cooking.tasks.Gather;
 import dev.vital.scripts.cooking.tasks.GoBank;
 import dev.vital.scripts.cooking.tasks.GoDownstairs;
@@ -22,14 +21,16 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.magic.Magic;
+import net.unethicalite.api.magic.SpellBook;
 import net.unethicalite.api.plugins.Script;
+import net.unethicalite.client.Static;
 import org.pf4j.Extension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 
 @PluginDescriptor(name = "vital-wine", enabledByDefault = false)
 @Extension
@@ -39,15 +40,6 @@ public class VitalWine extends Script
 	@Inject
 	private VitalWineConfig config;
 	List<ScriptTask> tasks = new ArrayList<>();
-	//   ScriptTask[] TASKS = new ScriptTask[]{
-	//		new CookingGuild(config),
-	//		new GoUpstairs(),
-	//		new Gather(),
-	//		new GoDownstairs(),
-	//		new FillJugs(),
-	//		new MakeWine(),
-	//		new GoBank()
-	//};
 
 	@Override
 	public void onStart(String... args)
@@ -70,6 +62,7 @@ public class VitalWine extends Script
 	@Override
 	protected int loop()
 	{
+		Magic.cast(SpellBook.Standard.WIND_STRIKE, NPCs.getNearest("Chicken"));
 		for (ScriptTask task : tasks)
 		{
 			if (task.validate())
@@ -82,7 +75,7 @@ public class VitalWine extends Script
 			}
 		}
 
-		return 1000;
+		return -1;
 	}
 
 	@Inject
@@ -100,7 +93,7 @@ public class VitalWine extends Script
 	@Subscribe
 	private void onGameStateChanged(GameStateChanged e)
 	{
-		if (e.getGameState() == GameState.LOGIN_SCREEN && Game.getClient().getLoginIndex() == 0)
+		if (e.getGameState() == GameState.LOGIN_SCREEN && Static.getClient().getLoginIndex() == 0)
 		{
 			executor.schedule(() -> client.setLoginIndex(2), 2000, TimeUnit.MILLISECONDS);
 			executor.schedule(this::login, 2000, TimeUnit.MILLISECONDS);

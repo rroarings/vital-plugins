@@ -58,7 +58,6 @@ public class VitalGuardians extends LoopedPlugin
 	private static final WorldArea INSIDE_GUARDIANS = new WorldArea(3586, 9484, 70, 70, 0);
 	private static final WorldArea OUTSIDE_GUARDIANS = new WorldArea(3611, 9471, 9, 12, 0);
 
-	public boolean should_continue = false;
 	public boolean game_started = false;
 	public boolean has_enough_mats = false;
 	public boolean should_deposit = false;
@@ -137,42 +136,30 @@ public class VitalGuardians extends LoopedPlugin
 			}
 			else {
 
-				if(!Inventory.isFull() && !should_continue)
+				if(!Inventory.isFull())
 				{
 					if(Inventory.contains(ItemID.GUARDIAN_FRAGMENTS))
 					{
 						if(!Inventory.contains(ItemID.GUARDIAN_ESSENCE))
 						{
-							//LocalPlayer.get().getPlayerComposition().setTransformedNpcId(3127);
-							TileObjects.getNearest(43754).interact("Work-at");
-						}
-						else {
 							if(Inventory.getCount(true, ItemID.GUARDIAN_FRAGMENTS) <= config.minGuardianFragments()) {
-								should_continue = false;
 								has_enough_mats = false;
 								should_deposit = false;
 							}
-							else
-							{
-								has_enough_mats = true;
-								should_continue = true;
+							else {
+								TileObjects.getNearest(43754).interact("Work-at");
 							}
 						}
-					}
-					else if(Inventory.contains(ItemID.GUARDIAN_ESSENCE)){
+						else {
 
-						should_continue = true;
-					}
-					else {
-
-						has_enough_mats = false;
+							has_enough_mats = true;
+						}
 					}
 				}
-				else if(Inventory.isFull() || should_continue) {
+				else if(Inventory.isFull()) {
 
-					if(should_continue && !Inventory.contains(ItemID.GUARDIAN_ESSENCE)) {
+					if(!Inventory.contains(ItemID.GUARDIAN_ESSENCE)) {
 
-						should_continue = false;
 						return 100;
 					}
 
@@ -278,8 +265,6 @@ public class VitalGuardians extends LoopedPlugin
 							{
 								break;
 							}
-
-							should_continue = false;
 						}
 					}
 				}

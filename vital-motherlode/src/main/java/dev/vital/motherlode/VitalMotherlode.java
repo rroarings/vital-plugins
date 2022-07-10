@@ -15,7 +15,6 @@ import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.movement.pathfinder.Pathfinder;
 import net.unethicalite.api.movement.pathfinder.TransportLoader;
-import net.unethicalite.api.movement.pathfinder.Walker;
 import net.unethicalite.api.movement.pathfinder.model.Transport;
 import net.unethicalite.api.plugins.LoopedPlugin;
 
@@ -23,7 +22,6 @@ import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.client.Static;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ItemID;
-import net.runelite.api.Locatable;
 import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
@@ -47,58 +45,7 @@ import java.util.concurrent.Future;
 @Slf4j
 public class VitalMotherlode extends LoopedPlugin
 {
-	static WorldPoint currentDestination = null;
-	private static final ExecutorService executor = Executors.newSingleThreadExecutor();
-	public static Map<WorldPoint, List<Transport>> buildTransportLinks()
-	{
-		Map<WorldPoint, List<Transport>> out = new HashMap<>();
-		if (!Static.getUnethicaliteConfig().useTransports())
-		{
-			return out;
-		}
 
-		for (Transport transport : TransportLoader.buildTransports())
-		{
-			out.computeIfAbsent(transport.getSource(), x -> new ArrayList<>()).add(transport);
-		}
-
-		return out;
-	}
-
-	private static Future<List<WorldPoint>> pathFuture = null;
-	static List<WorldPoint> calculatePath(
-			List<WorldPoint> startPoints,
-			WorldPoint destination
-	)
-	{
-		if (pathFuture == null)
-		{
-			pathFuture = executor.submit(new Pathfinder(Static.getGlobalCollisionMap(), buildTransportLinks(), startPoints, destination));
-			currentDestination = destination;
-		}
-
-		if (!destination.equals(currentDestination))
-		{
-			pathFuture.cancel(true);
-			pathFuture = executor.submit(new Pathfinder(Static.getGlobalCollisionMap(), buildTransportLinks(), startPoints, destination));
-			currentDestination = destination;
-		}
-
-		if (!pathFuture.isDone())
-		{
-			return List.of();
-		}
-
-		try
-		{
-			return pathFuture.get();
-		}
-		catch (Exception e)
-		{
-			log.error("Error getting path", e);
-			return List.of();
-		}
-	}
 
 	@Inject
 	private VitalMotherlodeConfig config;

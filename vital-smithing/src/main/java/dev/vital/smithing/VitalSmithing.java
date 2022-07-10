@@ -37,28 +37,28 @@ public class VitalSmithing extends LoopedPlugin
 	@Inject
 	private VitalSmithingConfig config;
 
-	private boolean mining = false;
+	private boolean smithing = false;
 
 	@Override
 	protected int loop()
 	{
-		if (!Game.isLoggedIn())
-		{
-			return Rand.nextInt(1000, 1200);
+		if (!Game.isLoggedIn()) {
+
+			return -1;
 		}
 
 		var local_player = LocalPlayer.get();
+		if (Movement.isWalking() || local_player.isAnimating() || smithing) {
 
-		if (Movement.isWalking() || local_player.isAnimating() || mining)
-		{
-			return Rand.nextInt(600, 1200);
+			return -1;
 		}
 
-		if (Inventory.getCount(false, config.barID()) == 27)
-		{
+		if (Inventory.getCount(false, config.barID()) == 27) {
+
 			if(Bank.isOpen()) {
 
 				Bank.close();
+
 				return Rand.nextInt(600, 1200);
 			}
 			else {
@@ -89,7 +89,10 @@ public class VitalSmithing extends LoopedPlugin
 
 				if (Inventory.getFreeSlots() == 27)
 				{
-					Bank.withdraw(config.barID(), 28, Bank.WithdrawMode.ITEM);
+					if(Bank.getCount(false, config.barID()) >= 27)
+					{
+						Bank.withdraw(config.barID(), 27, Bank.WithdrawMode.ITEM);
+					}
 				}
 				else
 				{
@@ -116,11 +119,10 @@ public class VitalSmithing extends LoopedPlugin
 		if(local_player.isAnimating()) {
 
 			oldticker = ticker;
-			mining = true;
+			smithing = true;
 		}
-
-		if(mining && !local_player.isAnimating() && ticker - oldticker > 3) {
-			mining = false;
+		else if(smithing && ticker - oldticker > 3) {
+			smithing = false;
 		}
 	}
 }

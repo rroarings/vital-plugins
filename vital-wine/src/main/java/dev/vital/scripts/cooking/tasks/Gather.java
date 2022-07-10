@@ -36,7 +36,7 @@ public class Gather implements ScriptTask
 
 		if (local.isAnimating() || Movement.isWalking()) {
 
-			return 1500;
+			return -1;
 		}
 
 		TileItem item = TileItems.getNearest("Grapes", "Jug");
@@ -46,7 +46,7 @@ public class Gather implements ScriptTask
 
 			item.interact("Take");
 
-			Time.sleep(Rand.nextInt(4000, 4200));
+			return -5;
 		}
 
 		if(waitfucker == 2 && Inventory.getFreeSlots() > 1) {
@@ -56,6 +56,6 @@ public class Gather implements ScriptTask
 			waitfucker = 0;
 		}
 
-		return 1000;
+		return -1;
 	}
 }

@@ -34,11 +34,11 @@ public class GoUpstairs implements ScriptTask
 
 		if (local.isAnimating() || Movement.isWalking()) {
 
-			return 1000;
+			return -1;
 		}
 
 		TileObjects.getNearest("Staircase").interact("Climb-up");
 
-		return Rand.nextInt(1200, 2500);
+		return -3;
 	}
 }

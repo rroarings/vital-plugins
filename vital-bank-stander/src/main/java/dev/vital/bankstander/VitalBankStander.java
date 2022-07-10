@@ -60,7 +60,7 @@ public boolean animatingg = false;
 	{
 		if(Movement.isWalking() || LocalPlayer.get().isAnimating() || !Game.isLoggedIn() || !WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(LocalPlayer.get())) {
 
-			return Rand.nextInt(1000, 2000);
+			return -1;
 		}
 
 		if(tick_delay_begin) {

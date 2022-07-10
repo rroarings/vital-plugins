@@ -2,36 +2,19 @@ package dev.vital.cat;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import com.openosrs.client.game.WorldLocation;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
-import net.unethicalite.api.account.GameAccount;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
-import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Game;
-import net.unethicalite.api.game.Skills;
-import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.input.Keyboard;
-import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.magic.Magic;
-import net.unethicalite.api.magic.SpellBook;
-import net.unethicalite.api.movement.Movement;
-
 import net.unethicalite.api.plugins.LoopedPlugin;
-import net.unethicalite.api.utils.MessageUtils;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ItemID;
-import net.runelite.api.NPC;
-import net.runelite.api.Skill;
-import net.runelite.api.coords.WorldArea;
 import net.runelite.api.events.ChatMessage;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -86,25 +69,28 @@ public class VitalCat extends LoopedPlugin
 	{
 		if (!Game.isLoggedIn() || LocalPlayer.get().isMoving() || LocalPlayer.get().isAnimating())
 		{
-			return Rand.nextInt(1000, 2000);
+			return -1;
 		}
 
 		for(var kitten : NPCs.getAll("Kitten")) {
+
 			if(kitten.getInteracting() == LocalPlayer.get()) {
 
 				if(feed) {
 
 					if(Inventory.getCount(false, config.foodID()) < current_fish) {
+
 						feed = false;
 					}
-					else
-					{
+					else {
+
 						Inventory.getFirst(config.foodID()).useOn(kitten);
 					}
 
 					return Rand.nextInt(1200, 2200);
 				}
 				else if(pet) {
+
 					var options = getOptions();
 					if(Dialog.isViewingOptions() && Dialog.getOptions().get(0).getText().equals("Stroke")) {
 						Dialog.chooseOption("Stroke");
@@ -122,11 +108,7 @@ public class VitalCat extends LoopedPlugin
 
 		return Rand.nextInt(1000, 1200);
 	}
-	@Subscribe
-	public void onGameTick(GameTick event) {
-		var count = Inventory.getCount(false,952);
-		System.out.println(count);
-	}
+
 	@Subscribe
 	public void onChatMessage(ChatMessage event)
 	{
@@ -141,6 +123,7 @@ public class VitalCat extends LoopedPlugin
 			pet = true;
 		}
 	}
+
 	@Provides
 	VitalCatConfig getConfig(ConfigManager configManager)
 	{

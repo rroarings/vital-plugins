@@ -44,13 +44,13 @@ public interface VitalWineConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "fuckthisshit",
-			name = "fuckthisshit",
-			description = "fuckthisshit",
+			keyName = "bankPin",
+			name = "Bank Pin",
+			description = "Bank Pin (ex: 1234)",
 			position = 5
 	)
-	default String fuckthisshit()
-	{
-		return "fuckthisshit";
+	default String bankPin() {
+
+		return "1234";
 	}
 }

@@ -24,8 +24,7 @@ public class MakeWine implements ScriptTask
 	@Override
 	public boolean validate() {
 
-		Player local = LocalPlayer.get();
-		return local != null && !Inventory.contains(ItemID.JUG) && Inventory.contains(ItemID.JUG_OF_WATER) && Inventory.contains(ItemID.GRAPES);
+		return !Inventory.contains(ItemID.JUG) && Inventory.contains(ItemID.JUG_OF_WATER) && Inventory.contains(ItemID.GRAPES);
 	}
 
 	@Override
@@ -35,17 +34,15 @@ public class MakeWine implements ScriptTask
 
 		if (local.isAnimating() || Movement.isWalking()) {
 
-			return 2300;
+			return -1;
 		}
 
-		Item grapes = Inventory.getFirst(ItemID.GRAPES);
+		Inventory.getFirst(ItemID.GRAPES).useOn(Inventory.getFirst(ItemID.JUG_OF_WATER));
 
-		grapes.useOn(Inventory.getFirst(ItemID.JUG_OF_WATER));
-
-		Time.sleep(Rand.nextInt(1800, 2500));
+		Time.sleep(Rand.nextInt(1400, 1800));
 
 		Keyboard.sendSpace();
-		System.out.println(MenuAction.WIDGET_FIRST_OPTION.name());
-		return Rand.nextInt(2000, 4000);
+
+		return -1;
 	}
 }

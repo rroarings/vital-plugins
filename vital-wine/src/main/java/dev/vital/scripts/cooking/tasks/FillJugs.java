@@ -25,8 +25,7 @@ public class FillJugs implements ScriptTask
 	@Override
 	public boolean validate() {
 
-		Player local = LocalPlayer.get();
-		return local != null && Inventory.contains(ItemID.JUG) &&Inventory.contains(ItemID.GRAPES) && COOKING_GUILD_0.contains(local);
+		return Inventory.contains(ItemID.JUG) &&Inventory.contains(ItemID.GRAPES) && COOKING_GUILD_0.contains(LocalPlayer.get());
 	}
 
 	@Override
@@ -36,14 +35,13 @@ public class FillJugs implements ScriptTask
 
 		if (local.isAnimating() || Movement.isWalking()) {
 
-			return 1000;
+			return -1;
 		}
 
-		Item jug = Inventory.getFirst(ItemID.JUG);
-		jug.useOn(TileObjects.getNearest("Sink"));
+		Inventory.getFirst(ItemID.JUG).useOn(TileObjects.getNearest("Sink"));
 
-		Time.sleep(Rand.nextInt(12000, 30000));
+		Time.sleep(Rand.nextInt(12000, 16000));
 
-		return 2000;
+		return -1;
 	}
 }

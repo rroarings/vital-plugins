@@ -29,10 +29,9 @@ public class CookingGuild implements ScriptTask
 	@Override
 	public boolean validate() {
 
-		var test = config.fuckthisshit();
-
 		Player local = LocalPlayer.get();
-		return local != null && Inventory.isEmpty() && !COOKING_GUILD_0.contains(local) && !COOKING_GUILD_1.contains(local) && !COOKING_GUILD_2.contains(local);
+		return Inventory.isEmpty() && !COOKING_GUILD_0.contains(local) && !COOKING_GUILD_1.contains(local)
+				&& !COOKING_GUILD_2.contains(local);
 	}
 
 	@Override
@@ -40,28 +39,21 @@ public class CookingGuild implements ScriptTask
 	{
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking())
+		if (local.isAnimating() || local.isMoving())
 		{
-
 			return 1000;
 		}
 
 		TileObject door = TileObjects.getFirstAt(COOKING_GUILD_DOOR, x -> x.hasAction("Open"));
-		if (door == null || door.distanceTo(local) > 20 || !Reachable.isInteractable(door))
-		{
+		if (door == null || door.distanceTo(local) > 15 || !Reachable.isInteractable(door)) {
 
 			Movement.walkTo(COOKING_GUILD_DOOR);
-
-			Time.sleep(Rand.nextInt(1200, 2500));
 		}
-		else
-		{
+		else {
 
 			door.interact("Open");
-
-			Time.sleep(Rand.nextInt(1200, 2500));
 		}
 
-		return Rand.nextInt(50, 200);
+		return -3;
 	}
 }

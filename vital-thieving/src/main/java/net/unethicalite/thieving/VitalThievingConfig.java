@@ -13,27 +13,29 @@ public interface VitalThievingConfig extends Config
 			description = "",
 			position = 0
 	)
-	default ThievingType thievingType() { return ThievingType.TEA_STALL; }
+	default ThievingType thievingType() { return ThievingType.STALL_TEA; }
+
+	@ConfigItem(
+			keyName = "dropItems",
+			name = "Drop Stolen Items",
+			description = "",
+			position = 1
+	)
+	default boolean dropItems() { return true; }
 
 	@ConfigItem(
 			keyName = "foodID",
 			name = "Food ID",
-			description = "",
-			position = 0
+			description = "ID of the food you want to eat",
+			position = 2
 	)
 	default int foodID() { return 1993; }
 
 	@ConfigItem(
-			keyName = "minDelay",
-			name = "Minimum Delay(ms)",
-			description = ""
+			keyName = "thievingLevel",
+			name = "Thieving Level",
+			description = "Thieving level to stop at",
+			position = 3
 	)
-	default int minDelay() { return 130; }
-
-	@ConfigItem(
-			keyName = "maxDelay",
-			name = "Maximum Delay(ms)",
-			description = ""
-	)
-	default int maxDelay() { return 230; }
+	default int thievingLevel() { return 99; }
 }

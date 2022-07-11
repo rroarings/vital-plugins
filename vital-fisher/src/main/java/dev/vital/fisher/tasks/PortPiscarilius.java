@@ -11,22 +11,13 @@ public class PortPiscarilius implements ScriptTask {
 	@Override
 	public boolean validate() {
 
-		Player local = LocalPlayer.get();
-
-		return local != null && !PORT_PISC_BANK.contains(local);
+		return !PORT_PISC_BANK.contains(LocalPlayer.get());
 	}
 
 	@Override
 	public int execute() {
 
-		Player local = LocalPlayer.get();
-
-		if (local.isAnimating() || Movement.isWalking()) {
-
-			return -1;
-		}
-
-		Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea().getCenter());
+		Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea());
 
 		return -1;
 	}

@@ -8,17 +8,25 @@ import net.runelite.api.DynamicObject;
 import net.runelite.api.GameObject;
 import net.runelite.api.ItemID;
 import net.runelite.api.Skill;
+import net.runelite.api.World;
+import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
+import net.runelite.client.plugins.worldhopper.WorldHopperPlugin;
 import net.unethicalite.api.Interactable;
 import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.commons.Predicates;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.events.MenuAutomated;
+import net.unethicalite.api.events.WorldHopped;
 import net.unethicalite.api.game.Game;
+import net.unethicalite.api.game.Skills;
+import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
@@ -36,6 +44,8 @@ import org.pf4j.Extension;
 @Slf4j
 public class VitalThieving extends LoopedPlugin
 {
+	private static final WorldArea FRUIT_STALLS = new WorldArea(1796, 3606, 5, 5, 0);
+
 	@Inject
 	private VitalThievingConfig config;
 
@@ -66,9 +76,14 @@ public class VitalThieving extends LoopedPlugin
 			return -1;
 		}
 
-		if(config.thievingType().equals(ThievingType.TEA_STALL)) {
+		if(Skills.getLevel(Skill.THIEVING) >= config.thievingLevel()) {
 
-			if(Inventory.isFull()) {
+			Game.logout();
+		}
+
+		if(config.thievingType().equals(ThievingType.STALL_TEA)) {
+
+			if(Inventory.isFull() && config.dropItems()) {
 
 				while(Inventory.contains(ItemID.CUP_OF_TEA_1978)) {
 
@@ -91,6 +106,41 @@ public class VitalThieving extends LoopedPlugin
 			}
 
 			return -1;
+		}
+		else if(config.thievingType().equals(ThievingType.STALL_FRUIT)) {
+
+			if(Inventory.isFull() && config.dropItems())
+			{
+				for (var item : Inventory.getAll(ItemID.COOKING_APPLE, ItemID.STRANGE_FRUIT,
+						ItemID.BANANA, ItemID.LEMON,
+						ItemID.LIME, ItemID.GOLOVANOVA_FRUIT_TOP, ItemID.JANGERBERRIES, ItemID.PINEAPPLE,
+						ItemID.REDBERRIES, ItemID.STRAWBERRY, ItemID.PAPAYA_FRUIT)) {
+
+					item.interact("Drop");
+					Time.sleep(180, 230);
+				}
+			}
+			else {
+				var fruit_Stall = TileObjects.getNearest("Fruit Stall");
+				if(fruit_Stall != null && Reachable.isInteractable(fruit_Stall) && fruit_Stall.distanceTo(LocalPlayer.get()) < 5) {
+
+					var player = Players.getNearest(FRUIT_STALLS::contains);
+					if(player != null && player != LocalPlayer.get()) {
+
+						Worlds.hopTo(Worlds.getRandom(World::isMembers));
+						return -12;
+					}
+
+					fruit_Stall.interact("Steal-from");
+
+					int free_slots = Inventory.getFreeSlots();
+					Time.sleep(1500);
+				}
+				else {
+
+					Movement.walkTo(FRUIT_STALLS);
+				}
+			}
 		}
 		else if(config.thievingType().equals(ThievingType.ARDOUGNE_KNIGHT)) {
 
@@ -125,15 +175,11 @@ public class VitalThieving extends LoopedPlugin
 
 				Inventory.getFirst(ItemID.DODGY_NECKLACE).interact("Wear");
 			}
-			else {
-
-				return Rand.nextInt(config.minDelay(), config.maxDelay());
-			}
 
 			return -2;
 		}
 
-		return -1;
+		return 10;
 	}
 
 	@Provides

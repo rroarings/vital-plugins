@@ -2,6 +2,7 @@ package net.unethicalite.thieving;
 
 public enum ThievingType
 {
-	TEA_STALL,
-	ARDOUGNE_KNIGHT
+	STALL_TEA,
+	STALL_FRUIT,
+	ARDOUGNE_KNIGHT,
 }

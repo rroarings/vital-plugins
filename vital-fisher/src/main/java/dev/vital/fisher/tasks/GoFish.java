@@ -14,22 +14,13 @@ public class GoFish implements ScriptTask {
 	@Override
 	public boolean validate() {
 
-		Player local = LocalPlayer.get();
-
-		return local != null && Inventory.contains(ItemID.FISHING_ROD) && Inventory.contains(ItemID.SANDWORMS);
+		return Inventory.contains(ItemID.FISHING_ROD) && Inventory.contains(ItemID.SANDWORMS);
 	}
 
 	@Override
 	public int execute() {
 
-		Player local = LocalPlayer.get();
-
-		if (local.isAnimating() || Movement.isWalking()) {
-
-			return -1;
-		}
-
-		if(local.getAnimation() == 623) {
+		if(LocalPlayer.get().getAnimation() == 623) {
 
 			return Rand.nextInt(5000, 100000);
 		}
@@ -37,13 +28,13 @@ public class GoFish implements ScriptTask {
 		var fishspot = NPCs.getNearest(6825);
 		if(fishspot == null) {
 
-			Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea().getRandom());
+			Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea());
 		}
 		else {
 
 			fishspot.interact("Bait");
 		}
 
-		return -2;
+		return -3;
 	}
 }

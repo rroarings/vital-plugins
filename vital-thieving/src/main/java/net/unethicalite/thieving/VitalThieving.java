@@ -124,8 +124,7 @@ public class VitalThieving extends LoopedPlugin
 				var fruit_Stall = TileObjects.getNearest("Fruit Stall");
 				if(fruit_Stall != null && Reachable.isInteractable(fruit_Stall) && fruit_Stall.distanceTo(LocalPlayer.get()) < 5) {
 
-					var player = Players.getNearest(FRUIT_STALLS::contains);
-					if(player != null && player != LocalPlayer.get()) {
+					if(Players.getNearest(x -> x != LocalPlayer.get() && FRUIT_STALLS.contains(x)) != null) {
 
 						Worlds.hopTo(Worlds.getRandom(World::isMembers));
 						return -12;
@@ -133,7 +132,6 @@ public class VitalThieving extends LoopedPlugin
 
 					fruit_Stall.interact("Steal-from");
 
-					int free_slots = Inventory.getFreeSlots();
 					Time.sleep(1500);
 				}
 				else {
@@ -159,9 +157,9 @@ public class VitalThieving extends LoopedPlugin
 
 				Inventory.getFirst(ItemID.COIN_POUCH_22531).interact("Open-all");
 			}
-			else if(!Inventory.contains(config.foodID())) {
+			else if(!Inventory.contains(ItemID.JUG_OF_WINE)) {
 
-				getItem(config.foodID(), 23);
+				getItem(ItemID.JUG_OF_WINE, 23);
 			}
 			else if(!Inventory.contains(ItemID.DODGY_NECKLACE)) {
 

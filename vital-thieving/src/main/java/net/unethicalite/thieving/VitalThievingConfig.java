@@ -23,13 +23,13 @@ public interface VitalThievingConfig extends Config
 	)
 	default boolean dropItems() { return true; }
 
-	@ConfigItem(
+	/*@ConfigItem(
 			keyName = "foodID",
 			name = "Food ID",
 			description = "ID of the food you want to eat",
 			position = 2
 	)
-	default int foodID() { return 1993; }
+	default int foodID() { return 1993; }*/
 
 	@ConfigItem(
 			keyName = "thievingLevel",

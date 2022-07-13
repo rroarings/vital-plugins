@@ -29,11 +29,12 @@ public class TeaStall implements ScriptTask
 	@Override
 	public int execute() {
 
-		if(Inventory.isFull() && config.dropItems())
-		{
+		if(Inventory.isFull() && config.dropItems()) {
+
 			for (var item : Inventory.getAll(ItemID.CUP_OF_TEA_1978)) {
 
 				item.interact("Drop");
+
 				Time.sleep(180, 230);
 			}
 		}

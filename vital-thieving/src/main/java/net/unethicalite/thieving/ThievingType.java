@@ -4,5 +4,6 @@ public enum ThievingType
 {
 	STALL_TEA,
 	STALL_FRUIT,
-	ARDOUGNE_KNIGHT,
+	NPC_ARDOUGNE_KNIGHT,
+	NPC_MAN
 }

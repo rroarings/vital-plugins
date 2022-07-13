@@ -10,7 +10,7 @@ public interface VitalThievingConfig extends Config
 	@ConfigItem(
 			keyName = "thievingType",
 			name = "Thieving Type",
-			description = "",
+			description = "Ardougne knights uses wines & dodgy necklaces from bank",
 			position = 0
 	)
 	default ThievingType thievingType() { return ThievingType.STALL_TEA; }

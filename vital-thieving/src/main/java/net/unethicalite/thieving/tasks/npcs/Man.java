@@ -40,7 +40,7 @@ public class Man implements ScriptTask
 			return -1;
 		}
 
-		if (Inventory.getCount(true, ItemID.COIN_POUCH) == 28) {
+		if (Inventory.getCount(true, ItemID.COIN_POUCH) >= 28) {
 
 			Inventory.getFirst(ItemID.COIN_POUCH).interact("Open-all");
 		}

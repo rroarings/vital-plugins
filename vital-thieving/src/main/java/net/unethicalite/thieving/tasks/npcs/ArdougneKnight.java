@@ -64,7 +64,7 @@ public class ArdougneKnight implements ScriptTask
 
 			Inventory.getFirst(ItemID.JUG_OF_WINE).interact("Drink");
 		}
-		else if(Inventory.getCount(true, ItemID.COIN_POUCH_22531) == 28) {
+		else if(Inventory.getCount(true, ItemID.COIN_POUCH_22531) >= 28) {
 
 			Inventory.getFirst(ItemID.COIN_POUCH_22531).interact("Open-all");
 		}

@@ -14,6 +14,8 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.widgets.Dialog;
 
+import java.util.List;
+
 public class Tools
 {
 	public static void waitForInvChange(int timeout) {
@@ -52,9 +54,12 @@ public class Tools
 				}
 				else {
 
-					Inventory.getFirst(log_id).useOn(Inventory.getFirst(ItemID.CLOCKWORK));
+					if(Inventory.contains(log_id, ItemID.CLOCKWORK)) {
 
-					waitForOpenDialog(1800);
+						Inventory.getFirst(log_id).useOn(Inventory.getFirst(ItemID.CLOCKWORK));
+
+						waitForOpenDialog(1800);
+					}
 				}
 			}
 		}
@@ -116,27 +121,65 @@ public class Tools
 		return false;
 	}
 
-	public static boolean withdrawBankItem(int id, int amount) {
+	static boolean withdrawDigsitePendant() {
 
-		boolean ready_to_go = false;
+		var pendant = Bank.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5);
 
-		if(Bank.isOpen()) {
+		int free_slots = Inventory.getFreeSlots();
 
-			int free_slots = Inventory.getFreeSlots();
-			int count = Inventory.getCount(id);
-
-			if (count != amount) {
-
-				if (Bank.getCount(id) >= amount) {
-
-					Bank.withdraw(id, amount - count, Bank.WithdrawMode.DEFAULT);
-					ready_to_go = true;
-				}
-			}
+		if(pendant != null) {
+			Bank.withdraw(pendant.getId(),1, Bank.WithdrawMode.DEFAULT);
 
 			Time.sleepUntil(() -> free_slots != Inventory.getFreeSlots(), 1800);
+
+			return true;
 		}
 
-		return ready_to_go;
+		return false;
+	}
+
+	public static boolean withdrawBankItems(List<BItems> items) {
+
+		if(!Bank.isOpen()) {
+
+			return false;
+		}
+
+		for(var item : items) {
+
+			if(item.id == ItemID.DIGSITE_PENDANT_1) {
+
+				if(withdrawDigsitePendant()) {
+					item.obtained = true;
+					continue;
+				}
+
+				break;
+			}
+
+			int free_slots = Inventory.getFreeSlots();
+			int count = Inventory.getCount(item.stacks, item.id);
+
+			if(count == item.amount) {
+
+				item.obtained = true;
+			}
+			else if(Bank.contains(item.id) && Bank.getCount(true, item.id) >= item.amount - count) {
+
+				Bank.withdraw(item.id, item.amount - count, Bank.WithdrawMode.DEFAULT);
+
+				Time.sleepUntil(() -> free_slots != Inventory.getFreeSlots() || Inventory.getCount(item.stacks,
+						item.id) > count, 1800);
+
+				item.obtained = true;
+			}
+			else {
+
+				System.out.println("Not enought materials in the bank! " + item.id);
+			}
+		}
+
+		return items.stream().allMatch(x -> x.obtained);
 	}
 }

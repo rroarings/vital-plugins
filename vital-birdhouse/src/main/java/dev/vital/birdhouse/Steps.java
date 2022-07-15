@@ -7,5 +7,5 @@ public enum Steps {
 	VALLEY2,
 	MEADOW,
 	MEADOW2,
-	END
+	GO_HOME
 }

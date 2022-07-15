@@ -1,5 +1,6 @@
 package dev.vital.birdhouse;
 
+import net.runelite.client.config.Button;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -17,10 +18,28 @@ public interface VitalBirdhouseConfig extends Config
 	//String needleAndThreadConfig = "needleAndThreadConfig";
 
 	@ConfigItem(
+			keyName = "autoMats",
+			name = "Automatically Get Materials",
+			description = "Automatial get materials from the bank.",
+			position = 5//,
+			//section = "needleAndThreadConfig"
+	)
+	default boolean autoMats() { return true; }
+
+	@ConfigItem(
+			keyName = "returnToGE",
+			name = "Return To GE",
+			description = "Returns to the GE and banks all items after a run.",
+			position = 10//,
+			//section = "needleAndThreadConfig"
+	)
+	default boolean returnToGE() { return true; }
+
+	@ConfigItem(
 			keyName = "seedID",
 			name = "Seed ID",
 			description = "The ID of the seed you want to use.",
-			position = 5//,
+			position = 15//,
 			//section = "needleAndThreadConfig"
 	)
 	default int seedID() { return 5311; }
@@ -29,7 +48,7 @@ public interface VitalBirdhouseConfig extends Config
 			keyName = "logID",
 			name = "Log ID",
 			description = "The ID of the log you want to use.",
-			position = 10//,
+			position = 20//,
 			//section = "needleAndThreadConfig"
 	)
 	default int logID() { return 6332; }
@@ -38,17 +57,16 @@ public interface VitalBirdhouseConfig extends Config
 			keyName = "returnTeleport",
 			name = "Return Teleport",
 			description = "The ID of the teleport to return from Fossil Island.",
-			position = 15//,
+			position = 25
 			//section = "needleAndThreadConfig"
 	)
 	default int returnTeleport() { return 8013; }
 
 	@ConfigItem(
-			keyName = "autoMats",
-			name = "Automatically Get Materials",
+			keyName = "startStopPlugin",
+			name = "Start / Stop",
 			description = "",
-			position = 15//,
-			//section = "needleAndThreadConfig"
+			position = 30
 	)
-	default boolean autoMats() { return true; }
+	default Button startStopPlugin() { return new Button(); }
 }

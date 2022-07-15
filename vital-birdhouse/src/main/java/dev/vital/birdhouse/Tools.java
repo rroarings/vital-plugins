@@ -121,7 +121,34 @@ public class Tools
 		return false;
 	}
 
+	public static boolean hasItems(List<BItems> items) {
+
+		for(var item : items) {
+
+			if(item.id == ItemID.DIGSITE_PENDANT_1) {
+
+				if(Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+						ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null) {
+
+					item.obtained = true;
+				}
+			}
+			else if(Inventory.contains(item.id) && Inventory.getCount(item.stacks, item.id) >= item.amount) {
+
+				item.obtained = true;
+			}
+		}
+
+		return items.stream().allMatch(x -> x.obtained);
+	}
+
 	static boolean withdrawDigsitePendant() {
+
+		if(Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null) {
+
+			return true;
+		}
 
 		var pendant = Bank.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
 				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5);
@@ -172,7 +199,7 @@ public class Tools
 				Time.sleepUntil(() -> free_slots != Inventory.getFreeSlots() || Inventory.getCount(item.stacks,
 						item.id) > count, 1800);
 
-				item.obtained = true;
+				item.obtained = Inventory.getCount(item.stacks, item.id) >= item.amount;
 			}
 			else {
 

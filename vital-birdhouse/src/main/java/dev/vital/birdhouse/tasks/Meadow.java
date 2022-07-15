@@ -9,7 +9,7 @@ import net.runelite.api.coords.WorldArea;
 
 public class Meadow implements ScriptTask {
 
-	private static final WorldArea MEADOW_AREA = new WorldArea(3676, 3871, 4, 14, 0);
+	private static final WorldArea MEADOW_AREA = new WorldArea(3672, 3867, 10, 20, 0);
 	private static final WorldPoint MEADOW_TILE_1 = new WorldPoint(3677, 3882, 0);
 
 	VitalBirdhouseConfig config = null;

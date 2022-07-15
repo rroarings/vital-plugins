@@ -1,6 +1,7 @@
 package dev.vital.birdhouse;
 
 public enum Steps {
+
 	GETS_MATS,
 	FOSSIL_ISLAND,
 	VALLEY,

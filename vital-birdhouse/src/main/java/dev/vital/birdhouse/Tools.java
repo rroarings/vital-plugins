@@ -1,6 +1,5 @@
 package dev.vital.birdhouse;
 
-import com.openosrs.client.game.WorldLocation;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
@@ -93,7 +92,7 @@ public class Tools
 		return false;
 	}
 
-	static public boolean goToBanker(WorldArea area, String entity, String action, boolean is_npc) {
+	static public boolean goToBank(WorldArea area, String entity, String action, boolean is_npc) {
 
 		if (Bank.isOpen()) {
 

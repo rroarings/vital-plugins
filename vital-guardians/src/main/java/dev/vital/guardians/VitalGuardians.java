@@ -2,6 +2,8 @@ package dev.vital.guardians;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
@@ -26,6 +28,7 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.skillcalculator.skills.RunecraftAction;
 import net.runelite.client.plugins.worldhopper.WorldHopperPlugin;
+import net.unethicalite.api.quests.Quests;
 import org.pf4j.Extension;
 
 import java.util.concurrent.Executors;
@@ -55,6 +58,7 @@ public class VitalGuardians extends LoopedPlugin
 
 	@Inject
 	private VitalGuardiansConfig config;
+
 	private static final WorldArea INSIDE_GUARDIANS = new WorldArea(3586, 9484, 70, 70, 0);
 	private static final WorldArea OUTSIDE_GUARDIANS = new WorldArea(3611, 9471, 9, 12, 0);
 
@@ -225,7 +229,7 @@ public class VitalGuardians extends LoopedPlugin
 									break;
 								}
 								case DEATH_GUARDIAN: {
-									if(rc_level >= RunecraftAction.DEATH_RUNE.getLevel()) {
+									if(rc_level >= RunecraftAction.DEATH_RUNE.getLevel() && Quests.getState(Quest.MOURNINGS_END_PART_II) == QuestState.FINISHED) {
 										should_skip = false;
 										guardian.interact("Enter");
 									}
@@ -331,11 +335,13 @@ public class VitalGuardians extends LoopedPlugin
 	{
 		has_enough_mats = game_started = false;
 	}
+
 	@Override
 	public void shutDown()
 	{
 		has_enough_mats = game_started = false;
 	}
+
 	@Provides
 	VitalGuardiansConfig getConfig(ConfigManager configManager)
 	{

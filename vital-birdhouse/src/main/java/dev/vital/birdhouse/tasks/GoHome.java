@@ -5,8 +5,6 @@ import dev.vital.birdhouse.Steps;
 import dev.vital.birdhouse.Tools;
 import dev.vital.birdhouse.VitalBirdhouse;
 import dev.vital.birdhouse.VitalBirdhouseConfig;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.coords.WorldArea;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
@@ -23,7 +21,7 @@ public class GoHome implements ScriptTask {
 	@Override
 	public int execute() {
 
-		if(!Inventory.isEmpty() && config.returnToGE() && Tools.goToBanker(WorldLocation.GRAND_EXCHANGE.getWorldArea(),
+		if(!Inventory.isEmpty() && config.returnToGE() && Tools.goToBank(WorldLocation.GRAND_EXCHANGE.getWorldArea(),
 				"Banker", "Bank", true)) {
 
 			Bank.depositInventory();

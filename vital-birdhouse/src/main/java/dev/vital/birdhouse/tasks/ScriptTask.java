@@ -1,7 +1,5 @@
 package dev.vital.birdhouse.tasks;
 
-import dev.vital.birdhouse.Steps;
-
 public interface ScriptTask
 {
 	/**

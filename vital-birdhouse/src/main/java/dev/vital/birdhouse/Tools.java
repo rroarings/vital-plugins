@@ -25,13 +25,13 @@ public class Tools
 
 	public static void waitForOpenDialog(int timeout) {
 
-		Time.sleepUntil(() -> Dialog.isOpen(), timeout);
+		Time.sleepUntil(Dialog::isOpen, timeout);
 	}
 	public static boolean buildBirdhouse(WorldPoint p, int log_id, int seed_id) {
 
 		var space = TileObjects.getFirstAt(p, x -> x.getName().equals("Space"));
-		var birdhouse_empty = TileObjects.getFirstAt(p, x -> x.getName().equals("Birdhouse (empty)"));
-		var birdhouse = TileObjects.getFirstAt(p, x -> x.getName().equals("Birdhouse"));
+		var birdhouse_empty = TileObjects.getFirstAt(p, x -> x.getName().contains("irdhouse (empty)"));
+		var birdhouse = TileObjects.getFirstAt(p, x -> x.getName().contains("irdhouse"));
 		if (space != null) {
 
 			var birdhouse_item = Inventory.getFirst(ItemID.BIRD_HOUSE, ItemID.OAK_BIRD_HOUSE,

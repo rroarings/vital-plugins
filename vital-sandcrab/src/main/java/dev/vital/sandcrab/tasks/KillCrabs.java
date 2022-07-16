@@ -12,7 +12,7 @@ import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.movement.Movement;
 
 
-public class KillCrabs implements dev.vital.birdhouse.tasks.ScriptTask {
+public class KillCrabs implements ScriptTask {
 
 	WorldPoint aggro = new WorldPoint(1773, 3447, 0);
 

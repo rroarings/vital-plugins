@@ -33,11 +33,14 @@ public class GoHome implements ScriptTask {
 
 			Time.sleepUntil(() -> !Bank.isOpen(), 2400);
 
-			VitalBirdhouse.plugin_enabled = false;
 			VitalBirdhouse.step = Steps.GETS_MATS;
+			GetMats.bank_items.forEach(x -> x.obtained = false);
 
 			if(config.autoLogOut()) {
 				Game.logout();
+			}
+			else {
+				VitalBirdhouse.plugin_enabled = false;
 			}
 		}
 

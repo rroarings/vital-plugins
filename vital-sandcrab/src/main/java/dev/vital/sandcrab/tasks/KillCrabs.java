@@ -65,10 +65,10 @@ public class KillCrabs implements ScriptTask {
 
 			VitalSandCrab.should_find_new_spot = false;
 		}
-		else {
+		else if(LocalPlayer.get().getInteracting() == null) {
 
 			var current_world = Worlds.getCurrentWorld();
-			Worlds.hopTo(Worlds.getRandom(World::isMembers));
+			Worlds.hopTo(Worlds.getRandom(x -> x.isMembers() && !x.isSkillTotal() && !x.isAllPkWorld() && !x.isLeague() && !x.isTournament()));
 			Time.sleepUntil(() -> current_world != Worlds.getCurrentWorld(), 1000*30);
 		}
 

@@ -1,6 +1,5 @@
 package dev.vital.birdhouse;
 
-import com.openosrs.client.game.WorldLocation;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
@@ -26,13 +25,13 @@ public class Tools
 
 	public static void waitForOpenDialog(int timeout) {
 
-		Time.sleepUntil(() -> Dialog.isOpen(), timeout);
+		Time.sleepUntil(Dialog::isOpen, timeout);
 	}
 	public static boolean buildBirdhouse(WorldPoint p, int log_id, int seed_id) {
 
 		var space = TileObjects.getFirstAt(p, x -> x.getName().equals("Space"));
-		var birdhouse_empty = TileObjects.getFirstAt(p, x -> x.getName().equals("Birdhouse (empty)"));
-		var birdhouse = TileObjects.getFirstAt(p, x -> x.getName().equals("Birdhouse"));
+		var birdhouse_empty = TileObjects.getFirstAt(p, x -> x.getName().contains("irdhouse (empty)"));
+		var birdhouse = TileObjects.getFirstAt(p, x -> x.getName().contains("irdhouse"));
 		if (space != null) {
 
 			var birdhouse_item = Inventory.getFirst(ItemID.BIRD_HOUSE, ItemID.OAK_BIRD_HOUSE,
@@ -93,7 +92,7 @@ public class Tools
 		return false;
 	}
 
-	static public boolean goToBanker(WorldArea area, String entity, String action, boolean is_npc) {
+	static public boolean goToBank(WorldArea area, String entity, String action, boolean is_npc) {
 
 		if (Bank.isOpen()) {
 
@@ -121,7 +120,34 @@ public class Tools
 		return false;
 	}
 
+	public static boolean hasItems(List<BItems> items) {
+
+		for(var item : items) {
+
+			if(item.id == ItemID.DIGSITE_PENDANT_1) {
+
+				if(Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+						ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null) {
+
+					item.obtained = true;
+				}
+			}
+			else if(Inventory.contains(item.id) && Inventory.getCount(item.stacks, item.id) >= item.amount) {
+
+				item.obtained = true;
+			}
+		}
+
+		return items.stream().allMatch(x -> x.obtained);
+	}
+
 	static boolean withdrawDigsitePendant() {
+
+		if(Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null) {
+
+			return true;
+		}
 
 		var pendant = Bank.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
 				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5);
@@ -172,7 +198,7 @@ public class Tools
 				Time.sleepUntil(() -> free_slots != Inventory.getFreeSlots() || Inventory.getCount(item.stacks,
 						item.id) > count, 1800);
 
-				item.obtained = true;
+				item.obtained = Inventory.getCount(item.stacks, item.id) >= item.amount;
 			}
 			else {
 

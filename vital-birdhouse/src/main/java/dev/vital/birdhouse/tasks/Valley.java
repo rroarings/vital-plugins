@@ -17,7 +17,9 @@ public class Valley implements ScriptTask {
 	public Valley(VitalBirdhouseConfig config) { this.config = config; }
 
 	@Override
-	public boolean validate() { return VitalBirdhouse.step.equals(Steps.VALLEY); }
+	public boolean validate() {
+		return VitalBirdhouse.step.equals(Steps.VALLEY);
+	}
 
 	@Override
 	public int execute() {

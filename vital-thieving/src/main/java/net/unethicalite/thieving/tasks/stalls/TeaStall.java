@@ -1,6 +1,8 @@
 package net.unethicalite.thieving.tasks.stalls;
 
+import net.runelite.api.Player;
 import net.runelite.api.World;
+import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.Players;
@@ -15,9 +17,12 @@ import net.unethicalite.thieving.ThievingType;
 import net.unethicalite.thieving.VitalThievingConfig;
 import net.unethicalite.thieving.tasks.ScriptTask;
 
+import java.util.List;
+
 public class TeaStall implements ScriptTask
 {
-	private static final WorldArea TEA_STALL = new WorldArea(3267, 3408, 5, 7, 0);
+	private static final WorldPoint TEA_STALL = new WorldPoint(3269, 3410, 0);
+	private static final WorldArea TEA_STALL_AREA = new WorldArea(3268, 3412, 4, 4, 0);
 
 	VitalThievingConfig config;
 
@@ -29,6 +34,11 @@ public class TeaStall implements ScriptTask
 	@Override
 	public int execute() {
 
+		if(!Players.getAll(x -> !x.equals(LocalPlayer.get()) && TEA_STALL_AREA.contains(x) && x.getInteracting() != null).isEmpty()) {
+			Worlds.hopTo(Worlds.getRandom(World::isMembers));
+			return -12;
+		}
+
 		if(Inventory.isFull() && config.dropItems()) {
 
 			for (var item : Inventory.getAll(ItemID.CUP_OF_TEA_1978)) {
@@ -39,7 +49,7 @@ public class TeaStall implements ScriptTask
 			}
 		}
 		else {
-			var tea_stall = TileObjects.getNearest("Tea Stall");
+			var tea_stall = TileObjects.getNearest("Tea stall");
 			if(tea_stall != null && Reachable.isInteractable(tea_stall)) {
 
 				tea_stall.interact("Steal-from");

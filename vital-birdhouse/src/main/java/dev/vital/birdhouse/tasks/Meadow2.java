@@ -26,7 +26,7 @@ public class Meadow2 implements ScriptTask {
 
 			if(Tools.buildBirdhouse(MEADOW_TILE_2, config.logID(), config.seedID())) {
 
-				VitalBirdhouse.step = Steps.END;
+				VitalBirdhouse.step = Steps.GO_HOME;
 			}
 		}
 

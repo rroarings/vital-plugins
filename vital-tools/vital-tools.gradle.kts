@@ -1,7 +1,7 @@
-version = "0.0.1"
+version = "0.0.2"
 
 project.extra["PluginName"] = "Vital Tools"
-project.extra["PluginDescription"] = ""
+project.extra["PluginDescription"] = "Automatically login after disconnect"
 
 tasks {
     jar {

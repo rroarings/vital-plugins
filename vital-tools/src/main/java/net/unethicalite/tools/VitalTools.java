@@ -59,7 +59,7 @@ public class VitalTools extends LoopedPlugin
 				var item = Inventory.getFirst(x -> x.hasAction("Eat"));
 				if (item != null)
 				{
-					item.interact("eat");
+					item.interact("Eat");
 				}
 			}
 		}
@@ -73,6 +73,7 @@ public class VitalTools extends LoopedPlugin
 		if(!has_logged_in && Game.isLoggedIn()) {
 			has_logged_in = true;
 		}
+
 	}
 
 	@Subscribe

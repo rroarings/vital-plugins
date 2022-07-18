@@ -20,11 +20,6 @@ public class GoFish implements ScriptTask {
 	@Override
 	public int execute() {
 
-		if(LocalPlayer.get().getAnimation() == 623) {
-
-			return Rand.nextInt(5000, 100000);
-		}
-
 		var fishspot = NPCs.getNearest(6825);
 		if(fishspot == null) {
 
@@ -32,7 +27,13 @@ public class GoFish implements ScriptTask {
 		}
 		else {
 
-			fishspot.interact("Bait");
+			if(!LocalPlayer.get().isAnimating())
+			{
+				fishspot.interact("Bait");
+
+				return Rand.nextInt(5000, 100000);
+			}
+
 		}
 
 		return -3;

@@ -1,7 +1,7 @@
-version = "0.0.5"
+version = "0.0.8"
 
 project.extra["PluginName"] = "Vital Fisher"
-project.extra["PluginDescription"] = ""
+project.extra["PluginDescription"] = "Fishes angler fish only for now"
 
 tasks {
     jar {

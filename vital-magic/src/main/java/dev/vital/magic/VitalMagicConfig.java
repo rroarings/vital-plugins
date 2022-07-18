@@ -33,14 +33,14 @@ public interface VitalMagicConfig extends Config
 	)
 	default boolean teleportAlch() { return false; }
 
-	@ConfigItem(
+	/*@ConfigItem(
 			keyName = "enchantBolt",
 			name = "Enchant bolt while alching",
 			description = "Enchant will be casted before casting high alch.",
 			position = 4,
 			section = "highAlchemy"
 	)
-	default boolean enchantBolt() { return false; }
+	default boolean enchantBolt() { return false; }*/
 
 	@ConfigItem(
 			keyName = "alchemyWhileMoving",

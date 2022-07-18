@@ -82,7 +82,7 @@ public class VitalMagic extends LoopedPlugin
 				return -1;
 			}
 
-			Magic.cast(SpellBook.Standard.WIND_STRIKE, Inventory.getFirst(config.alchemyItem()));
+			Magic.cast(SpellBook.Standard.HIGH_LEVEL_ALCHEMY, Inventory.getFirst(config.alchemyItem()));
 		}
 
 		if(config.teleportAlch()) {

@@ -9,10 +9,27 @@ import net.runelite.client.config.ConfigSection;
 public interface VitalBankStanderConfig extends Config
 {
 	@ConfigSection(
+			keyName = "glassBlow",
+			name = "Glass Configuration",
+			description = "",
+			position = 0
+	)
+	String glassBlowConfig = "glassBlowConfig";
+
+	@ConfigItem(
+			keyName = "glass",
+			name = "Glass",
+			description = "Blow glass",
+			position = 5,
+			section = "glassBlowConfig"
+	)
+	default boolean glass() { return false; }
+
+	@ConfigSection(
 			keyName = "needleAndThreadConfig",
 			name = "Needle & Thread Configuration",
 			description = "",
-			position = 0
+			position = 10
 	)
 	String needleAndThreadConfig = "needleAndThreadConfig";
 
@@ -20,7 +37,7 @@ public interface VitalBankStanderConfig extends Config
 			keyName = "needleAndThread",
 			name = "Needle & Thread",
 			description = "Crafting involving a needle and thread",
-			position = 1,
+			position = 15,
 			section = "needleAndThreadConfig"
 	)
 	default boolean needleAndThread() { return false; }
@@ -31,7 +48,7 @@ public interface VitalBankStanderConfig extends Config
 			keyName = "firstMaterial",
 			name = "First Material",
 			description = "The first material you want to use.",
-			position = 3,
+			position = 20,
 			section = "needleAndThreadConfig"
 	)
 	default int firstMaterial() { return 0; }
@@ -40,7 +57,7 @@ public interface VitalBankStanderConfig extends Config
 			keyName = "firstMaterialAmount",
 			name = "First Material Amount",
 			description = "The first material amount you want to use.",
-			position = 4,
+			position = 25,
 			section = "needleAndThreadConfig"
 	)
 	default int firstMaterialAmount() { return 0; }
@@ -49,7 +66,7 @@ public interface VitalBankStanderConfig extends Config
 			keyName = "secondMaterial",
 			name = "Second Material",
 			description = "The second material you want to use.",
-			position = 5,
+			position = 30,
 			section = "needleAndThreadConfig"
 	)
 	default int secondMaterial() { return 0; }
@@ -58,7 +75,7 @@ public interface VitalBankStanderConfig extends Config
 			keyName = "secondMaterialAmount",
 			name = "Second Material Amount",
 			description = "The second material amount you want to use.",
-			position = 6,
+			position = 35,
 			section = "needleAndThreadConfig"
 	)
 	default int secondMaterialAmount() { return 0; }
@@ -67,7 +84,7 @@ public interface VitalBankStanderConfig extends Config
 			keyName = "depositMaterial",
 			name = "Final product ID",
 			description = "The ID of the item that was made.",
-			position = 7,
+			position = 40,
 			section = "needleAndThreadConfig"
 	)
 	default int depositMaterial() { return 0; }

@@ -16,7 +16,7 @@ public class CrabClawIsle implements ScriptTask {
 	VitalSandCrabConfig config;
 
 	WorldPoint chest_location = new WorldPoint(1718, 3465, 0);
-
+	WorldPoint chest_travel_location = new WorldPoint(1719, 3465, 0);
 	public CrabClawIsle(VitalSandCrabConfig config) { this.config = config; }
 
 	@Override
@@ -31,7 +31,7 @@ public class CrabClawIsle implements ScriptTask {
 		else {
 
 			if (Bank.isOpen()) {
-				if(Inventory.contains(ItemID.COINS_995) && Inventory.getCount(true, ItemID.COINS_995) >= 10000) {
+				if(Bank.contains(ItemID.COINS_995) && Bank.getCount(true, ItemID.COINS_995) >= 10000) {
 					Bank.withdraw(ItemID.COINS_995,10000, Bank.WithdrawMode.DEFAULT);
 				}
 			}
@@ -41,7 +41,7 @@ public class CrabClawIsle implements ScriptTask {
 					chest.interact("Use");
 				}
 				else {
-					Movement.walkTo(chest_location);
+					Movement.walkTo(chest_travel_location);
 				}
 			}
 

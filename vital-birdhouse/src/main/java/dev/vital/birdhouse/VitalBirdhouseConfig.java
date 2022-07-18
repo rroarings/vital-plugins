@@ -36,6 +36,15 @@ public interface VitalBirdhouseConfig extends Config
 	default boolean returnToGE() { return true; }
 
 	@ConfigItem(
+			keyName = "autoLogOut",
+			name = "Auto Log Out",
+			description = "Use login on disconnect from vital-tools with a delay to achieve a full birdhouse run bot.",
+			position = 10//,
+			//section = "needleAndThreadConfig"
+	)
+	default boolean autoLogOut() { return false; }
+
+	@ConfigItem(
 			keyName = "seedID",
 			name = "Seed ID",
 			description = "The ID of the seed you want to use.",

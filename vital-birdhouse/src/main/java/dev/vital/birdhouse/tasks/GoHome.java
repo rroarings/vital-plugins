@@ -6,12 +6,13 @@ import dev.vital.birdhouse.Tools;
 import dev.vital.birdhouse.VitalBirdhouse;
 import dev.vital.birdhouse.VitalBirdhouseConfig;
 import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.game.Game;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 
 public class GoHome implements ScriptTask {
 
-	VitalBirdhouseConfig config = null;
+	VitalBirdhouseConfig config;
 
 	public GoHome(VitalBirdhouseConfig config) { this.config = config; }
 
@@ -26,10 +27,21 @@ public class GoHome implements ScriptTask {
 
 			Bank.depositInventory();
 
-			Time.sleepUntil(() -> Inventory.isEmpty(), 2400);
+			Time.sleepUntil(Inventory::isEmpty, 2400);
 
-			VitalBirdhouse.plugin_enabled = false;
+			Bank.close();
+
+			Time.sleepUntil(() -> !Bank.isOpen(), 2400);
+
 			VitalBirdhouse.step = Steps.GETS_MATS;
+			GetMats.bank_items.forEach(x -> x.obtained = false);
+
+			if(config.autoLogOut()) {
+				Game.logout();
+			}
+			else {
+				VitalBirdhouse.plugin_enabled = false;
+			}
 		}
 
 		return -1;

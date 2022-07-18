@@ -4,11 +4,11 @@ import net.unethicalite.api.items.Bank;
 
 public class BItems {
 
-	int id;
-	int amount;
-	boolean stacks;
-	boolean obtained;
-	Bank.WithdrawMode mode;
+	public int id;
+	public int amount;
+	public boolean stacks;
+	public boolean obtained;
+	public Bank.WithdrawMode mode;
 
 	public BItems(int id, int amount, boolean stacks, Bank.WithdrawMode mode) {
 

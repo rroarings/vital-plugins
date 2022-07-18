@@ -2,8 +2,6 @@ package dev.vital.aerial;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("vitalaerialconfig")
 public interface VitalAerialConfig extends Config
@@ -16,7 +14,7 @@ public interface VitalAerialConfig extends Config
 	//)
 	//String needleAndThreadConfig = "needleAndThreadConfig";
 
-	@ConfigItem(
+	/*@ConfigItem(
 			keyName = "npcID",
 			name = "NPC ID",
 			description = "ID of the NPC you want to catch",
@@ -76,7 +74,7 @@ public interface VitalAerialConfig extends Config
 			description = "Maximum amount of ticks to wait after casting.",
 			position = 64
 	)
-	default int tickMaxDelay() { return 55; }
+	default int tickMaxDelay() { return 55; }*/
 
 	//@ConfigItem(
 	//		keyName = "potions",

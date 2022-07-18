@@ -3,6 +3,7 @@ package dev.vital.bankstander;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.openosrs.client.game.WorldLocation;
+import net.runelite.api.Skill;
 import net.unethicalite.api.account.GameAccount;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Predicates;
@@ -10,6 +11,7 @@ import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Game;
+import net.unethicalite.api.game.Skills;
 import net.unethicalite.api.input.Keyboard;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
@@ -42,7 +44,7 @@ public class VitalBankStander extends LoopedPlugin
 {
 	@Inject
 	private VitalBankStanderConfig config;
-	private List<Integer> itemIds = new ArrayList<Integer>();
+	private List<Integer> itemIds = new ArrayList<>();
 	public int tick_delay = 0;
 	public int tick_count = 0;
 	public boolean should_bank = false;
@@ -83,13 +85,100 @@ public boolean animatingg = false;
 			}
 		}
 
-		if(config.needleAndThread()) {
+		if(config.glass()) {
+
+			if(eventt == -1)
+			{
+				if (Inventory.getCount(ItemID.MOLTEN_GLASS) != 27)
+				{
+					if (Bank.isOpen())
+					{
+						if (Inventory.getFreeSlots() == 27)
+						{
+							Bank.withdraw(Predicates.ids(ItemID.MOLTEN_GLASS), 27, Bank.WithdrawMode.ITEM);
+							return -1;
+						}
+						else {
+
+							Bank.depositAllExcept(ItemID.GLASSBLOWING_PIPE);
+						}
+					}
+					else
+					{
+						TileObjects.getNearest("Grand Exchange booth").interact("Bank");
+					}
+				}
+				else if (!Inventory.contains(ItemID.GLASSBLOWING_PIPE))
+				{
+					if (Bank.isOpen())
+					{
+						if(Bank.contains(ItemID.GLASSBLOWING_PIPE))
+						{
+							Bank.withdraw(ItemID.GLASSBLOWING_PIPE, 1, Bank.WithdrawMode.ITEM);
+						}
+					}
+					else
+					{
+						TileObjects.getNearest("Grand Exchange booth").interact("Bank");
+					}
+				}
+				else
+				{
+					if (Bank.isOpen())
+					{
+						Bank.close();
+					}
+					else
+					{
+						eventt = 0;
+					}
+				}
+				return Rand.nextInt(300, 600);
+			}
+			if(eventt == 0) {
+
+				Inventory.getFirst(ItemID.GLASSBLOWING_PIPE).useOn(Inventory.getFirst(ItemID.MOLTEN_GLASS));
+				eventt = 1;
+				return Rand.nextInt(300, 600);
+			}
+			else if(eventt == 1 && Dialog.isOpen())
+			{
+				var level = Skills.getLevel(Skill.CRAFTING);
+				if(level >=1 && level < 4) {
+					Keyboard.type(1);
+				}
+				else if(level >= 4 && level < 12) {
+					Keyboard.type(2);
+				}
+				else if(level >= 12 && level < 33) {
+					Keyboard.type(3);
+				}
+				else if(level >= 33 && level < 42) {
+					Keyboard.type(4);
+				}
+				else if(level >= 42 && level < 46) {
+					Keyboard.type(5);
+				}
+				else if(level >= 46 && level < 49) {
+					Keyboard.type(6);
+				}
+				else if(level >= 49 && level < 87) {
+					Keyboard.type(7);
+				}
+				else if(level >= 87) {
+					Keyboard.type(8);
+				}
+				tick_delay_begin= true;
+				eventt = -1;
+				return Rand.nextInt(2500, 3000);
+			}
+		}
+		else if(config.needleAndThread()) {
 
 			if(eventt == -1)
 			{
 				if (!Inventory.contains(ItemID.NEEDLE) || !Inventory.contains(ItemID.THREAD))
 				{
-
 					if (Bank.isOpen())
 					{
 						if (!Inventory.contains(ItemID.NEEDLE))
@@ -108,7 +197,6 @@ public boolean animatingg = false;
 				}
 				else if (!Inventory.contains(config.firstMaterial()) || Inventory.getCount(config.firstMaterial()) != config.firstMaterialAmount())
 				{
-
 					if (Bank.isOpen())
 					{
 						if (Inventory.contains(config.firstMaterial()))

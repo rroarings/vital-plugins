@@ -37,12 +37,13 @@ include("vital-garden")
 include("vital-motherlode")
 include("vital-smithing")
 include("vital-birdhouse")
-include("vital-aerial")
+//include("vital-aerial")
 include("vital-quester")
 include("vital-agility")
 include("vital-cat")
 include("vital-thieving")
 include("vital-sandcrab")
+include("vital-tools")
 
 for (project in rootProject.children) {
     project.apply {
@@ -53,5 +54,3 @@ for (project in rootProject.children) {
         require(buildFile.isFile) { "Project '${project.path} must have a $buildFile build script" }
     }
 }
-include("vital-tools")
-

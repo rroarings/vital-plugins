@@ -1,39 +1,120 @@
 package net.unethicalite.tools;
 
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.DialogOption;
-import net.runelite.api.events.DialogProcessed;
-import net.runelite.api.events.MenuOptionClicked;
-import net.runelite.api.packets.ClientPacket;
-import net.runelite.api.packets.PacketBufferNode;
-import net.runelite.api.packets.ServerPacket;
+import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
-import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.ui.overlay.OverlayManager;
-import net.unethicalite.api.events.MenuAutomated;
-import net.unethicalite.api.events.PacketSent;
-import net.unethicalite.api.events.ServerPacketProcessed;
-import net.unethicalite.api.events.ServerPacketReceived;
-import net.unethicalite.client.Static;
+import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.events.LoginStateChanged;
+import net.unethicalite.api.game.Combat;
+import net.unethicalite.api.game.Game;
+import net.unethicalite.api.input.Keyboard;
+import net.unethicalite.api.input.Mouse;
+import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.plugins.LoopedPlugin;
+import org.pf4j.Extension;
 
-import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-@PluginDescriptor(
-		name = "Unethical Dev Tools",
-		description = "Shows entity information",
-		enabledByDefault = false
-)
+@PluginDescriptor(name = "vital-tools", enabledByDefault = false)
+@Extension
 @Slf4j
-public class VitalTools extends Plugin
+public class VitalTools extends LoopedPlugin
 {
+	@Inject
+	private Client client;
 
+	@Inject
+	ScheduledExecutorService scheduledExecutorService;
+
+	@Inject
+	private VitalToolsConfig config;
+
+	boolean has_logged_in = false;
+
+	@Override
+	public void startUp()
+	{
+
+	}
+
+	@Override
+	public void shutDown() {
+
+	}
+
+	@Override
+	protected int loop()
+	{
+		if(Game.isLoggedIn())
+		{
+			if (config.autoEat() && Combat.getHealthPercent() < config.autoEatPerc())
+			{
+				var item = Inventory.getFirst(x -> x.hasAction("Eat"));
+				if (item != null)
+				{
+					item.interact("Eat");
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	@Subscribe
+	public void onGameTick(GameTick event) {
+
+		if(!has_logged_in && Game.isLoggedIn()) {
+			has_logged_in = true;
+		}
+
+	}
+
+	@Subscribe
+	private void onLoginStateChanged(LoginStateChanged e) {
+
+		if (config.autoRelog() && has_logged_in)
+		{
+			switch (e.getIndex())
+			{
+
+				case 0: {
+
+					Keyboard.sendEnter();
+
+					break;
+				}
+				case 24: {
+
+					scheduledExecutorService.schedule(() -> Mouse.click(380, 300, true), 2, TimeUnit.SECONDS);
+
+					break;
+				}
+				case 2: {
+
+					client.setUsername(config.username());
+					client.setPassword(config.password());
+					scheduledExecutorService.schedule(() -> Mouse.click(299, 322, true), config.loginDelay(), TimeUnit.SECONDS);
+
+					break;
+				}
+				default: {
+
+					break;
+				}
+			}
+		}
+	}
+
+	@Provides
+	VitalToolsConfig getConfig(ConfigManager configManager) {
+
+		return configManager.getConfig(VitalToolsConfig.class);
+	}
 }

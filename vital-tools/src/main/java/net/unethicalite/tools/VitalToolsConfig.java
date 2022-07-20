@@ -36,7 +36,7 @@ public interface VitalToolsConfig extends Config
 			description = "Seconds",
 			position = 11
 	)
-	default int loginDelay() { return 5; }
+	default int loginDelay() { return 3000; }
 
 	@ConfigItem(
 			keyName = "username",

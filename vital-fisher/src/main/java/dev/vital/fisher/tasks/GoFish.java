@@ -1,13 +1,12 @@
 package dev.vital.fisher.tasks;
 
-import com.openosrs.client.game.WorldLocation;
+import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.runelite.api.ItemID;
-import net.runelite.api.Player;
 
 public class GoFish implements ScriptTask {
 
@@ -23,17 +22,16 @@ public class GoFish implements ScriptTask {
 		var fishspot = NPCs.getNearest(6825);
 		if(fishspot == null) {
 
-			Movement.walkTo(WorldLocation.PISCARILIUS_ANGLERFISH.getWorldArea());
+			Movement.walkTo(new WorldPoint(1828, 3775, 0));
 		}
-		else {
+		else if(LocalPlayer.get().getAnimation() != 623) {
 
-			if(!LocalPlayer.get().isAnimating())
-			{
-				fishspot.interact("Bait");
+			fishspot.interact("Bait");
+			return -3;
+		}
+		else if(LocalPlayer.get().getAnimation() == 623){
 
-				return Rand.nextInt(5000, 100000);
-			}
-
+			return Rand.nextInt(1000 * 30, 1000 * 240);
 		}
 
 		return -3;

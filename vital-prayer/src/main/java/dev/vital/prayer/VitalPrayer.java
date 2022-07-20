@@ -2,15 +2,14 @@ package dev.vital.prayer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import dev.vital.prayer.tasks.DontPanic;
+import dev.vital.prayer.tasks.Panic;
 import dev.vital.prayer.tasks.SacraficeBones;
 import dev.vital.prayer.tasks.ScriptTask;
 import dev.vital.prayer.tasks.UnnoteBones;
-import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldArea;
+import net.runelite.api.events.ConfigButtonClicked;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.game.Game;
-import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.plugins.LoopedPlugin;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,16 +25,24 @@ import java.util.List;
 @PluginDescriptor(name = "vital-prayer", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalPrayer extends LoopedPlugin
-{
+public class VitalPrayer extends LoopedPlugin {
+
 	List<ScriptTask> tasks = new ArrayList<>();
+
+	public static  int is_animating = 0;
 
 	@Inject
 	private VitalPrayerConfig config;
 
+	boolean plugin_enabled = false;
+
 	@Override
-	public void startUp()
-	{
+	public void startUp() {
+
+		plugin_enabled = false;
+
+		tasks.add(new Panic(config));
+		tasks.add(new DontPanic(config));
 		tasks.add(new UnnoteBones(config));
 		tasks.add(new SacraficeBones(config));
 	}
@@ -47,26 +54,61 @@ public class VitalPrayer extends LoopedPlugin
 	}
 
 	@Override
-	protected int loop()
-	{
-		for (ScriptTask task : tasks)
-		{
-			if (task.validate())
-			{
-				int sleep = task.execute();
-				if (task.blocking())
-				{
-					return sleep;
+	protected int loop() {
+
+		if(plugin_enabled && Game.isLoggedIn()) {
+
+			for (ScriptTask task : tasks){
+
+				if (task.validate()) {
+
+					int sleep = task.execute();
+					if (task.blocking()) {
+
+						return sleep;
+					}
 				}
 			}
 		}
 
-		return 1000;
+		return 10;
+	}
+
+	@Subscribe
+	private void onGameTick(GameTick event) {
+
+		if(LocalPlayer.get().getAnimation() == 3705) {
+
+			is_animating = 0;
+		}
+		else {
+
+			is_animating++;
+		}
+	}
+
+	@Subscribe
+	public void onConfigButtonClicked(ConfigButtonClicked e) {
+
+		if (!e.getGroup().equals("vitalprayerconfig")) {
+
+			return;
+		}
+
+		switch (e.getKey()) {
+
+			case "startStopPlugin": {
+
+				plugin_enabled = !plugin_enabled;
+
+				break;
+			}
+		}
 	}
 
 	@Provides
-	VitalPrayerConfig getConfig(ConfigManager configManager)
-	{
+	VitalPrayerConfig getConfig(ConfigManager configManager) {
+
 		return configManager.getConfig(VitalPrayerConfig.class);
 	}
 }

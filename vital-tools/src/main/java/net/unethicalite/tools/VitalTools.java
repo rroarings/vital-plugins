@@ -8,7 +8,6 @@ import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.events.LoginStateChanged;
 import net.unethicalite.api.game.Combat;
 import net.unethicalite.api.game.Game;
@@ -18,15 +17,14 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import org.pf4j.Extension;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @PluginDescriptor(name = "vital-tools", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalTools extends LoopedPlugin
-{
+public class VitalTools extends LoopedPlugin {
+
 	@Inject
 	private Client client;
 
@@ -39,8 +37,7 @@ public class VitalTools extends LoopedPlugin
 	boolean has_logged_in = false;
 
 	@Override
-	public void startUp()
-	{
+	public void startUp() {
 
 	}
 
@@ -50,15 +47,15 @@ public class VitalTools extends LoopedPlugin
 	}
 
 	@Override
-	protected int loop()
-	{
-		if(Game.isLoggedIn())
-		{
-			if (config.autoEat() && Combat.getHealthPercent() < config.autoEatPerc())
-			{
+	protected int loop() {
+
+		if(Game.isLoggedIn()) {
+
+			if (config.autoEat() && Combat.getHealthPercent() < config.autoEatPerc()) {
+
 				var item = Inventory.getFirst(x -> x.hasAction("Eat"));
-				if (item != null)
-				{
+				if (item != null) {
+
 					item.interact("Eat");
 				}
 			}
@@ -71,18 +68,17 @@ public class VitalTools extends LoopedPlugin
 	public void onGameTick(GameTick event) {
 
 		if(!has_logged_in && Game.isLoggedIn()) {
+
 			has_logged_in = true;
 		}
-
 	}
 
 	@Subscribe
 	private void onLoginStateChanged(LoginStateChanged e) {
 
-		if (config.autoRelog() && has_logged_in)
-		{
-			switch (e.getIndex())
-			{
+		if (config.autoRelog() && has_logged_in) {
+
+			switch (e.getIndex()) {
 
 				case 0: {
 

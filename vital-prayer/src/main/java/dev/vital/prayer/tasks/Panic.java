@@ -1,7 +1,6 @@
 package dev.vital.prayer.tasks;
 
 import dev.vital.prayer.VitalPrayerConfig;
-import net.runelite.api.World;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.game.Worlds;
@@ -26,6 +25,6 @@ public class Panic implements ScriptTask
 
 		Worlds.hopTo(Worlds.getRandom(x -> x.isNormal() && !x.isMembers()), true);
 
-		return 1;
+		return 100;
 	}
 }

@@ -12,7 +12,9 @@ import net.runelite.api.coords.WorldArea;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
+import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.game.Game;
+import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.plugins.LoopedPlugin;
 
@@ -25,6 +27,7 @@ import org.pf4j.Extension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @PluginDescriptor(name = "vital-prayer", enabledByDefault = false)
 @Extension
@@ -32,6 +35,8 @@ import java.util.List;
 public class VitalPrayer extends LoopedPlugin
 {
 	List<ScriptTask> tasks = new ArrayList<>();
+
+	public static  int is_animating = 0;
 
 	@Inject
 	private VitalPrayerConfig config;
@@ -75,9 +80,20 @@ public class VitalPrayer extends LoopedPlugin
 	}
 
 	@Subscribe
+	private void onGameTick(GameTick event)
+	{
+		if(LocalPlayer.get().getAnimation() == 3705) {
+			is_animating = 0;
+		}
+		else {
+			is_animating++;
+		}
+	}
+
+	@Subscribe
 	public void onConfigButtonClicked(ConfigButtonClicked e) {
 
-		if (!e.getGroup().equals("vitalbirdhouse")) {
+		if (!e.getGroup().equals("vitalprayerconfig")) {
 			return;
 		}
 

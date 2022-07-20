@@ -30,30 +30,33 @@ public class UnnoteBones implements ScriptTask
 	@Override
 	public int execute()
 	{
-		Player local = LocalPlayer.get();
-
 		var elder_chaos_druid = NPCs.getNearest(7995);
-		if(elder_chaos_druid != null)
-		{
-			if(Reachable.isInteractable(elder_chaos_druid))
-			{
-				if (Dialog.isViewingOptions())
-				{
+		if(elder_chaos_druid != null) {
+
+			if(Reachable.isInteractable(elder_chaos_druid)) {
+
+				if (Dialog.isViewingOptions()) {
+
 					Dialog.chooseOption("Exchange All:");
 				}
-				else
-				{
-					Inventory.getFirst(537).useOn(elder_chaos_druid);
+				else {
+
+					Inventory.getFirst(config.notedBoneID()).useOn(elder_chaos_druid);
 				}
 			}
 			else {
+				if(!Movement.isWalking()) {
 
-				Movement.walkTo(elder_chaos_druid);
+					Movement.walkTo(elder_chaos_druid);
+				}
 			}
 		}
 		else {
 
-			Movement.walkTo(inside_widly_chaos_alter);
+			if(!Movement.isWalking()) {
+
+				Movement.walkTo(inside_widly_chaos_alter);
+			}
 		}
 
 		return -1;

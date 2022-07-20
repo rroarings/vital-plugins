@@ -22,7 +22,7 @@ public interface VitalPrayerConfig extends Config
 			keyName = "boneID",
 			name = "Bone ID",
 			description = "ex: 535 = Dragon Bones",
-			position = 0
+			position = 5
 	)
 	default int boneID() { return 535; }
 
@@ -30,7 +30,7 @@ public interface VitalPrayerConfig extends Config
 			keyName = "notedBoneID",
 			name = "Noted Bone ID",
 			description =  "ex: 536 = Noted Dragon Bones",
-			position = 5
+			position = 10
 	)
 	default int notedBoneID() { return 536; }
 
@@ -38,7 +38,7 @@ public interface VitalPrayerConfig extends Config
 			keyName = "startStopPlugin",
 			name = "Start / Stop",
 			description = "",
-			position = 30
+			position = 15
 	)
 	default Button startStopPlugin() { return new Button(); }
 	/*@ConfigItem(

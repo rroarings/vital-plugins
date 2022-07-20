@@ -9,6 +9,7 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.runelite.api.Player;
 import net.runelite.api.coords.WorldArea;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.widgets.Dialog;
 
 public class UnnoteBones implements ScriptTask
@@ -23,8 +24,7 @@ public class UnnoteBones implements ScriptTask
 
 	@Override
 	public boolean validate() {
-		return Worlds.inMembersWorld() && Inventory.getCount(ItemID.COINS_995) >= 50 && Inventory.contains(537) &&
-				(!Inventory.contains(ItemID.DRAGON_BONES) || (Inventory.getCount(ItemID.DRAGON_BONES) <= 4 && !inside_widly_chaos_alter.contains(LocalPlayer.get())));
+		return Worlds.inMembersWorld() && Inventory.getCount(true, ItemID.COINS_995) >= 50 && Inventory.contains(config.notedBoneID()) && !Inventory.contains(config.boneID());
 	}
 
 	@Override
@@ -32,22 +32,28 @@ public class UnnoteBones implements ScriptTask
 	{
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
-
-			return -1;
-		}
-
 		var elder_chaos_druid = NPCs.getNearest(7995);
-		if(inside_widly_chaos_alter.contains(local)) {
-			Movement.walkTo(elder_chaos_druid);
-		}
-		else {
-			if(Dialog.isViewingOptions()) {
-				Dialog.chooseOption("Exchange All:");
+		if(elder_chaos_druid != null)
+		{
+			if(Reachable.isInteractable(elder_chaos_druid))
+			{
+				if (Dialog.isViewingOptions())
+				{
+					Dialog.chooseOption("Exchange All:");
+				}
+				else
+				{
+					Inventory.getFirst(537).useOn(elder_chaos_druid);
+				}
 			}
 			else {
-				Inventory.getFirst(537).useOn(elder_chaos_druid);
+
+				Movement.walkTo(elder_chaos_druid);
 			}
+		}
+		else {
+
+			Movement.walkTo(inside_widly_chaos_alter);
 		}
 
 		return -1;

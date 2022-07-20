@@ -17,12 +17,13 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.runelite.api.Player;
 import net.runelite.api.coords.WorldArea;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.widgets.Dialog;
 
 public class SacraficeBones implements ScriptTask
 {
 	WorldPoint pray_location = new WorldPoint(2948, 3820, 0);
-	WorldArea inside_widly_chaos_alter = new WorldArea(2948, 3819, 10, 4	, 0);
+	WorldPoint safe_location = new WorldPoint(2948, 3817, 0);
 	int is_animating = 0;
 
 	VitalPrayerConfig config;
@@ -32,23 +33,38 @@ public class SacraficeBones implements ScriptTask
 	}
 
 	@Override
-	public boolean validate() { return Worlds.inMembersWorld() && Inventory.contains(ItemID.DRAGON_BONES); }
+	public boolean validate() { return Worlds.inMembersWorld() && Inventory.contains(config.boneID()); }
 
 	@Override
 	public int execute()
 	{
-		Player local = LocalPlayer.get();
+		if(!Worlds.inMembersWorld()) {
 
-		if (local.isAnimating() || Movement.isWalking()) {
+			if(Movement.walkTo(safe_location)) {
+				Worlds.hopTo(Worlds.getRandom(x -> !x.isNormal() && x.isMembers()), false);
+			}
 
 			return -1;
 		}
 
-		if(inside_widly_chaos_alter.contains(local))
-		{
-			if (is_animating > 3)
-			{
-				Inventory.getFirst(ItemID.DRAGON_BONES).useOn(TileObjects.getFirstAt(pray_location, 411));
+		if(Dialog.canLevelUpContinue()) {
+			Dialog.continueSpace();
+			return 10;
+		}
+
+		var altar = TileObjects.getNearest(411);
+		if(altar != null) {
+
+			if(Reachable.isInteractable(altar)) {
+
+				if (is_animating > 3) {
+
+					Inventory.getFirst(config.boneID()).useOn(altar);
+				}
+			}
+			else {
+
+				Movement.walkTo(altar);
 			}
 		}
 		else {
@@ -56,7 +72,7 @@ public class SacraficeBones implements ScriptTask
 			Movement.walkTo(pray_location);
 		}
 
-		return -1;
+		return 10;
 	}
 
 	@Subscribe

@@ -2,11 +2,14 @@ package dev.vital.prayer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import dev.vital.prayer.tasks.DontPanic;
+import dev.vital.prayer.tasks.Panic;
 import dev.vital.prayer.tasks.SacraficeBones;
 import dev.vital.prayer.tasks.ScriptTask;
 import dev.vital.prayer.tasks.UnnoteBones;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldArea;
+import net.runelite.api.events.ConfigButtonClicked;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.game.Game;
@@ -33,9 +36,13 @@ public class VitalPrayer extends LoopedPlugin
 	@Inject
 	private VitalPrayerConfig config;
 
+	boolean plugin_enabled = false;
 	@Override
 	public void startUp()
 	{
+		plugin_enabled = false;
+		tasks.add(new Panic(config));
+		tasks.add(new DontPanic(config));
 		tasks.add(new UnnoteBones(config));
 		tasks.add(new SacraficeBones(config));
 	}
@@ -49,19 +56,36 @@ public class VitalPrayer extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-		for (ScriptTask task : tasks)
+		if(plugin_enabled && Game.isLoggedIn())
 		{
-			if (task.validate())
+			for (ScriptTask task : tasks)
 			{
-				int sleep = task.execute();
-				if (task.blocking())
+				if (task.validate())
 				{
-					return sleep;
+					int sleep = task.execute();
+					if (task.blocking())
+					{
+						return sleep;
+					}
 				}
 			}
 		}
 
-		return 1000;
+		return 10;
+	}
+
+	@Subscribe
+	public void onConfigButtonClicked(ConfigButtonClicked e) {
+
+		if (!e.getGroup().equals("vitalbirdhouse")) {
+			return;
+		}
+
+		switch (e.getKey()) {
+			case "startStopPlugin":
+				plugin_enabled = !plugin_enabled;
+				break;
+		}
 	}
 
 	@Provides

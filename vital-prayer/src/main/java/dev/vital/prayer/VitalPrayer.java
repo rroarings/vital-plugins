@@ -7,15 +7,9 @@ import dev.vital.prayer.tasks.Panic;
 import dev.vital.prayer.tasks.SacraficeBones;
 import dev.vital.prayer.tasks.ScriptTask;
 import dev.vital.prayer.tasks.UnnoteBones;
-import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldArea;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Rand;
-import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.game.Game;
-import net.unethicalite.api.game.Worlds;
-import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.plugins.LoopedPlugin;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +21,12 @@ import org.pf4j.Extension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @PluginDescriptor(name = "vital-prayer", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalPrayer extends LoopedPlugin
-{
+public class VitalPrayer extends LoopedPlugin {
+
 	List<ScriptTask> tasks = new ArrayList<>();
 
 	public static  int is_animating = 0;
@@ -42,10 +35,12 @@ public class VitalPrayer extends LoopedPlugin
 	private VitalPrayerConfig config;
 
 	boolean plugin_enabled = false;
+
 	@Override
-	public void startUp()
-	{
+	public void startUp() {
+
 		plugin_enabled = false;
+
 		tasks.add(new Panic(config));
 		tasks.add(new DontPanic(config));
 		tasks.add(new UnnoteBones(config));
@@ -59,17 +54,17 @@ public class VitalPrayer extends LoopedPlugin
 	}
 
 	@Override
-	protected int loop()
-	{
-		if(plugin_enabled && Game.isLoggedIn())
-		{
-			for (ScriptTask task : tasks)
-			{
-				if (task.validate())
-				{
+	protected int loop() {
+
+		if(plugin_enabled && Game.isLoggedIn()) {
+
+			for (ScriptTask task : tasks){
+
+				if (task.validate()) {
+
 					int sleep = task.execute();
-					if (task.blocking())
-					{
+					if (task.blocking()) {
+
 						return sleep;
 					}
 				}
@@ -80,12 +75,14 @@ public class VitalPrayer extends LoopedPlugin
 	}
 
 	@Subscribe
-	private void onGameTick(GameTick event)
-	{
+	private void onGameTick(GameTick event) {
+
 		if(LocalPlayer.get().getAnimation() == 3705) {
+
 			is_animating = 0;
 		}
 		else {
+
 			is_animating++;
 		}
 	}
@@ -94,19 +91,24 @@ public class VitalPrayer extends LoopedPlugin
 	public void onConfigButtonClicked(ConfigButtonClicked e) {
 
 		if (!e.getGroup().equals("vitalprayerconfig")) {
+
 			return;
 		}
 
 		switch (e.getKey()) {
-			case "startStopPlugin":
+
+			case "startStopPlugin": {
+
 				plugin_enabled = !plugin_enabled;
+
 				break;
+			}
 		}
 	}
 
 	@Provides
-	VitalPrayerConfig getConfig(ConfigManager configManager)
-	{
+	VitalPrayerConfig getConfig(ConfigManager configManager) {
+
 		return configManager.getConfig(VitalPrayerConfig.class);
 	}
 }

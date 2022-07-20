@@ -41,11 +41,4 @@ public interface VitalPrayerConfig extends Config
 			position = 15
 	)
 	default Button startStopPlugin() { return new Button(); }
-	/*@ConfigItem(
-			keyName = "animationDelta",
-			name = "Animation Delta",
-			description = "How many ticks to wait before considered not mining.",
-			position = 5
-	)
-	default int animationDelta() { return 6; }*/
 }

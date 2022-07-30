@@ -1,6 +1,6 @@
-version = "0.0.5"
+version = "0.0.1"
 
-project.extra["PluginName"] = "Vital Agility"
+project.extra["PluginName"] = "Vital Tutorial"
 project.extra["PluginDescription"] = ""
 
 tasks {

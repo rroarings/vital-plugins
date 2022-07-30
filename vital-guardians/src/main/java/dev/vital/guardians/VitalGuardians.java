@@ -28,7 +28,10 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.skillcalculator.skills.RunecraftAction;
 import net.runelite.client.plugins.worldhopper.WorldHopperPlugin;
+import net.unethicalite.api.plugins.Script;
 import net.unethicalite.api.quests.Quests;
+import net.unethicalite.api.script.blocking_events.ResizableEvent;
+import net.unethicalite.api.script.blocking_events.WelcomeScreenEvent;
 import org.pf4j.Extension;
 
 import java.util.concurrent.Executors;
@@ -39,7 +42,7 @@ import java.util.regex.Pattern;
 @PluginDescriptor(name = "vital-guardians", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalGuardians extends LoopedPlugin
+public class VitalGuardians extends Script
 {
 	private final int BODY_GUARDIAN = 43709;
 	private final int MIND_GUARDIAN = 43705;
@@ -331,8 +334,9 @@ public class VitalGuardians extends LoopedPlugin
 		}
 	}
 	@Override
-	public void startUp()
+	public void onStart(String...asss)
 	{
+		getBlockingEventManager().remove(ResizableEvent.class);
 		has_enough_mats = game_started = false;
 	}
 

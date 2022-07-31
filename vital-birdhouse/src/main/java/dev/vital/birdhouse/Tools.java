@@ -80,14 +80,17 @@ public class Tools
 		return false;
 	}
 
-	public static boolean goTo(WorldArea area) {
-
-		if (area.contains(LocalPlayer.get())) {
-
+	public static boolean goTo(WorldArea area)
+	{
+		if (area.contains(LocalPlayer.get()))
+		{
 			return true;
 		}
 
-		Movement.walkTo(area);
+		if (!Movement.isWalking())
+		{
+			Movement.walkTo(area);
+		}
 
 		return false;
 	}

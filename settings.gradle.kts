@@ -25,13 +25,11 @@
 
 rootProject.name = "vital-plugins"
 
-include("vital-fighter")
 include("vital-wine")
 include("vital-fisher")
 include("vital-magic")
 include("vital-prayer")
 include("vital-bank-stander")
-include("vital-construction")
 include("vital-guardians")
 include("vital-garden")
 include("vital-motherlode")

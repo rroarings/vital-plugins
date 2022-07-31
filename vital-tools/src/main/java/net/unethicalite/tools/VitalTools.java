@@ -73,6 +73,15 @@ public class VitalTools extends LoopedPlugin {
 		}
 	}
 
+	void go()
+	{
+		if(!Game.isLoggedIn())
+		{
+			Keyboard.sendEnter();
+			Keyboard.sendEnter();
+		}
+	}
+
 	@Subscribe
 	private void onLoginStateChanged(LoginStateChanged e) {
 
@@ -96,7 +105,7 @@ public class VitalTools extends LoopedPlugin {
 
 					client.setUsername(config.username());
 					client.setPassword(config.password());
-					scheduledExecutorService.schedule(() -> Mouse.click(299, 322, true), config.loginDelay(), TimeUnit.SECONDS);
+					scheduledExecutorService.schedule(() -> go(), config.loginDelay(), TimeUnit.SECONDS);
 
 					break;
 				}

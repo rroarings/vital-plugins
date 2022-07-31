@@ -9,6 +9,8 @@ import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
+import net.unethicalite.api.packets.ItemPackets;
+import net.unethicalite.api.packets.ObjectPackets;
 import net.unethicalite.api.widgets.Dialog;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -46,7 +48,7 @@ public class SacraficeBones implements ScriptTask
 
 				if (VitalPrayer.is_animating > 3) {
 
-					Inventory.getFirst(config.boneID()).useOn(altar);
+					ObjectPackets.useItemOnTileObject(Inventory.getFirst(config.boneID()), altar);
 					VitalPrayer.is_animating = 0;
 				}
 			}

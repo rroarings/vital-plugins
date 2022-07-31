@@ -1,4 +1,4 @@
-version = "0.0.21"
+version = "0.0.22"
 
 project.extra["PluginName"] = "Vital Magic"
 project.extra["PluginDescription"] = "Enchant, Alch and Teleport"

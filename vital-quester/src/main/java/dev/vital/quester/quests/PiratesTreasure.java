@@ -1,6 +1,5 @@
 package dev.vital.quester.quests;
 
-import com.openosrs.client.game.WorldLocation;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
@@ -14,28 +13,28 @@ import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.quests.Quest;
 import net.unethicalite.api.widgets.Dialog;
-import net.unethicalite.api.widgets.Widgets;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tasks.ScriptTask;
-import dev.vital.quester.tasks.Taskz;
+import dev.vital.quester.ScriptTask;
 import dev.vital.quester.tools.CheckItems;
 import dev.vital.quester.tools.GetItems;
 import dev.vital.quester.tools.PurchaseItems;
 import dev.vital.quester.tools.ItemList;
 import dev.vital.quester.tools.Tools;
-import net.runelite.api.EquipmentInventorySlot;
 import net.runelite.api.ItemID;
 import net.runelite.api.Player;
-import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.widgets.WidgetInfo;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class PiratesTreasure implements ScriptTask
 {
+	VitalQuesterConfig config;
+	public PiratesTreasure(VitalQuesterConfig config) {
+		this.config = config;
+	}
+
 	enum Events {
 		GO_TO_KARAMJA,
 		BUY_RUM,
@@ -65,11 +64,9 @@ public class PiratesTreasure implements ScriptTask
 	private static final WorldArea LUTHAS = new WorldArea(2937, 3148, 2, 2, 0);
 
 	@Override
-	public boolean validate(VitalQuesterConfig quester_config)
+	public boolean validate()
 	{
-		return (Quest.PIRATES_TREASURE.getState() != QuestState.FINISHED && quester_config.automatic())
-				|| (Quest.PIRATES_TREASURE.getState() != QuestState.FINISHED && !quester_config.automatic()
-				&& quester_config.questName().compareToIgnoreCase("Pirate's Treasure") == 0);
+		return false;
 	}
 
 	int getQuest() {

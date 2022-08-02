@@ -1,4 +1,4 @@
-package dev.vital.quester.tasks;
+package dev.vital.quester;
 
 import dev.vital.quester.VitalQuesterConfig;
 
@@ -8,9 +8,8 @@ public interface ScriptTask
 	 * The check to validate the execution of the task.
 	 *
 	 * @return whether the task should be executed or not.
-	 * @param quester_config
 	 */
-	boolean validate(VitalQuesterConfig quester_config);
+	boolean validate();
 
 	/**
 	 * The loop logic.

@@ -9,8 +9,6 @@ import net.unethicalite.api.items.Inventory;
 
 public class EquipAmulet implements ScriptTask
 {
-    private final WorldPoint coop_point = new WorldPoint(3231, 3298, 0);
-
     VitalQuesterConfig config;
 
     public EquipAmulet(VitalQuesterConfig config)

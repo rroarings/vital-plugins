@@ -3,10 +3,7 @@ package dev.vital.quester.quests.restless_ghost;
 import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.quests.cooks_assistant.tasks.TalkToCook;
-import dev.vital.quester.quests.restless_ghost.tasks.EquipAmulet;
-import dev.vital.quester.quests.restless_ghost.tasks.TalkToGhost;
-import dev.vital.quester.quests.restless_ghost.tasks.GetAmulet;
+import dev.vital.quester.quests.restless_ghost.tasks.*;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.unethicalite.api.quests.Quests;
@@ -25,16 +22,18 @@ public class RestlessGhost implements ScriptTask
 
 		tasks.clear();
 
-		tasks.add(new EquipAmulet(config));
+		tasks.add(new GetQuest(config));
 		tasks.add(new GetAmulet(config));
+		tasks.add(new EquipAmulet(config));
 		tasks.add(new TalkToGhost(config));
-		tasks.add(new TalkToCook(config));
+		tasks.add(new GetSkull(config));
+		tasks.add(new ReturnSkull(config));
 	}
 
 	@Override
 	public boolean validate()
 	{
-		return config.currentQuest().equals(QuestList.COOKS_ASSISTANT) && Quests.getState(Quest.COOKS_ASSISTANT) != QuestState.FINISHED;
+		return config.currentQuest().equals(QuestList.THE_RESTLESS_GHOST) && Quests.getState(Quest.THE_RESTLESS_GHOST) != QuestState.FINISHED;
 	}
 
 	@Override

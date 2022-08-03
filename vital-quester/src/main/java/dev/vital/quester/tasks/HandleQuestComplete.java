@@ -2,11 +2,8 @@ package dev.vital.quester.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import net.runelite.api.widgets.WidgetInfo;
-import net.unethicalite.api.input.Keyboard;
 import net.unethicalite.api.widgets.Widgets;
 
-import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static net.runelite.api.widgets.WidgetInfo.QUEST_COMPLETED;
 
 public class HandleQuestComplete implements ScriptTask

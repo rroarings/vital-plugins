@@ -1,7 +1,5 @@
 package dev.vital.quester;
 
-import dev.vital.quester.VitalQuesterConfig;
-
 public interface ScriptTask
 {
 	/**

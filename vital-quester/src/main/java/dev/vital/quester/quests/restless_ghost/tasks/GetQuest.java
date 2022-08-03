@@ -1,6 +1,5 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
-import dev.vital.quester.VitalTask;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;

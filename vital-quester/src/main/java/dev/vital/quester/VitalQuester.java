@@ -2,20 +2,14 @@ package dev.vital.quester;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.quester.quests.RestlessGhost;
+import dev.vital.quester.quests.restless_ghost.RestlessGhost;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
-import net.unethicalite.api.widgets.Widgets;
 import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
-import dev.vital.quester.quests.PiratesTreasure;
-import dev.vital.quester.quests.SheepShearer;
-import dev.vital.quester.quests.XMarks;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -28,11 +22,23 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-	static boolean plugin_enabled = false;
 	@Inject
 	public VitalQuesterConfig config;
 
+	static boolean plugin_enabled = false;
 	static List<ScriptTask> tasks = new ArrayList<>();
+
+	@Override
+	protected void startUp()
+	{
+		plugin_enabled = false;
+
+		tasks.clear();
+
+		tasks.add(new HandleQuestComplete(config));
+		tasks.add(new CooksAssistant(config));
+		tasks.add(new RestlessGhost(config));
+	}
 
 	@Override
 	protected int loop()
@@ -62,20 +68,6 @@ public class VitalQuester extends LoopedPlugin
 		}
 
 		return -1;
-	}
-
-	@Override
-	protected void startUp()
-	{
-		plugin_enabled = false;
-		tasks.clear();
-
-		//tasks.add(new HandleQuestComplete(config));
-		tasks.add(new CooksAssistant(config));
-		//tasks.add(new XMarks(config));
-		//tasks.add(new PiratesTreasure(config));
-		//tasks.add(new SheepShearer(config));
-		//tasks.add(new RestlessGhost(config));
 	}
 
 	@Subscribe

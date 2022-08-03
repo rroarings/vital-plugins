@@ -14,6 +14,7 @@ import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
+import net.unethicalite.client.Static;
 
 public class Tools
 {
@@ -65,6 +66,51 @@ public class Tools
 			}
 		}
 
+		if(type == EntityType.NPC && ((entity != null && LocalPlayer.get().getInteracting() == entity) || (Dialog.isViewingOptions() || Dialog.canContinue()))) {
+
+			return true;
+		}
+
+		if(entity != null) {
+
+			if(Reachable.isInteractable(entity)) {
+
+				entity.interact(action);
+
+				return true;
+			}
+			else {
+				Movement.walkTo(point);
+			}
+		}
+		else {
+
+			Movement.walkTo(point);
+		}
+
+		return false;
+	}
+	public static boolean interactWith(int id, String action, WorldPoint point, EntityType type) {
+
+		SceneEntity entity;
+		switch(type) {
+			case NPC:{
+				entity = NPCs.getNearest(id);
+				break;
+			}
+			case TILE_ITEM:{
+				entity = TileItems.getNearest(id);
+				break;
+			}
+			case TILE_OBJECT:{
+				entity = TileObjects.getNearest(id);
+				break;
+			}
+			default:{
+				return false;
+			}
+		}
+
 		if(LocalPlayer.get().getInteracting() == entity && Dialog.isOpen()) {
 
 			return true;
@@ -89,7 +135,6 @@ public class Tools
 
 		return false;
 	}
-
 	public static boolean startQuest(String quest) {
 
 		if (Dialog.isViewingOptions() && getDialogueHeader().contains("Start the " + quest + " quest?")) {
@@ -108,5 +153,16 @@ public class Tools
 		}
 
 		return false;
+	}
+
+	static int animation_tick = 0;
+	public static boolean isAnimating(int delta) {
+
+		int tick_count = Static.getClient().getTickCount();
+		if(LocalPlayer.get().isAnimating()) {
+			animation_tick = tick_count;
+		}
+
+		return (tick_count - animation_tick) <= delta;
 	}
 }

@@ -18,7 +18,7 @@ public class HandleQuestComplete implements ScriptTask
     public boolean validate()
     {
         var quest_completed_x = Widgets.get(QUEST_COMPLETED);
-        return quest_completed_x != null && !quest_completed_x.isHidden();
+        return quest_completed_x != null;
     }
 
     @Override

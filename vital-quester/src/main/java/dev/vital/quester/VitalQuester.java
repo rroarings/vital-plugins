@@ -3,8 +3,11 @@ package dev.vital.quester;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
+import dev.vital.quester.quests.sheep_shearer.SheepShearer;
 import dev.vital.quester.tasks.HandleQuestComplete;
+import dev.vital.quester.tools.Tools;
 import net.runelite.api.events.ConfigButtonClicked;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
@@ -28,9 +31,21 @@ public class VitalQuester extends LoopedPlugin
 	static boolean plugin_enabled = false;
 	static List<ScriptTask> tasks = new ArrayList<>();
 
+	static boolean thread_once = false;
+	Thread t1 = new Thread(() -> {
+		if(Game.isLoggedIn()) {
+			Tools.isAnimating(1);
+		}
+		Time.sleepTick();
+	});
+
 	@Override
 	protected void startUp()
 	{
+		if(!thread_once) {
+			t1.start();
+			thread_once = true;
+		}
 		plugin_enabled = false;
 
 		tasks.clear();
@@ -38,6 +53,7 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new HandleQuestComplete(config));
 		tasks.add(new CooksAssistant(config));
 		tasks.add(new RestlessGhost(config));
+		tasks.add(new SheepShearer(config));
 	}
 
 	@Override

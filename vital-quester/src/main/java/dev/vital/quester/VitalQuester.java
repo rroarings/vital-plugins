@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
+import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.events.ConfigButtonClicked;
@@ -54,6 +55,7 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new CooksAssistant(config));
 		tasks.add(new RestlessGhost(config));
 		tasks.add(new SheepShearer(config));
+		tasks.add(new XMarksTheSpot(config));
 	}
 
 	@Override

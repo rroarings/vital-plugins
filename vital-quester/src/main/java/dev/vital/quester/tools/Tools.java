@@ -10,6 +10,7 @@ import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.widgets.Dialog;
@@ -50,15 +51,15 @@ public class Tools
 		SceneEntity entity;
 		switch(type) {
 			case NPC:{
-				entity = NPCs.getNearest(name);
+				entity = NPCs.getNearest(x -> x.hasAction(action) && x.getName().equals(name));
 				break;
 			}
 			case TILE_ITEM:{
-				entity = TileItems.getNearest(name);
+				entity = TileItems.getNearest(x -> x.hasAction(action) && x.getName().equals(name));
 				break;
 			}
 			case TILE_OBJECT:{
-				entity = TileObjects.getNearest(name);
+				entity = TileObjects.getNearest(x -> x.hasAction(action) && x.getName().equals(name));
 				break;
 			}
 			default:{
@@ -66,26 +67,22 @@ public class Tools
 			}
 		}
 
-		if(type == EntityType.NPC && ((entity != null && LocalPlayer.get().getInteracting() == entity) || (Dialog.isViewingOptions() || Dialog.canContinue()))) {
+		if(type == EntityType.NPC && ((entity != null && LocalPlayer.get().getInteracting() == entity) || (Dialog.isOpen() || Dialog.isViewingOptions() || Dialog.canContinue() || Shop.isOpen()))) {
 
 			return true;
 		}
 
-		if(entity != null) {
+		if(entity != null && Reachable.isInteractable(entity)) {
 
-			if(Reachable.isInteractable(entity)) {
+			entity.interact(action);
 
-				entity.interact(action);
-
-				return true;
-			}
-			else {
-				Movement.walkTo(point);
-			}
+			return true;
 		}
 		else {
 
-			Movement.walkTo(point);
+			if(!Movement.isWalking()) {
+				Movement.walkTo(point);
+			}
 		}
 
 		return false;
@@ -116,21 +113,17 @@ public class Tools
 			return true;
 		}
 
-		if(entity != null) {
+		if(entity != null && Reachable.isInteractable(entity)) {
 
-			if(Reachable.isInteractable(entity)) {
+			entity.interact(action);
 
-				entity.interact(action);
-
-				return true;
-			}
-			else {
-				Movement.walkTo(entity);
-			}
+			return true;
 		}
 		else {
 
-			Movement.walkTo(point);
+			if(!Movement.isWalking()) {
+				Movement.walkTo(point);
+			}
 		}
 
 		return false;

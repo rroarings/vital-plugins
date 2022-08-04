@@ -23,15 +23,9 @@ public class PickBananas implements ScriptTask
 
     VitalTask pick_bananas = new VitalTask(() ->
     {
-        if(!Tools.interactWith("Banana tree", "Pick", tree_point, Tools.EntityType.NPC)) {
-            return false;
-        }
+        Tools.interactWith("Banana tree", "Pick", tree_point, Tools.EntityType.NPC);
 
-        int count = Inventory.getCount(false, ItemID.KARAMJAN_RUM);
-        Shop.buyOne(ItemID.KARAMJAN_RUM);
-        Time.sleepTicksUntil(() -> count != Inventory.getCount(false, ItemID.KARAMJAN_RUM), 5);
-
-        return Inventory.contains(ItemID.KARAMJAN_RUM);
+        return Inventory.getCount(ItemID.BANANA) >= 10;
     });
 
     @Override
@@ -44,7 +38,7 @@ public class PickBananas implements ScriptTask
     public int execute() {
 
         if(!pick_bananas.execute()) {
-            return -5;
+            return -2;
         }
 
         return -1;

@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.pirates_treasure.tasks;
 
+import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
@@ -22,7 +23,7 @@ public class StartQuest implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Quests.getState(Quest.PIRATES_TREASURE) == QuestState.NOT_STARTED;
+        return config.currentQuest().equals(QuestList.PIRATES_TREASURE) && Quests.getState(Quest.PIRATES_TREASURE) == QuestState.NOT_STARTED;
     }
 
     @Override

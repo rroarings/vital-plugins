@@ -21,7 +21,7 @@ public class StepFive implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Inventory.contains(ItemID.TREASURE_SCROLL_23070);
+        return Inventory.contains(ItemID.ANCIENT_CASKET);
     }
 
     @Override

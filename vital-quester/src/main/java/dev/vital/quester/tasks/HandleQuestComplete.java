@@ -2,6 +2,7 @@ package dev.vital.quester.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.widgets.Widgets;
 
 import static net.runelite.api.widgets.WidgetInfo.QUEST_COMPLETED;
@@ -24,6 +25,7 @@ public class HandleQuestComplete implements ScriptTask
     @Override
     public int execute() {
 
+        Time.sleepTicks(3);
         Widgets.get(153, 16).interact("Close");
 
         return -1;

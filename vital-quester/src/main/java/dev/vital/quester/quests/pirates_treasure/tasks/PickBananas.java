@@ -23,7 +23,7 @@ public class PickBananas implements ScriptTask
 
     VitalTask pick_bananas = new VitalTask(() ->
     {
-        Tools.interactWith("Banana tree", "Pick", tree_point, Tools.EntityType.NPC);
+        Tools.interactWith("Banana Tree", "Pick", tree_point, Tools.EntityType.TILE_OBJECT);
 
         return Inventory.getCount(ItemID.BANANA) >= 10;
     });

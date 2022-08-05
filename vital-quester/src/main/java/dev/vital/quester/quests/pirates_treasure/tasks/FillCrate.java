@@ -6,41 +6,42 @@ import dev.vital.quester.VitalTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 
-public class GetJob implements ScriptTask
+public class FillCrate implements ScriptTask
 {
-    private final WorldPoint zambo_location = new WorldPoint(2928, 3144, 0);
     private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
 
     VitalQuesterConfig config;
 
-    public GetJob(VitalQuesterConfig config)
+    public FillCrate(VitalQuesterConfig config)
     {
         this.config = config;
     }
 
-    VitalTask get_job = new VitalTask(() ->
+    VitalTask fill_crate = new VitalTask(() ->
     {
-        if(!Tools.interactWith("Luthas", "Talk-to", luthas_location, Tools.EntityType.NPC)) {
-            return false;
+        if(Inventory.contains(ItemID.BANANA)) {
+            Tools.interactWith("Crate", "Fill", luthas_location, Tools.EntityType.TILE_OBJECT);
+        }
+        else {
+            Inventory.getFirst(ItemID.KARAMJAN_RUM).useOn(TileObjects.getNearest(x -> x.hasAction("Fill")));
         }
 
-        return Tools.selectOptions("Could you offer me employment on your plantation?");
+        return !Inventory.contains(ItemID.KARAMJAN_RUM);
     });
 
     @Override
     public boolean validate()
     {
-        return !get_job.taskCompleted();
+        return !fill_crate.taskCompleted();
     }
 
     @Override
     public int execute() {
 
-        if(!get_job.execute()) {
+        if(!fill_crate.execute()) {
             return -5;
         }
 

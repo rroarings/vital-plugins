@@ -67,7 +67,7 @@ public class Tools
 			}
 		}
 
-		if(type == EntityType.NPC && ((entity != null && LocalPlayer.get().getInteracting() == entity) || (Dialog.isOpen() || Dialog.isViewingOptions() || Dialog.canContinue() || Shop.isOpen()))) {
+		if(type == EntityType.NPC && entity != null && (Dialog.isOpen() || Dialog.isViewingOptions() || Dialog.canContinue() || Shop.isOpen())) {
 
 			return true;
 		}

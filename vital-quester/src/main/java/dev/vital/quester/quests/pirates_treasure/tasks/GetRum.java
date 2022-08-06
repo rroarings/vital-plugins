@@ -11,13 +11,13 @@ import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
 
-public class GetApron implements ScriptTask
+public class GetRum implements ScriptTask
 {
-    private final WorldPoint apron_point = new WorldPoint(3105, 3224, 0);
+    private final WorldPoint rum_point = new WorldPoint(3010, 3206, 0);
 
     VitalQuesterConfig config;
 
-    public GetApron(VitalQuesterConfig config)
+    public GetRum(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -25,21 +25,15 @@ public class GetApron implements ScriptTask
     @Override
     public boolean validate()
     {
-        return !Equipment.contains(ItemID.WHITE_APRON);
+        return !Inventory.contains(ItemID.KARAMJAN_RUM);
     }
 
     @Override
     public int execute() {
 
-        if(!Inventory.contains(ItemID.WHITE_APRON)) {
+        if (!Tools.interactWith("Crate", "Search", rum_point, Tools.EntityType.TILE_OBJECT)) {
 
-            if (!Tools.interactWith("White apron", "Take", apron_point, Tools.EntityType.TILE_ITEM)) {
-
-                return -5;
-            }
-        }
-        else {
-            Inventory.getFirst(ItemID.WHITE_APRON).interact("Wear");
+            return -5;
         }
 
         return -1;

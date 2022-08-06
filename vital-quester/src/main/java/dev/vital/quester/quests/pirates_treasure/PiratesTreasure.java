@@ -28,6 +28,8 @@ public class PiratesTreasure implements ScriptTask
         tasks.add(new PickBananas(config));
         tasks.add(new GetJob(config));
         tasks.add(new FillCrate(config));
+        tasks.add(new EndJob(config));
+        tasks.add(new GetApron(config));
     }
 
     @Override

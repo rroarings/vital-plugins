@@ -7,39 +7,40 @@ import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.commons.Time;
-import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
 
-public class GetApron implements ScriptTask
+public class GetJob2 implements ScriptTask
 {
-    private final WorldPoint apron_point = new WorldPoint(3105, 3224, 0);
+    private final WorldPoint wydin_point = new WorldPoint(3014, 3204, 0);
 
     VitalQuesterConfig config;
 
-    public GetApron(VitalQuesterConfig config)
+    public GetJob2(VitalQuesterConfig config)
     {
         this.config = config;
     }
 
+    VitalTask get_job2 = new VitalTask(() ->
+    {
+        if(!Tools.interactWith("Wydin", "Talk-to", wydin_point, Tools.EntityType.NPC)) {
+            return false;
+        }
+
+        return Tools.selectOptions("Can I get a job here?");
+    });
+
     @Override
     public boolean validate()
     {
-        return !Equipment.contains(ItemID.WHITE_APRON);
+        return !get_job2.taskCompleted();
     }
 
     @Override
     public int execute() {
 
-        if(!Inventory.contains(ItemID.WHITE_APRON)) {
-
-            if (!Tools.interactWith("White apron", "Take", apron_point, Tools.EntityType.TILE_ITEM)) {
-
-                return -5;
-            }
-        }
-        else {
-            Inventory.getFirst(ItemID.WHITE_APRON).interact("Wear");
+        if(!get_job2.execute()) {
+            return -5;
         }
 
         return -1;

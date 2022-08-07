@@ -26,7 +26,8 @@ public class LootChest implements ScriptTask
 
     VitalTask loot_chest = new VitalTask(() ->
     {
-       if(!Movement.isWalking()) {
+        if(!Movement.isWalking()) {
+           TileObjects.getFirstAt(1764,3858, 0,8975).interact("Chip");
            if(Movement.walkTo(rum_point)) {
                Inventory.getFirst(ItemID.CHEST_KEY).useOn(TileObjects.getNearest("Chest"));
                Time.sleepTicks(6);

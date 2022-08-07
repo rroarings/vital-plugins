@@ -65,7 +65,7 @@ public class VitalQuester extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-		if(Game.isLoggedIn())
+		if(Game.isLoggedIn() && plugin_enabled)
 		{
 			if(Dialog.canContinue()) {
 				Dialog.continueSpace();

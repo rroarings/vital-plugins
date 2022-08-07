@@ -130,7 +130,7 @@ public class Tools
 	}
 	public static boolean startQuest(String quest) {
 
-		if (Dialog.isViewingOptions() && getDialogueHeader().contains("Start the " + quest + " quest?")) {
+		if (Dialog.isViewingOptions() && getDialogueHeader().contains(quest)) {
 
 			return Dialog.chooseOption("Yes.");
 		}

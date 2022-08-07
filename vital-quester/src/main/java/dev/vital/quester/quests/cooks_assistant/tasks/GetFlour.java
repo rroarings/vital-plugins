@@ -63,12 +63,12 @@ public class GetFlour implements ScriptTask
         else if(step.equals(Steps.USE_CONTROLS)) {
             if (Tools.interactWith("Hopper controls", "Operate", hopper_point, Tools.EntityType.TILE_OBJECT)) {
                 step = Steps.GET_FLOUR;
-                return -10;
+                return -8;
             }
         }
         else if(step.equals(Steps.GET_FLOUR)) {
             if (Tools.interactWith("Flour bin", "Empty", flour_bin_point, Tools.EntityType.TILE_OBJECT)) {
-                return -5;
+                return -7;
             }
         }
         return -1;

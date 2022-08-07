@@ -9,6 +9,17 @@ public interface VitalWineConfig extends Config
 {
 
 	@ConfigItem(
+			keyName = "description",
+			name = "Description",
+			description = "Username",
+			position = 0
+	)
+	default String description()
+	{
+		return "Intended for farming wines on an iron man to be used at wintertodt";
+	}
+
+	@ConfigItem(
 			keyName = "username",
 			name = "Username",
 			description = "Username",

@@ -32,7 +32,7 @@ public class LootChest implements ScriptTask
                Inventory.getFirst(ItemID.CHEST_KEY).useOn(TileObjects.getNearest("Chest"));
                Time.sleepTicks(6);
                if(Inventory.contains(ItemID.PIRATE_MESSAGE)) {
-                   Inventory.getFirst(ItemID.CHEST_KEY).interact("Read");
+                   Inventory.getFirst(ItemID.PIRATE_MESSAGE).interact("Read");
                    return true;
                }
            }

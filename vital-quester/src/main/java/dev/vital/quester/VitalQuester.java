@@ -5,6 +5,7 @@ import com.google.inject.Provides;
 import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
 import dev.vital.quester.quests.pirates_treasure.tasks.GetJob;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
+import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
 import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
 import dev.vital.quester.tasks.HandleQuestComplete;
@@ -59,6 +60,7 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new SheepShearer(config));
 		tasks.add(new XMarksTheSpot(config));
 		tasks.add(new PiratesTreasure(config));
+		tasks.add(new RuneMysteries(config));
 	}
 
 

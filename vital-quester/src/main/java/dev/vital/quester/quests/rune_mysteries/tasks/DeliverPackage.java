@@ -1,8 +1,8 @@
 package dev.vital.quester.quests.rune_mysteries.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;
 
@@ -23,14 +23,14 @@ public class DeliverPackage implements ScriptTask
         return Vars.getBit(13725) == 0;
     }
 
+    DialogTask deliver_package = new DialogTask("Aubury", aubury_point, "I've been sent here with a package for you.");
+
     @Override
     public int execute()
     {
-        if(!Tools.interactWith("Aubury", "Talk-to", aubury_point, Tools.EntityType.NPC)) {
-            return -5;
+        if(!deliver_package.taskCompleted()) {
+            return deliver_package.execute();
         }
-
-        Tools.selectOptions("I've been sent here with a package for you.");
 
         return -1;
     }

@@ -1,13 +1,10 @@
 package dev.vital.quester.quests.rune_mysteries.tasks;
 
-import dev.vital.quester.QuestList;
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.quests.Quests;
+import net.unethicalite.api.game.Vars;
 
 public class StartQuest implements ScriptTask
 {
@@ -23,18 +20,17 @@ public class StartQuest implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.RUNE_MYSTERIES) && Quests.getState(Quest.RUNE_MYSTERIES) == QuestState.NOT_STARTED;
+        return Vars.getBit(13720) == 0;
     }
+
+    DialogTask start_quest = new DialogTask("Duke Horacio", duke_point, "Have you any quests for me?");
 
     @Override
     public int execute() {
 
-        if (!Tools.interactWith("Duke Horacio", "Talk-to", duke_point, Tools.EntityType.NPC)) {
-            return -5;
+        if(!start_quest.taskCompleted()) {
+            return start_quest.execute();
         }
-
-        Tools.startQuest(Quest.RUNE_MYSTERIES.getName());
-        Tools.selectOptions("Have you any quests for me?");
 
         return -1;
     }

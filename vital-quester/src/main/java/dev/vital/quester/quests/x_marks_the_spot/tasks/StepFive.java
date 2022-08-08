@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.x_marks_the_spot.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
@@ -24,11 +25,14 @@ public class StepFive implements ScriptTask
         return Inventory.contains(ItemID.ANCIENT_CASKET);
     }
 
+    DialogTask talk_to_veos = new DialogTask("Veos",  veos_point_2,
+            (String)null);
+
     @Override
     public int execute() {
 
-       if(!Tools.interactWith(8484, "Talk-to", veos_point_2, Tools.EntityType.NPC)) {
-           return -5;
+       if(!talk_to_veos.taskCompleted()) {
+           return talk_to_veos.execute();
        }
 
         return -1;

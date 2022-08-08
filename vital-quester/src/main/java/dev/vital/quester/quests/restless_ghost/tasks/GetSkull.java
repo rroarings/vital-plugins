@@ -28,14 +28,18 @@ public class GetSkull implements ScriptTask
 
     @Override
     public int execute() {
-        if (!Tools.interactWith("Altar", "Search", altar_point, Tools.EntityType.TILE_OBJECT)) {
-            return -5;
-        }
 
-        //try to avoid the skeleton
-        Time.sleepTicksUntil(() -> Inventory.contains(ItemID.GHOSTS_SKULL), 20);
-        if (Inventory.contains(ItemID.GHOSTS_SKULL)) {
-            Movement.walk(altar_point);
+        switch(Tools.interactWith("Altar", "Search", altar_point, Tools.EntityType.TILE_OBJECT)) {
+            case -5: {
+                //try to avoid the skeleton
+                Time.sleepTicksUntil(() -> Inventory.contains(ItemID.GHOSTS_SKULL), 20);
+                if (Inventory.contains(ItemID.GHOSTS_SKULL)) {
+                    Movement.walk(altar_point);
+                }
+            }
+            default: {
+                break;
+            }
         }
 
         return -1;

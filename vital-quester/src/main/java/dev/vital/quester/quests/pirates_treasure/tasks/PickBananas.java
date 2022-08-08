@@ -2,13 +2,11 @@ package dev.vital.quester.quests.pirates_treasure.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 
 public class PickBananas implements ScriptTask
 {
@@ -21,7 +19,7 @@ public class PickBananas implements ScriptTask
         this.config = config;
     }
 
-    VitalTask pick_bananas = new VitalTask(() ->
+    BasicTask pick_bananas = new BasicTask(() ->
     {
         Tools.interactWith("Banana Tree", "Pick", tree_point, Tools.EntityType.TILE_OBJECT);
 

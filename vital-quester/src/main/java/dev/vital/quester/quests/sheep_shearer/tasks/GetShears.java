@@ -27,10 +27,6 @@ public class GetShears implements ScriptTask
     @Override
     public int execute() {
 
-        if (!Tools.interactWith("Shears", "Take", farmer_fred_point, Tools.EntityType.TILE_ITEM)) {
-            return -5;
-        }
-
-        return -1;
+        return Tools.interactWith("Shears", "Take", farmer_fred_point, Tools.EntityType.TILE_ITEM);
     }
 }

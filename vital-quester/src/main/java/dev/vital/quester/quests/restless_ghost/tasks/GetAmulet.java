@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
@@ -23,14 +24,15 @@ public class GetAmulet implements ScriptTask
         return !Tools.localHas(ItemID.GHOSTSPEAK_AMULET);
     }
 
+    DialogTask talk_to_urhney = new DialogTask("Father Urhney",  father_urhney_point,
+            "Father Aereck sent me to talk to you.", "He's got a ghost haunting his graveyard.");
+
     @Override
     public int execute()
     {
-        if(Tools.interactWith("Father Urhney", "Talk-to", father_urhney_point, Tools.EntityType.NPC)) {
-            if(!Tools.selectOptions("Father Aereck sent me to talk to you.", "He's got a ghost haunting his graveyard.")) {
-                return -1;
-            }
-        }
+       if(!talk_to_urhney.taskCompleted()) {
+           return talk_to_urhney.execute();
+       }
 
         return -1;
     }

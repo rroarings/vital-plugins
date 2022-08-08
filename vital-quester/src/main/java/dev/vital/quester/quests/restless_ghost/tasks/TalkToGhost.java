@@ -2,7 +2,7 @@ package dev.vital.quester.quests.restless_ghost.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.coords.WorldPoint;
 
@@ -17,9 +17,9 @@ public class TalkToGhost implements ScriptTask
         this.config = config;
     }
 
-    VitalTask talk_to_ghost = new VitalTask(() ->
+    BasicTask talk_to_ghost = new BasicTask(() ->
     {
-        if(!Tools.interactWith("Restless ghost", "Talk-to", ghost_point, Tools.EntityType.NPC)) {
+        if(Tools.interactWith("Restless ghost", "Talk-to", ghost_point, Tools.EntityType.NPC) == -5) {
 
             return false;
         }
@@ -33,8 +33,12 @@ public class TalkToGhost implements ScriptTask
         return !talk_to_ghost.taskCompleted();
     }
 
-    VitalTask open_coffin = new VitalTask(() ->
-            Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT));
+    BasicTask open_coffin = new BasicTask(() -> {
+        if (Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT) == -5) {
+            return true;
+        }
+        return false;
+    });
 
     @Override
     public int execute()

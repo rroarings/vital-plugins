@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.rune_mysteries.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
@@ -23,11 +24,13 @@ public class DeliverNotes implements ScriptTask
         return Vars.getBit(13726) == 0;
     }
 
+    DialogTask deliver_notes = new DialogTask("Archmage Sedridor", sedridor_point, (String) null);
+
     @Override
     public int execute()
     {
-        if(!Tools.interactWith("Archmage Sedridor", "Talk-to", sedridor_point, Tools.EntityType.NPC)) {
-            return -5;
+        if(!deliver_notes.taskCompleted()) {
+            return deliver_notes.execute();
         }
 
         return -1;

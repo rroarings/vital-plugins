@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.rune_mysteries.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
@@ -25,14 +26,15 @@ public class AcceptPackage implements ScriptTask
         return Vars.getBit(13723) == 0;
     }
 
+    DialogTask accept_package = new DialogTask("Archmage Sedridor", sedridor_point,
+            "Okay, here you are.", "Go ahead.", "Yes, certainly.");
+
     @Override
     public int execute()
     {
-        if(!Tools.interactWith("Archmage Sedridor", "Talk-to", sedridor_point, Tools.EntityType.NPC)) {
-            return -5;
+        if(!accept_package.taskCompleted()) {
+            return accept_package.execute();
         }
-
-        Tools.selectOptions("Okay, here you are.", "Go ahead.", "Yes, certainly.");
 
         return -1;
     }

@@ -1,24 +1,23 @@
-package dev.vital.quester.quests.pirates_treasure.tasks;
+package dev.vital.quester.quests.enter_the_abyss.tasks;
 
 import dev.vital.quester.DialogTask;
 import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
-import net.runelite.api.ItemID;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.quests.Quests;
 
-public class TalkToFrank implements ScriptTask
+public class TalkToCromperty implements ScriptTask
 {
-    private final WorldPoint pirate_point = new WorldPoint(3054, 3253, 0);
+    private final WorldPoint cromperty_point = new WorldPoint(2681, 3324, 0);
 
     VitalQuesterConfig config;
 
-    public TalkToFrank(VitalQuesterConfig config)
+    public TalkToCromperty(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -26,17 +25,16 @@ public class TalkToFrank implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Inventory.contains(ItemID.KARAMJAN_RUM);
+        return Vars.getBit(2313) == 5;
     }
 
-    DialogTask talk_to_frank = new DialogTask("Redbeard Frank", pirate_point,
-            (String)null);
+    DialogTask talk_to_cromperty = new DialogTask("Wizard Cromperty",  cromperty_point, "Can you teleport me to the Rune Essence Mine?");
 
     @Override
     public int execute() {
 
-        if (!talk_to_frank.taskCompleted()) {
-           return talk_to_frank.execute();
+        if(!talk_to_cromperty.taskCompleted()) {
+            return talk_to_cromperty.execute();
         }
 
         return -1;

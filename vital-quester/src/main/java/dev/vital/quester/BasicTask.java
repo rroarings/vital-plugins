@@ -1,26 +1,29 @@
 package dev.vital.quester;
 
-public class VitalTask {
+public class BasicTask {
     public interface TaskFunction {
-        boolean execute();
+        int execute();
     }
     boolean task_completed;
     TaskFunction task_function;
 
-    public VitalTask(TaskFunction task_function) {
+    public BasicTask(TaskFunction task_function) {
         this.task_completed = false;
         this.task_function = task_function;
     }
 
-    public boolean execute() {
-        if (!task_completed) {
-            task_completed = this.task_function.execute();
+    public int execute() {
+
+        int sleep = this.task_function.execute();
+        if(sleep == 0) {
+            task_completed = true;
         }
 
-        return task_completed;
+        return sleep;
     }
 
     public boolean taskCompleted() {
         return this.task_completed;
     }
 }
+

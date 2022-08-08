@@ -27,7 +27,7 @@ public class GetEgg implements ScriptTask
     @Override
     public int execute()
     {
-       if(Tools.interactWith("Coop", "Search", coop_point, Tools.EntityType.TILE_OBJECT)) {
+       if(Tools.interactWith("Coop", "Search", coop_point, Tools.EntityType.TILE_OBJECT) == -5) {
            return -5;
        }
 

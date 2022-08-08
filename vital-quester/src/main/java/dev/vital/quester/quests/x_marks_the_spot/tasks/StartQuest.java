@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.x_marks_the_spot.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
@@ -25,15 +26,15 @@ public class StartQuest implements ScriptTask
         return Quests.getState(Quest.X_MARKS_THE_SPOT) == QuestState.NOT_STARTED;
     }
 
+    DialogTask talk_to_veos = new DialogTask("Veos",  veos_point,
+            "Yes,", "I'm looking for a quest.", "Okay, thanks Veos.");
+
     @Override
     public int execute() {
 
-        if (!Tools.interactWith("Veos", "Talk-to", veos_point, Tools.EntityType.NPC)) {
-            return -5;
+        if (!talk_to_veos.taskCompleted()) {
+            return talk_to_veos.execute();
         }
-
-        Tools.startQuest("X Marks the Spot");
-        Tools.selectOptions("I'm looking for a quest.", "Okay, thanks Veos.");
 
         return -1;
     }

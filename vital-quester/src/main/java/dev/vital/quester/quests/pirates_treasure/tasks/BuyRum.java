@@ -2,7 +2,7 @@ package dev.vital.quester.quests.pirates_treasure.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
@@ -21,9 +21,9 @@ public class BuyRum implements ScriptTask
         this.config = config;
     }
 
-    VitalTask buy_rum = new VitalTask(() ->
+    BasicTask buy_rum = new BasicTask(() ->
     {
-        if(!Tools.interactWith("Zambo", "Trade", zambo_location, Tools.EntityType.NPC)) {
+        if(Tools.interactWith("Zambo", "Trade", zambo_location, Tools.EntityType.NPC) == -5) {
             return false;
         }
 

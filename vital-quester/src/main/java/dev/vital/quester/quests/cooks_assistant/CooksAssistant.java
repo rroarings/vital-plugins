@@ -25,10 +25,10 @@ public class CooksAssistant implements ScriptTask
 
 		tasks.clear();
 
+		tasks.add(new TalkToCook(config));
 		tasks.add(new GetEgg(config));
 		tasks.add(new GetMilk(config));
 		tasks.add(new GetFlour(config));
-		tasks.add(new TalkToCook(config));
 	}
 
 	@Override

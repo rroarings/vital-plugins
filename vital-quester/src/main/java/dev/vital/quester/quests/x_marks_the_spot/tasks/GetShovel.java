@@ -30,7 +30,7 @@ public class GetShovel implements ScriptTask
 
         if(!Inventory.contains(ItemID.SPADE) && Inventory.getCount(true, ItemID.COINS_995) >= 3) {
 
-            if (!Tools.interactWith("Shop keeper", "Trade", shop_keeper_point, Tools.EntityType.NPC)) {
+            if (Tools.interactWith("Shop keeper", "Trade", shop_keeper_point, Tools.EntityType.NPC) == -5) {
                 return -5;
             }
 

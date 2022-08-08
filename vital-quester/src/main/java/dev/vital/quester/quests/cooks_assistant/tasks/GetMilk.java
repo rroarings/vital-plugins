@@ -2,10 +2,13 @@ package dev.vital.quester.quests.cooks_assistant.tasks;
 
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.items.Inventory;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.tools.Tools;
+import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 
 public class GetMilk implements ScriptTask
 {
@@ -25,17 +28,18 @@ public class GetMilk implements ScriptTask
         return !Inventory.contains(ItemID.BUCKET_OF_MILK);
     }
 
+
     @Override
     public int execute()
     {
         if(!Inventory.contains(ItemID.BUCKET)) {
 
-            if(Tools.interactWith("Bucket", "Take", bucket_point, Tools.EntityType.TILE_ITEM)) {
+            if(Tools.interactWith("Bucket", "Take", bucket_point, Tools.EntityType.TILE_ITEM) == -5) {
                 return -5;
             }
         }
         else {
-            if(Tools.interactWith("Dairy cow", "Milk", dairy_cow_point, Tools.EntityType.TILE_OBJECT)) {
+            if(Tools.interactWith("Dairy cow", "Milk", dairy_cow_point, Tools.EntityType.TILE_OBJECT) == -5) {
                 return -5;
             }
         }

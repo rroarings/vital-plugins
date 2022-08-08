@@ -39,7 +39,7 @@ public class TalkToCook implements ScriptTask
             }
         }
         else {
-            if (Tools.interactWith("Cook", "Talk-to", cooks_point, Tools.EntityType.NPC)) {
+            if (Tools.interactWith("Cook", "Talk-to", cooks_point, Tools.EntityType.NPC) == -5) {
                 return -5;
             }
         }

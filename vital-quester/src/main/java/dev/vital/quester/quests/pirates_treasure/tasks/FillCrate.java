@@ -2,7 +2,7 @@ package dev.vital.quester.quests.pirates_treasure.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
@@ -20,7 +20,7 @@ public class FillCrate implements ScriptTask
         this.config = config;
     }
 
-    VitalTask fill_crate = new VitalTask(() ->
+    BasicTask fill_crate = new BasicTask(() ->
     {
         if(Inventory.contains(ItemID.BANANA)) {
             Tools.interactWith("Crate", "Fill", luthas_location, Tools.EntityType.TILE_OBJECT);

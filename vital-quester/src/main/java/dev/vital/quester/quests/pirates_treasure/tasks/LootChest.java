@@ -2,15 +2,12 @@ package dev.vital.quester.quests.pirates_treasure.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
-import dev.vital.quester.tools.Tools;
+import dev.vital.quester.BasicTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.movement.Movement;
 
 public class LootChest implements ScriptTask
@@ -24,7 +21,7 @@ public class LootChest implements ScriptTask
         this.config = config;
     }
 
-    VitalTask loot_chest = new VitalTask(() ->
+    BasicTask loot_chest = new BasicTask(() ->
     {
         if(!Movement.isWalking()) {
            TileObjects.getFirstAt(1764,3858, 0,8975).interact("Chip");

@@ -5,9 +5,11 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.unethicalite.api.SceneEntity;
 import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
@@ -16,6 +18,9 @@ import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Tools
 {
@@ -46,7 +51,44 @@ public class Tools
 		return children[0].getText();
 	}
 
-	public static boolean interactWith(String name, String action, WorldPoint point, EntityType type) {
+	/*public static int pickUpItem(int id, WorldPoint point) {
+		var item = TileItems.getNearest(id);
+		if(item != null && Reachable.isInteractable(item)) {
+			item.interact("Take");
+			return -5;
+		}
+		else if(!Movement.isWalking()){
+			Movement.walkTo(point);
+		}
+
+		return -1;
+	}*/
+
+	public static int talkTo(String name, WorldPoint point, List<String> dialog) {
+
+		var entity = NPCs.getNearest(x -> x.getName().equals(name));
+		if(entity != null && Reachable.isInteractable(entity)) {
+
+			if(Dialog.isViewingOptions()) {
+				for(var option : dialog) {
+					if(Dialog.chooseOption(option)) {
+						dialog.remove(option);
+						break;
+					}
+				}
+				return -2;
+			}
+
+			entity.interact("Talk-to");
+			return -5;
+		}
+		else if(!Movement.isWalking()) {
+			Movement.walkTo(point);
+		}
+
+		return -1;
+	}
+	public static int interactWith(String name, String action, WorldPoint point, EntityType type) {
 
 		SceneEntity entity;
 		switch(type) {
@@ -63,70 +105,52 @@ public class Tools
 				break;
 			}
 			default:{
-				return false;
+				entity = null;
 			}
-		}
-
-		if(type == EntityType.NPC && entity != null && (Dialog.isOpen() || Dialog.isViewingOptions() || Dialog.canContinue() || Shop.isOpen())) {
-
-			return true;
 		}
 
 		if(entity != null && Reachable.isInteractable(entity)) {
 
 			entity.interact(action);
-
-			return true;
+			return -5;
 		}
-		else {
-
-			if(!Movement.isWalking()) {
-				Movement.walkTo(point);
-			}
+		else if(!Movement.isWalking()) {
+			Movement.walkTo(point);
 		}
 
-		return false;
+		return -1;
 	}
-	public static boolean interactWith(int id, String action, WorldPoint point, EntityType type) {
+	public static int interactWith(int id, String action, WorldPoint point, EntityType type) {
 
 		SceneEntity entity;
 		switch(type) {
 			case NPC:{
-				entity = NPCs.getNearest(id);
+				entity = NPCs.getNearest(x -> x.hasAction(action) && x.getId() == id);
 				break;
 			}
 			case TILE_ITEM:{
-				entity = TileItems.getNearest(id);
+				entity = TileItems.getNearest(x -> x.hasAction(action) && x.getId() == id);
 				break;
 			}
 			case TILE_OBJECT:{
-				entity = TileObjects.getNearest(id);
+				entity = TileObjects.getNearest(x -> x.hasAction(action) && x.getId() == id);
 				break;
 			}
 			default:{
-				return false;
+				entity = null;
 			}
-		}
-
-		if(LocalPlayer.get().getInteracting() == entity && Dialog.isOpen()) {
-
-			return true;
 		}
 
 		if(entity != null && Reachable.isInteractable(entity)) {
 
 			entity.interact(action);
-
-			return true;
+			return -5;
 		}
-		else {
-
-			if(!Movement.isWalking()) {
-				Movement.walkTo(point);
-			}
+		else if(!Movement.isWalking()) {
+			Movement.walkTo(point);
 		}
 
-		return false;
+		return -1;
 	}
 	public static boolean startQuest(String quest) {
 

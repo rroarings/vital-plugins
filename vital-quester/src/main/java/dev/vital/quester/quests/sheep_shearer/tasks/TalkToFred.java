@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.sheep_shearer.tasks;
 
+import dev.vital.quester.DialogTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
@@ -27,16 +28,16 @@ public class TalkToFred implements ScriptTask
         return Inventory.getCount(false, ItemID.BALL_OF_WOOL) >= 20;
     }
 
+    DialogTask talk_to_fred = new DialogTask("Fred the Farmer",  farmer_fred_point,
+            "yes.", "I'm looking for a quest.", "Yes, okay. I can do that.");
+
     @Override
     public int execute() {
 
-        if (!Tools.interactWith("Fred the Farmer", "Talk-to", farmer_fred_point, Tools.EntityType.NPC)) {
+        if (!talk_to_fred.taskCompleted()) {
 
-            return -5;
+            return talk_to_fred.execute();
         }
-
-        Tools.startQuest("Sheep Shearer");
-        Tools.selectOptions("I'm looking for a quest.", "Yes, okay. I can do that.");
 
         return -1;
     }

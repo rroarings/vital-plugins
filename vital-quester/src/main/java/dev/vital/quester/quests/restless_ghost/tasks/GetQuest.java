@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
+import dev.vital.quester.DialogTask;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;
@@ -10,7 +11,7 @@ import dev.vital.quester.tools.Tools;
 
 public class GetQuest implements ScriptTask
 {
-    private final WorldPoint father_point = new WorldPoint(3240, 3206, 0);
+    private final WorldPoint father_aereck_point = new WorldPoint(3240, 3206, 0);
 
     VitalQuesterConfig config;
 
@@ -25,16 +26,15 @@ public class GetQuest implements ScriptTask
         return Quests.getState(Quest.THE_RESTLESS_GHOST) == QuestState.NOT_STARTED;
     }
 
+    DialogTask talk_to_aereck = new DialogTask("Father Urhney",  father_aereck_point,
+            "Father Aereck sent me to talk to you.", "He's got a ghost haunting his graveyard.");
+
     @Override
     public int execute() {
 
-        if (!Tools.interactWith("Father Aereck", "Talk-to", father_point, Tools.EntityType.NPC)) {
-
-            return -5;
+        if (!talk_to_aereck.taskCompleted()) {
+           return talk_to_aereck.execute();
         }
-
-        Tools.startQuest("The Restless Ghost");
-        Tools.selectOptions("I'm looking for a quest!");
 
         return -1;
     }

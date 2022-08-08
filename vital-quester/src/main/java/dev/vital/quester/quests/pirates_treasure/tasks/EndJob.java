@@ -2,7 +2,7 @@ package dev.vital.quester.quests.pirates_treasure.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.coords.WorldPoint;
 
@@ -17,9 +17,9 @@ public class EndJob implements ScriptTask
         this.config = config;
     }
 
-    VitalTask end_job = new VitalTask(() ->
+    BasicTask end_job = new BasicTask(() ->
     {
-        if(!Tools.interactWith("Luthas", "Talk-to", luthas_location, Tools.EntityType.NPC)) {
+        if(Tools.interactWith("Luthas", "Talk-to", luthas_location, Tools.EntityType.NPC) == -5) {
             return false;
         }
 

@@ -2,10 +2,11 @@ package dev.vital.quester.quests.sheep_shearer.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Inventory;
 
 public class ShearSheep implements ScriptTask
@@ -19,9 +20,14 @@ public class ShearSheep implements ScriptTask
         this.config = config;
     }
 
-    VitalTask sheer_sheap = new VitalTask(() ->
+    BasicTask sheer_sheap = new BasicTask(() ->
     {
-        if (!Tools.interactWith(2693, "Shear", farmer_fred_point, Tools.EntityType.TILE_ITEM)) {
+        if(Inventory.getCount(true, ItemID.WOOL) >= 20) {
+
+        }
+        else {
+            Tools.interactWith(2693, "Shear", farmer_fred_point, Tools.EntityType.TILE_OBJECT);
+            Time.sleepTicks(5);
             return false;
         }
 

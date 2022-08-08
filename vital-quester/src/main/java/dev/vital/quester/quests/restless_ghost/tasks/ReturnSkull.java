@@ -2,7 +2,7 @@ package dev.vital.quester.quests.restless_ghost.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.VitalTask;
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
@@ -25,8 +25,12 @@ public class ReturnSkull implements ScriptTask
         return Inventory.contains(ItemID.GHOSTS_SKULL);
     }
 
-    VitalTask open_coffin = new VitalTask(() ->
-            Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT));
+    BasicTask open_coffin = new BasicTask(() -> {
+
+        Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT);
+
+        return false;
+    });
 
     @Override
     public int execute()

@@ -40,15 +40,22 @@ public class GetFlour implements ScriptTask
     ItemTask get_pot = new ItemTask(ItemID.POT, 1, false, pot_point);
     ObjectItemTask get_wheat = new ObjectItemTask(ItemID.GRAIN, 1, false, "Pick", pot_point);
 
+    int initiali_grain_count = -1;
     BasicTask use_hopper = new BasicTask(() ->
     {
-        if(Vars.getVarcInt(57) == 89707) {
-            if(Inventory.contains(ItemID.GRAIN)) {
+        int count = Inventory.getCount(false, ItemID.GRAIN);
+        if(initiali_grain_count == -1 && count > 0) {
+            initiali_grain_count = count;
+        }
+
+        if(initiali_grain_count != -1) {
+
+            if (initiali_grain_count != Inventory.getCount(false, ItemID.GRAIN)) {
+                return 0;
+            }
+            else {
                 return Tools.interactWith(24961, "Fill", hopper_point, Tools.EntityType.TILE_OBJECT);
             }
-        }
-        else {
-            return 0;
         }
 
         return -1;
@@ -67,30 +74,7 @@ public class GetFlour implements ScriptTask
         else if(!use_hopper.taskCompleted()) {
             return use_hopper.execute();
         }
-
-        if(!Inventory.contains(ItemID.POT)) {
-
-            if(Tools.interactWith("Pot", "Take", pot_point, Tools.EntityType.TILE_ITEM) == -5) {
-                return -5;
-            }
-
-            return -1;
-        }
-        else if(step.equals(Steps.GET_GRAIN)) {
-            if(Tools.interactWith("Wheat", "Pick", grain_point, Tools.EntityType.TILE_OBJECT) == -5) {
-                step = Steps.USE_HOPPER;
-                return -5;
-            }
-        }
-        else if(step.equals(Steps.USE_HOPPER)) {
-            if(Inventory.contains(ItemID.GRAIN)) {
-                if (Tools.interactWith("Hopper", "Fill", hopper_point, Tools.EntityType.TILE_OBJECT) == -5) {
-                    step = Steps.USE_CONTROLS;
-                    return -6;
-                }
-            }
-        }
-        else if(step.equals(Steps.USE_CONTROLS)) {
+        if(step.equals(Steps.USE_CONTROLS)) {
             if (Tools.interactWith("Hopper controls", "Operate", hopper_point, Tools.EntityType.TILE_OBJECT) == -5) {
                 step = Steps.GET_FLOUR;
                 return -8;

@@ -32,7 +32,7 @@ public class GoBank implements ScriptTask
 			WidgetInfo.BANK_PIN_3, WidgetInfo.BANK_PIN_4, WidgetInfo.BANK_PIN_5, WidgetInfo.BANK_PIN_6,
 			WidgetInfo.BANK_PIN_7, WidgetInfo.BANK_PIN_8, WidgetInfo.BANK_PIN_9, WidgetInfo.BANK_PIN_10);
 
-	List<WidgetInfo> display_number_widgets = Arrays.asList(WidgetInfo.BANK_PIN_FIRST_ENTERED,
+	List<WidgetInfo> display_number_widgets = Arrays.asList(WidgetInfo.BANK_PIN_FIRST _ENTERED,
 			WidgetInfo.BANK_PIN_SECOND_ENTERED, WidgetInfo.BANK_PIN_THIRD_ENTERED, WidgetInfo.BANK_PIN_FOURTH_ENTERED);
 
 	VitalWineConfig config;

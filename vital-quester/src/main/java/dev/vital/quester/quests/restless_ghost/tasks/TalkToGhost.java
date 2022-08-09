@@ -21,10 +21,12 @@ public class TalkToGhost implements ScriptTask
     {
         if(Tools.interactWith("Restless ghost", "Talk-to", ghost_point, Tools.EntityType.NPC) == -5) {
 
-            return false;
+            if(Tools.selectOptions("Yep, now tell me what the problem is.")) {
+                return 0;
+            }
         }
 
-       return Tools.selectOptions("Yep, now tell me what the problem is.");
+       return -1;
     });
 
     @Override
@@ -35,9 +37,9 @@ public class TalkToGhost implements ScriptTask
 
     BasicTask open_coffin = new BasicTask(() -> {
         if (Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT) == -5) {
-            return true;
+            return 0;
         }
-        return false;
+        return -5;
     });
 
     @Override

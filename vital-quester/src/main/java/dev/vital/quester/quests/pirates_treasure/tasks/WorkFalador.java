@@ -33,12 +33,12 @@ public class WorkFalador implements ScriptTask
             if(Movement.walkTo(2999,3383, 0)) {
                 if(LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999,3383, 0))) {
                     Inventory.getFirst(ItemID.SPADE).interact("Dig");
-                    return true;
+                    return 0;
                 }
             }
         }
 
-        return false;
+        return -1;
     });
     BasicTask dig2 = new BasicTask(() ->
     {
@@ -46,24 +46,24 @@ public class WorkFalador implements ScriptTask
             if(Movement.walkTo(2999,3383, 0)) {
                 if(LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999,3383, 0))) {
                     Inventory.getFirst(ItemID.SPADE).interact("Dig");
-                    return true;
+                    return 0;
                 }
             }
         }
 
-        return false;
+        return -1;
     });
     BasicTask wait = new BasicTask(() ->
     {
         if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3005, 3383, 0))) {
             Time.sleepTicks(6);
-            return true;
+            return 0;
         }
         else {
             Movement.walkTo(3005, 3383, 0);
         }
 
-        return false;
+        return -1;
     });
 
     @Override

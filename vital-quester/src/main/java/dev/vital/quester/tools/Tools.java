@@ -9,12 +9,14 @@ import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
+import net.unethicalite.api.quests.QuestVarPlayer;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
@@ -181,5 +183,47 @@ public class Tools
 		}
 
 		return (tick_count - animation_tick) <= delta;
+	}
+
+	public static int purchaseFrom(String name, WorldPoint point, int id, int amount, boolean stack) {
+
+		int current_amount = Inventory.getCount(stack, id);
+		if(current_amount == amount) {
+			return 0;
+		}
+
+		if(Shop.isOpen()) {
+
+			int amount_needed = amount - current_amount;
+			if(amount_needed >= 50) {
+				Shop.buyFifty(id);
+			}
+			else if(amount_needed >= 10) {
+				Shop.buyTen(id);
+			}
+			else if(amount_needed >= 5) {
+				Shop.buyFifty(id);
+			}
+			else if(amount_needed >= 1) {
+				Shop.buyOne(id);
+			}
+
+			return -2;
+		}
+
+		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
+		if(shop != null && Reachable.isInteractable(shop)) {
+			shop.interact("Trade");
+			return -5;
+		}
+		else if(!Movement.isWalking()) {
+			Movement.walkTo(point);
+		}
+
+		return -1;
+	}
+
+	public static int getQuestProgress(QuestVarPlayer quest) {
+		return Vars.getVarp(quest.getId());
 	}
 }

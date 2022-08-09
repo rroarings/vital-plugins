@@ -30,12 +30,12 @@ public class LootChest implements ScriptTask
                Time.sleepTicks(6);
                if(Inventory.contains(ItemID.PIRATE_MESSAGE)) {
                    Inventory.getFirst(ItemID.PIRATE_MESSAGE).interact("Read");
-                   return true;
+                   return 0;
                }
            }
        }
 
-        return false;
+        return -1;
     });
 
     @Override
@@ -47,11 +47,6 @@ public class LootChest implements ScriptTask
     @Override
     public int execute() {
 
-        if (!loot_chest.execute()) {
-
-            return -5;
-        }
-
-        return -1;
+        return loot_chest.execute();
     }
 }

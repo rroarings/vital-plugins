@@ -45,6 +45,7 @@ public class DialogTask {
             if(this.has_opened && (!Dialog.isOpen() && !Dialog.isViewingOptions() && !Dialog.canContinue())) {
                 return true;
             }
+            return false;
         }
         else {
             return this.dialog_options.isEmpty();

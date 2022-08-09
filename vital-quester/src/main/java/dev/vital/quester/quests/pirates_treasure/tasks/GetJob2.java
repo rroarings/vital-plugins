@@ -20,10 +20,13 @@ public class GetJob2 implements ScriptTask
     BasicTask get_job2 = new BasicTask(() ->
     {
         if(Tools.interactWith("Wydin", "Talk-to", wydin_point, Tools.EntityType.NPC) == -5) {
-            return false;
+            return -5;
         }
 
-        return Tools.selectOptions("Can I get a job here?");
+        if(Tools.selectOptions("Can I get a job here?")) {
+            return 0;
+        }
+        return -1;
     });
 
     @Override
@@ -35,10 +38,6 @@ public class GetJob2 implements ScriptTask
     @Override
     public int execute() {
 
-        if(!get_job2.execute()) {
-            return -5;
-        }
-
-        return -1;
+        return get_job2.execute();
     }
 }

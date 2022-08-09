@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.pirates_treasure.tasks;
 
+import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.BasicTask;
@@ -17,26 +18,19 @@ public class EndJob implements ScriptTask
         this.config = config;
     }
 
-    BasicTask end_job = new BasicTask(() ->
-    {
-        if(Tools.interactWith("Luthas", "Talk-to", luthas_location, Tools.EntityType.NPC) == -5) {
-            return false;
-        }
-
-        return true;
-    });
+    DialogTask talk_to_luthus = new DialogTask("Luthas", luthas_location, (String)null);
 
     @Override
     public boolean validate()
     {
-        return !end_job.taskCompleted();
+        return !talk_to_luthus.taskCompleted();
     }
 
     @Override
     public int execute() {
 
-        if(!end_job.execute()) {
-            return -5;
+        if(!talk_to_luthus.taskCompleted()) {
+            return talk_to_luthus.execute();
         }
 
         return -1;

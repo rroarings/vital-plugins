@@ -27,18 +27,21 @@ public class ReturnSkull implements ScriptTask
 
     BasicTask open_coffin = new BasicTask(() -> {
 
-        Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT);
+        if(Tools.interactWith("Coffin", "Open", ghost_point, Tools.EntityType.TILE_OBJECT) == -5) {
+            return 0;
+        }
 
-        return false;
+        return -5;
     });
 
     @Override
     public int execute()
     {
-        if(open_coffin.execute()) {
-            Tools.interactWith("Coffin", "Search", ghost_point, Tools.EntityType.TILE_OBJECT);
+        if(!open_coffin.taskCompleted()) {
+            return open_coffin.execute();
         }
-
-        return -1;
+        else {
+            return Tools.interactWith("Coffin", "Search", ghost_point, Tools.EntityType.TILE_OBJECT);
+        }
     }
 }

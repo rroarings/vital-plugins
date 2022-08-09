@@ -61,6 +61,25 @@ public class GetFlour implements ScriptTask
         return -1;
     });
 
+    BasicTask use_controls = new BasicTask(() ->
+    {
+        if(Vars.getBit(4920) < 1) {
+            return Tools.interactWith(24964, "Operate", hopper_point, Tools.EntityType.TILE_OBJECT);
+        }
+        else {
+            return 0;
+        }
+    });
+
+    BasicTask get_flour = new BasicTask(() ->
+    {
+        if(Vars.getBit(4920) > 0) {
+            return Tools.interactWith("Flour bin", "Empty", flour_bin_point, Tools.EntityType.TILE_OBJECT);
+        }
+        else {
+            return 0;
+        }
+    });
     @Override
     public int execute()
     {
@@ -74,17 +93,10 @@ public class GetFlour implements ScriptTask
         else if(!use_hopper.taskCompleted()) {
             return use_hopper.execute();
         }
-        if(step.equals(Steps.USE_CONTROLS)) {
-            if (Tools.interactWith("Hopper controls", "Operate", hopper_point, Tools.EntityType.TILE_OBJECT) == -5) {
-                step = Steps.GET_FLOUR;
-                return -8;
-            }
+        else if(!use_controls.taskCompleted()) {
+            return use_controls.execute();
         }
-        else if(step.equals(Steps.GET_FLOUR)) {
-            if (Tools.interactWith("Flour bin", "Empty", flour_bin_point, Tools.EntityType.TILE_OBJECT) == -5) {
-                return -7;
-            }
-        }
+
         return -1;
     }
 }

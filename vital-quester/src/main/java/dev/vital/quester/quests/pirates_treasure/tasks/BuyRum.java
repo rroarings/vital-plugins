@@ -23,15 +23,7 @@ public class BuyRum implements ScriptTask
 
     BasicTask buy_rum = new BasicTask(() ->
     {
-        if(Tools.interactWith("Zambo", "Trade", zambo_location, Tools.EntityType.NPC) == -5) {
-            return false;
-        }
-
-        int count = Inventory.getCount(false, ItemID.KARAMJAN_RUM);
-        Shop.buyOne(ItemID.KARAMJAN_RUM);
-        Time.sleepTicksUntil(() -> count != Inventory.getCount(false, ItemID.KARAMJAN_RUM), 5);
-
-        return Inventory.contains(ItemID.KARAMJAN_RUM);
+        return Tools.purchaseFrom("Zambo", zambo_location, ItemID.KARAMJAN_RUM, 1, false);
     });
 
     @Override
@@ -43,8 +35,8 @@ public class BuyRum implements ScriptTask
     @Override
     public int execute() {
 
-       if(!buy_rum.execute()) {
-           return -5;
+       if(!buy_rum.taskCompleted()) {
+           return buy_rum.execute();
        }
 
         return -1;

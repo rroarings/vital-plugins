@@ -23,7 +23,10 @@ public class PickBananas implements ScriptTask
     {
         Tools.interactWith("Banana Tree", "Pick", tree_point, Tools.EntityType.TILE_OBJECT);
 
-        return Inventory.getCount(ItemID.BANANA) >= 10;
+        if(Inventory.getCount(ItemID.BANANA) >= 10) {
+            return 0;
+        }
+        return -2;
     });
 
     @Override
@@ -35,10 +38,6 @@ public class PickBananas implements ScriptTask
     @Override
     public int execute() {
 
-        if(!pick_bananas.execute()) {
-            return -2;
-        }
-
-        return -1;
+        return pick_bananas.execute();
     }
 }

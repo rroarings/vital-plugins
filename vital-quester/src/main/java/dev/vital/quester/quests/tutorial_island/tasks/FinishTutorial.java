@@ -2,16 +2,15 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.*;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenSettings implements ScriptTask
+public class FinishTutorial implements ScriptTask
 {
-    private final WorldPoint gielinor_guide_point = new WorldPoint(3094, 3107, 0);
+    private final WorldPoint magic_instructor_point = new WorldPoint(3140, 3087, 0);
 
     VitalQuesterConfig config;
 
-    public OpenSettings(VitalQuesterConfig config)
+    public FinishTutorial(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -23,20 +22,21 @@ public class OpenSettings implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("Please click on the flashing spanner icon found at the bottom right of your screen.");
+                return widget_child.getText().contains("You're nearly finished with the tutorial");
             }
         }
         return false;
     }
 
+    DialogTask talk_to_magic_instructor = new DialogTask("Magic Instructor", magic_instructor_point, "Yes.", "No, I'm not planning to do that.");
+
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,50);
-        if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
+        if(!talk_to_magic_instructor.taskCompleted()) {
+            return talk_to_magic_instructor.execute();
         }
 
-        return -2;
+        return -1;
     }
 }

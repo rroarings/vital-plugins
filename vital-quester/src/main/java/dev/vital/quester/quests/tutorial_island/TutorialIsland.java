@@ -6,6 +6,7 @@ import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.x_marks_the_spot.tasks.*;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
+import net.unethicalite.api.game.GameSettings;
 import net.unethicalite.api.quests.Quests;
 
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ public class TutorialIsland implements ScriptTask
 
     @Override
     public int execute() {
+
+        if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
+            GameSettings.Display.setMode(GameSettings.Display.FIXED);
+            return -5;
+        }
 
         for (ScriptTask task : tasks)
         {

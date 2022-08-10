@@ -1,14 +1,15 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import net.unethicalite.api.input.Mouse;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenInventory implements ScriptTask
+public class LeaveRatCave implements ScriptTask
 {
     VitalQuesterConfig config;
 
-    public OpenInventory(VitalQuesterConfig config)
+    public LeaveRatCave(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -20,7 +21,7 @@ public class OpenInventory implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("To view the item you've been given,");
+                return widget_child.getText().contains("You have completed the tasks here");
             }
         }
         return false;
@@ -29,11 +30,8 @@ public class OpenInventory implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,65);
-        if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
-        }
+        TileObjects.getNearest("Ladder").interact("Climb-up");
 
-        return -2;
+        return -5;
     }
 }

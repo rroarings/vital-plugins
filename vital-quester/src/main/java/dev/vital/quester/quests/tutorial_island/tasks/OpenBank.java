@@ -1,14 +1,15 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import net.unethicalite.api.input.Mouse;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenInventory implements ScriptTask
+public class OpenBank implements ScriptTask
 {
     VitalQuesterConfig config;
 
-    public OpenInventory(VitalQuesterConfig config)
+    public OpenBank(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -20,7 +21,7 @@ public class OpenInventory implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("To view the item you've been given,");
+                return widget_child.getText().contains("Follow the path and you will come to the front");
             }
         }
         return false;
@@ -29,11 +30,8 @@ public class OpenInventory implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,65);
-        if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
-        }
+        TileObjects.getNearest("Bank booth").interact("Use");
 
-        return -2;
+        return -5;
     }
 }

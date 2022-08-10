@@ -1,14 +1,16 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import net.unethicalite.api.input.Mouse;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenInventory implements ScriptTask
+public class OpenChefDoor implements ScriptTask
 {
     VitalQuesterConfig config;
 
-    public OpenInventory(VitalQuesterConfig config)
+    public OpenChefDoor(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -20,7 +22,7 @@ public class OpenInventory implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("To view the item you've been given,");
+                return widget_child.getText().contains("Follow the path until you get to the door");
             }
         }
         return false;
@@ -29,11 +31,8 @@ public class OpenInventory implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,65);
-        if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
-        }
+        TileObjects.getFirstAt(new WorldPoint(3079, 3084, 0), "Door").interact("Open");
 
-        return -2;
+        return -5;
     }
 }

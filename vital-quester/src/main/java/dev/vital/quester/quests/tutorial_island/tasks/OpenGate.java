@@ -2,14 +2,17 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import net.unethicalite.api.input.Mouse;
+import dev.vital.quester.tools.Tools;
+import net.runelite.api.ItemID;
+import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenStats implements ScriptTask
+public class OpenGate implements ScriptTask
 {
     VitalQuesterConfig config;
 
-    public OpenStats(VitalQuesterConfig config)
+    public OpenGate(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -21,7 +24,7 @@ public class OpenStats implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("Click on the flashing bar graph icon");
+                return widget_child.getText().contains("Well done, you've just cooked");
             }
         }
         return false;
@@ -30,11 +33,8 @@ public class OpenStats implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,63);
-        if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
-        }
+        TileObjects.getNearest("Gate").interact("Open");
 
-        return -2;
+        return -5;
     }
 }

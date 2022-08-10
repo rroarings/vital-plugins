@@ -2,16 +2,15 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.*;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenSettings implements ScriptTask
+public class TalkToCombatInstructor implements ScriptTask
 {
-    private final WorldPoint gielinor_guide_point = new WorldPoint(3094, 3107, 0);
+    private final WorldPoint combat_instructor_point = new WorldPoint(3106, 9508, 0);
 
     VitalQuesterConfig config;
 
-    public OpenSettings(VitalQuesterConfig config)
+    public TalkToCombatInstructor(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -23,20 +22,22 @@ public class OpenSettings implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("Please click on the flashing spanner icon found at the bottom right of your screen.");
+                return widget_child.getText().contains("In this area you will find out about melee");
             }
         }
         return false;
     }
 
+    DialogTask talk_to_combat_instructor = new DialogTask("Combat Instructor", combat_instructor_point, (String)null);
+
+
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,50);
-        if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
+        if(!talk_to_combat_instructor.taskCompleted()) {
+            return talk_to_combat_instructor.execute();
         }
 
-        return -2;
+        return -1;
     }
 }

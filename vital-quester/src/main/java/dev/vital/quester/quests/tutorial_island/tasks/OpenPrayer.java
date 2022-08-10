@@ -4,11 +4,11 @@ import dev.vital.quester.*;
 import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
-public class OpenInventory implements ScriptTask
+public class OpenPrayer implements ScriptTask
 {
     VitalQuesterConfig config;
 
-    public OpenInventory(VitalQuesterConfig config)
+    public OpenPrayer(VitalQuesterConfig config)
     {
         this.config = config;
     }
@@ -20,7 +20,7 @@ public class OpenInventory implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("To view the item you've been given,");
+                return widget_child.getText().contains("Click on the flashing icon to open the Prayer menu");
             }
         }
         return false;
@@ -29,7 +29,7 @@ public class OpenInventory implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,65);
+        var widget = Widgets.get(548,67);
         if(widget != null) {
             Mouse.click(widget.getClickPoint().getAwtPoint(), true);
         }

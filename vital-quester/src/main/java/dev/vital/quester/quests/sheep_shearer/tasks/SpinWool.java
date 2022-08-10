@@ -24,14 +24,16 @@ public class SpinWool implements ScriptTask
     {
         if(!Tools.isAnimating(5)) {
             if (!Production.isOpen()) {
-                Tools.interactWith("Spinning wheel", "Spin", spinning_wheel_point, Tools.EntityType.TILE_OBJECT);
-                return false;
+                return Tools.interactWith("Spinning wheel", "Spin", spinning_wheel_point, Tools.EntityType.TILE_OBJECT);
             }
 
             Production.chooseOption(1);
         }
 
-        return Inventory.getCount(false, ItemID.BALL_OF_WOOL) >= 20;
+        if(Inventory.getCount(false, ItemID.BALL_OF_WOOL) == 20) {
+            return 0;
+        }
+        return -1;
     });
 
     @Override
@@ -43,8 +45,8 @@ public class SpinWool implements ScriptTask
     @Override
     public int execute() {
 
-        if(!spin_wool.execute()) {
-            return -5;
+        if(!spin_wool.taskCompleted()) {
+            return spin_wool.execute();
         }
 
         return -1;

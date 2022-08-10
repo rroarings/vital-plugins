@@ -1,13 +1,10 @@
-package dev.vital.quester.quests.x_marks_the_spot;
+package dev.vital.quester.quests.tutorial_island;
 
 import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.x_marks_the_spot.tasks.*;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
 import net.unethicalite.api.game.GameSettings;
-import net.unethicalite.api.quests.Quests;
 
 import java.util.ArrayList;
 import java.util.List;

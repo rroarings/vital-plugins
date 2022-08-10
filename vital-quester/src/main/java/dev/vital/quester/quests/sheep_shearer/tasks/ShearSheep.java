@@ -22,16 +22,12 @@ public class ShearSheep implements ScriptTask
 
     BasicTask sheer_sheap = new BasicTask(() ->
     {
-        if(Inventory.getCount(true, ItemID.WOOL) >= 20) {
-
+        if(!Inventory.contains(20, ItemID.WOOL)) {
+            return Tools.interactWith(2693, "Shear", farmer_fred_point, Tools.EntityType.TILE_OBJECT);
         }
         else {
-            Tools.interactWith(2693, "Shear", farmer_fred_point, Tools.EntityType.TILE_OBJECT);
-            Time.sleepTicks(5);
-            return false;
+            return 0;
         }
-
-        return Inventory.contains(20, ItemID.WOOL);
     });
 
     @Override
@@ -43,9 +39,9 @@ public class ShearSheep implements ScriptTask
     @Override
     public int execute() {
 
-        if(!sheer_sheap.execute()) {
+        if(!sheer_sheap.taskCompleted()) {
 
-            return -3;
+            return sheer_sheap.execute();
         }
 
         return -1;

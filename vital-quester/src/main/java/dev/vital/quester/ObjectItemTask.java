@@ -8,30 +8,30 @@ import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 
 public class ObjectItemTask {
-    public interface TaskFunction {
-        int execute();
-    }
 
     boolean task_completed;
-    int id;
+    int object_id;
+    int item_id;
     int quantity;
     boolean stack;
     String action;
     WorldPoint point;
     WorldPoint exact_point;
 
-    public ObjectItemTask(int id, int quantity, boolean stack, String action, WorldPoint point) {
+    public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point) {
         this.task_completed = false;
-        this.id = id;
+        this.object_id = object_id;
+        this.item_id = item_id;
         this.quantity = quantity;
         this.stack = stack;
         this.action = action;
         this.point = point;
         this.exact_point = null;
     }
-    public ObjectItemTask(int id, int quantity, boolean stack, String action, WorldPoint point, WorldPoint exact_point) {
+    public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point, WorldPoint exact_point) {
         this.task_completed = false;
-        this.id = id;
+        this.object_id = object_id;
+        this.item_id = item_id;
         this.quantity = quantity;
         this.stack = stack;
         this.action = action;
@@ -40,12 +40,17 @@ public class ObjectItemTask {
     }
     public int execute() {
 
+        if(Inventory.getCount(this.stack, this.item_id) == this.quantity) {
+            this.task_completed = true;
+            return -1;
+        }
+
         SceneEntity entity;
         if(this.exact_point == null) {
-            entity = TileObjects.getNearest(this.id);
+            entity = TileObjects.getNearest(this.object_id);
         }
         else {
-            entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.id);
+            entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);
         }
 
         if(entity != null && Reachable.isInteractable(entity)) {
@@ -60,6 +65,6 @@ public class ObjectItemTask {
     }
 
     public boolean taskCompleted() {
-        return Inventory.getCount(this.stack, this.id) == this.quantity;
+        return task_completed;
     }
 }

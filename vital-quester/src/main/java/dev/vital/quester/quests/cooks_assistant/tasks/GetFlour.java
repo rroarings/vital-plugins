@@ -4,25 +4,15 @@ import dev.vital.quester.*;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 
 public class GetFlour implements ScriptTask
 {
-    public enum Steps {
-        GET_GRAIN,
-        USE_HOPPER,
-        USE_CONTROLS,
-        GET_FLOUR
-    }
-    Steps step = Steps.GET_GRAIN;
     private final WorldPoint pot_point = new WorldPoint(3209, 3213, 0);
     private final WorldPoint grain_point = new WorldPoint(3162, 3291, 0);
     private final WorldPoint hopper_point = new WorldPoint(3165, 3307, 2);
     private final WorldPoint flour_bin_point = new WorldPoint(3165, 3306, 0);
-
 
     VitalQuesterConfig config;
 
@@ -38,7 +28,7 @@ public class GetFlour implements ScriptTask
     }
 
     ItemTask get_pot = new ItemTask(ItemID.POT, 1, false, pot_point);
-    ObjectItemTask get_wheat = new ObjectItemTask(ItemID.GRAIN, 1, false, "Pick", pot_point);
+    ObjectItemTask get_wheat = new ObjectItemTask(15507, ItemID.GRAIN, 1, false, "Pick", grain_point);
 
     int initiali_grain_count = -1;
     BasicTask use_hopper = new BasicTask(() ->
@@ -95,6 +85,9 @@ public class GetFlour implements ScriptTask
         }
         else if(!use_controls.taskCompleted()) {
             return use_controls.execute();
+        }
+        else if(!get_flour.taskCompleted()) {
+            return get_flour.execute();
         }
 
         return -1;

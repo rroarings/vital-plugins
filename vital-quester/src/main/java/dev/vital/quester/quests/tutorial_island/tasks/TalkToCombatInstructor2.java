@@ -22,7 +22,7 @@ public class TalkToCombatInstructor2 implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("you're now holding your dagger");
+                return widget_child.getText().contains("You're now holding your dagger");
             }
         }
         return false;

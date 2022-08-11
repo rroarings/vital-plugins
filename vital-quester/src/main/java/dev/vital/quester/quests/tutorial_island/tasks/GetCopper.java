@@ -25,7 +25,7 @@ public class GetCopper implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("Now that you have some tine ore.");
+                return widget_child.getText().contains("Now that you have some tin ore,");
             }
         }
         return false;
@@ -34,7 +34,7 @@ public class GetCopper implements ScriptTask
     @Override
     public int execute()
     {
-        if(!Inventory.contains(ItemID.TIN_ORE) && !Tools.isAnimating(5)) {
+        if(!Inventory.contains(ItemID.COPPER_ORE) && !Tools.isAnimating(5)) {
             TileObjects.getFirstAt(new WorldPoint(3085, 9503, 0), "Rocks").interact("Mine");
         }
 

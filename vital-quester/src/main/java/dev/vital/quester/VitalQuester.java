@@ -7,6 +7,7 @@ import dev.vital.quester.quests.pirates_treasure.tasks.GetJob;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
 import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
+import dev.vital.quester.quests.tutorial_island.TutorialIsland;
 import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
@@ -54,6 +55,7 @@ public class VitalQuester extends LoopedPlugin
 
 		tasks.clear();
 
+		tasks.add(new TutorialIsland(config));
 		tasks.add(new HandleQuestComplete(config));
 		tasks.add(new CooksAssistant(config));
 		tasks.add(new RestlessGhost(config));

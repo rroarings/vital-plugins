@@ -25,7 +25,7 @@ public class OpenQuestDoor implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("Follow the path to the next guide. When");
+                return widget_child.getText().contains("Follow the path to the next guide. When") || widget_child.getText().contains("When navigating the world");
             }
         }
         return false;

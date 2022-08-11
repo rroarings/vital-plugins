@@ -4,6 +4,7 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.ItemID;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.widgets.Widgets;
@@ -34,10 +35,10 @@ public class EquipSwordAndShield implements ScriptTask
     public int execute()
     {
         if(!Equipment.contains(ItemID.BRONZE_SWORD)) {
-            Inventory.getFirst(ItemID.BRONZE_SWORD).interact("Equip");
+            Mouse.click(Widgets.get(149, 0 ,8).getClickPoint().getAwtPoint(), true);
         }
         else if(!Equipment.contains(ItemID.WOODEN_SHIELD)) {
-            Inventory.getFirst(ItemID.WOODEN_SHIELD).interact("Equip");
+            Mouse.click(Widgets.get(149, 0 ,10).getClickPoint().getAwtPoint(), true);
         }
 
         return -5;

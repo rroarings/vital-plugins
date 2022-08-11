@@ -32,7 +32,8 @@ public class EquipDagger implements ScriptTask
     @Override
     public int execute()
     {
-        Inventory.getFirst(ItemID.BRONZE_DAGGER).interact("Equip");
+        Widgets.get(85, 0 ,8).interact("Equip");
+        //Inventory.getFirst("Bronze dagger").interact("Equip");
 
         return -5;
     }

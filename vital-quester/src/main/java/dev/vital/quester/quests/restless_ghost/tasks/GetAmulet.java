@@ -3,9 +3,9 @@ package dev.vital.quester.quests.restless_ghost.tasks;
 import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
-import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class GetAmulet implements ScriptTask
 {
@@ -21,7 +21,7 @@ public class GetAmulet implements ScriptTask
     @Override
     public boolean validate()
     {
-        return !Tools.localHas(ItemID.GHOSTSPEAK_AMULET);
+        return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 1;
     }
 
     DialogTask talk_to_urhney = new DialogTask("Father Urhney",  father_urhney_point,

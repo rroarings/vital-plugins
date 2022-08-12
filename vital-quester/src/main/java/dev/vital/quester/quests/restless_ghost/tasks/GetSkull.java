@@ -1,13 +1,12 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
+import dev.vital.quester.ObjectItemTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
-import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class GetSkull implements ScriptTask
 {
@@ -23,23 +22,16 @@ public class GetSkull implements ScriptTask
     @Override
     public boolean validate()
     {
-        return !Inventory.contains(ItemID.GHOSTS_SKULL);
+        return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 3;
     }
+
+    ObjectItemTask get_skull = new ObjectItemTask(2146, ItemID.GHOSTS_SKULL, 1, false, "Search", altar_point);
 
     @Override
     public int execute() {
 
-        switch(Tools.interactWith("Altar", "Search", altar_point, Tools.EntityType.TILE_OBJECT)) {
-            case -5: {
-                //try to avoid the skeleton
-                Time.sleepTicksUntil(() -> Inventory.contains(ItemID.GHOSTS_SKULL), 20);
-                if (Inventory.contains(ItemID.GHOSTS_SKULL)) {
-                    Movement.walk(altar_point);
-                }
-            }
-            default: {
-                break;
-            }
+        if(!get_skull.taskCompleted()) {
+            return get_skull.execute();
         }
 
         return -1;

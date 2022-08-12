@@ -12,8 +12,6 @@ import net.unethicalite.api.movement.Movement;
 
 public class WorkFalador implements ScriptTask
 {
-    private final WorldPoint pirate_point = new WorldPoint(3054, 3253, 0);
-
     VitalQuesterConfig config;
 
     public WorkFalador(VitalQuesterConfig config)
@@ -55,12 +53,12 @@ public class WorkFalador implements ScriptTask
     });
     BasicTask wait = new BasicTask(() ->
     {
-        if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3005, 3383, 0))) {
+        if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3010, 3383, 0))) {
             Time.sleepTicks(6);
             return 0;
         }
         else {
-            Movement.walkTo(3005, 3383, 0);
+            Movement.walkTo(3010, 3383, 0);
         }
 
         return -1;

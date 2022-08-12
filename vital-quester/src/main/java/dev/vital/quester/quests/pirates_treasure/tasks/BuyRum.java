@@ -1,14 +1,11 @@
 package dev.vital.quester.quests.pirates_treasure.tasks;
 
+import dev.vital.quester.BasicTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
-import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 
 public class BuyRum implements ScriptTask
 {
@@ -22,9 +19,7 @@ public class BuyRum implements ScriptTask
     }
 
     BasicTask buy_rum = new BasicTask(() ->
-    {
-        return Tools.purchaseFrom("Zambo", zambo_location, ItemID.KARAMJAN_RUM, 1, false);
-    });
+            Tools.purchaseFrom("Zambo", zambo_location, ItemID.KARAMJAN_RUM, 1, false));
 
     @Override
     public boolean validate()

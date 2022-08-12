@@ -1,17 +1,13 @@
 package dev.vital.quester.quests.sheep_shearer.tasks;
 
-import dev.vital.quester.ScriptTask;
-import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.BasicTask;
-import dev.vital.quester.tools.Tools;
+import dev.vital.quester.*;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Inventory;
 
 public class ShearSheep implements ScriptTask
 {
-    private final WorldPoint farmer_fred_point = new WorldPoint(3195, 3269, 0);
+    private final WorldPoint sheep_point = new WorldPoint(3199, 3268, 0);
 
     VitalQuesterConfig config;
 
@@ -20,15 +16,7 @@ public class ShearSheep implements ScriptTask
         this.config = config;
     }
 
-    BasicTask sheer_sheap = new BasicTask(() ->
-    {
-        if(!Inventory.contains(20, ItemID.WOOL)) {
-            return Tools.interactWith(2693, "Shear", farmer_fred_point, Tools.EntityType.TILE_OBJECT);
-        }
-        else {
-            return 0;
-        }
-    });
+    NPCItemTask sheer_sheap = new NPCItemTask(2693, ItemID.WOOL, 20, false, "Shear", sheep_point);
 
     @Override
     public boolean validate()

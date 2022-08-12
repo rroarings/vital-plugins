@@ -28,7 +28,7 @@ public class ChooseName3 implements ScriptTask
     @Override
     public int execute()
     {
-        var random_name  = Widgets.get(558, 15);
+        var random_name  = Widgets.get(558, 18);
         if(random_name != null) {
 
             random_name.interact("Set name");

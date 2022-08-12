@@ -5,6 +5,7 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.tutorial_island.tasks.*;
 import net.unethicalite.api.game.GameSettings;
+import net.unethicalite.client.Static;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class TutorialIsland implements ScriptTask
     public int execute() {
 
         if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
-            GameSettings.Display.setMode(GameSettings.Display.FIXED);
+            Static.getClient().runScript(new Object[]{3998, 0});
             return -5;
         }
 

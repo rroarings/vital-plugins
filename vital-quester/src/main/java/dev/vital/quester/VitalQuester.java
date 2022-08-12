@@ -12,6 +12,7 @@ import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.events.ConfigButtonClicked;
+import net.runelite.client.events.ConfigChanged;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.movement.Movement;
@@ -94,6 +95,16 @@ public class VitalQuester extends LoopedPlugin
 		}
 
 		return -1;
+	}
+
+	@Subscribe
+	public void onConfigChanged(ConfigChanged e)
+	{
+		if (!e.getGroup().equals("vitalquesterconfig") && !e.getKey().equals("currentQuest")) {
+			return;
+		}
+
+		plugin_enabled = false;
 	}
 
 	@Subscribe

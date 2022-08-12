@@ -2,52 +2,87 @@ package dev.vital.quester;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
+import dev.vital.quester.quests.pirates_treasure.tasks.GetJob;
+import dev.vital.quester.quests.restless_ghost.RestlessGhost;
+import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
+import dev.vital.quester.quests.sheep_shearer.SheepShearer;
+import dev.vital.quester.quests.tutorial_island.TutorialIsland;
+import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
+import dev.vital.quester.tasks.HandleQuestComplete;
+import dev.vital.quester.tools.Tools;
+import net.runelite.api.events.ConfigButtonClicked;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.Game;
-import net.unethicalite.api.items.Bank;
+import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
-import net.unethicalite.api.widgets.Widgets;
-import dev.vital.quester.quests.CooksAssistant;
-import dev.vital.quester.quests.PiratesTreasure;
-import dev.vital.quester.quests.SheepShearer;
-import dev.vital.quester.quests.XMarks;
-import dev.vital.quester.tasks.ScriptTask;
-import dev.vital.quester.tools.ItemList;
-import net.runelite.api.ItemID;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.widgets.WidgetInfo;
+import net.unethicalite.api.widgets.Dialog;
+import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import org.pf4j.Extension;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginDescriptor(name = "vital-quester", enabledByDefault = false)
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
 	@Inject
-	public VitalQuesterConfig quester_config;
+	public VitalQuesterConfig config;
 
-	private final ScriptTask[] TASKS = new ScriptTask[]{
-			new CooksAssistant(),
-			new XMarks(),
-			new PiratesTreasure(),
-			new SheepShearer(),
-	};
+	static boolean plugin_enabled = false;
+	static List<ScriptTask> tasks = new ArrayList<>();
+
+	static boolean thread_once = false;
+	Thread t1 = new Thread(() -> {
+		if(Game.isLoggedIn()) {
+			Tools.isAnimating(1);
+		}
+		Time.sleepTick();
+	});
+
+	@Override
+	protected void startUp()
+	{
+		if(!thread_once) {
+			t1.start();
+			thread_once = true;
+		}
+		plugin_enabled = false;
+
+		tasks.clear();
+
+		tasks.add(new TutorialIsland(config));
+		tasks.add(new HandleQuestComplete(config));
+		tasks.add(new CooksAssistant(config));
+		tasks.add(new RestlessGhost(config));
+		tasks.add(new SheepShearer(config));
+		tasks.add(new XMarksTheSpot(config));
+		tasks.add(new PiratesTreasure(config));
+		tasks.add(new RuneMysteries(config));
+	}
+
 
 	@Override
 	protected int loop()
 	{
-		if(Game.isLoggedIn())
+		if(Game.isLoggedIn() && plugin_enabled)
 		{
-			var widget = Widgets.get(WidgetInfo.QUEST_COMPLETED);
-			if(widget != null & widget.isVisible()) {
-				//widget.interact();
+			if(Dialog.canContinue()) {
+				Dialog.continueSpace();
+				return -1;
 			}
-			for (ScriptTask task : TASKS)
+
+			if(Movement.isWalking()) {
+				return -1;
+			}
+
+			for (ScriptTask task : tasks)
 			{
-				if (task.validate(quester_config))
+				if (task.validate())
 				{
 					int sleep = task.execute();
 					if (task.blocking())
@@ -57,30 +92,23 @@ public class VitalQuester extends LoopedPlugin
 				}
 			}
 		}
-		return 1000;
-	}
 
-	@Override
-	protected void startUp() throws Exception
-	{
-		super.startUp();
-		CooksAssistant.item_list = Arrays.asList(
-				new ItemList(ItemID.EGG, 50, 1, false, Bank.WithdrawMode.ITEM, false, ""),
-				new ItemList(ItemID.BUCKET_OF_MILK, 200, 1, false, Bank.WithdrawMode.ITEM, false, ""),
-				new ItemList(ItemID.POT_OF_FLOUR, 200, 1, false, Bank.WithdrawMode.ITEM, false, ""),
-				new ItemList(ItemID.SPADE, 200, 1, false, Bank.WithdrawMode.ITEM, false, ""),
-				new ItemList(ItemID.COINS_995, 0, 60, true, Bank.WithdrawMode.ITEM, false, ""),
-				new ItemList(ItemID.IRON_SCIMITAR, 1000, 1, false, Bank.WithdrawMode.ITEM, true, "Wield"),
-				new ItemList(ItemID.IRON_SQ_SHIELD, 1000, 1, false, Bank.WithdrawMode.ITEM, true, "Wield")
-		);
+		return -1;
 	}
 
 	@Subscribe
-	private void onGameTick(GameTick event)
-	{
+	public void onConfigButtonClicked(ConfigButtonClicked e) {
 
+		if (!e.getGroup().equals("vitalquesterconfig")) {
+			return;
+		}
+
+		switch (e.getKey()) {
+			case "startStopPlugin":
+				plugin_enabled = !plugin_enabled;
+				break;
+		}
 	}
-
 	@Provides
 	VitalQuesterConfig getConfig(ConfigManager configManager)
 	{

@@ -67,9 +67,11 @@ public class KillCrabs implements ScriptTask {
 		}
 		else if(LocalPlayer.get().getInteracting() == null) {
 
-			var current_world = Worlds.getCurrentWorld();
-			Worlds.hopTo(Worlds.getRandom(x -> x.isMembers() && !x.isSkillTotal() && !x.isAllPkWorld() && !x.isLeague() && !x.isTournament() && !x.isPvpArena()));
-			Time.sleepUntil(() -> current_world != Worlds.getCurrentWorld(), 1000*30);
+			if (config.hopWorlds()) {
+				var current_world = Worlds.getCurrentWorld();
+				Worlds.hopTo(Worlds.getRandom(x -> x.isMembers() && !x.isSkillTotal() && !x.isAllPkWorld() && !x.isLeague() && !x.isTournament() && !x.isPvpArena()));
+				Time.sleepUntil(() -> current_world != Worlds.getCurrentWorld(), 1000 * 30);
+			}
 		}
 
 		if(!VitalSandCrab.should_find_new_spot) {

@@ -62,7 +62,6 @@ public class VitalWine extends Script
 	@Override
 	protected int loop()
 	{
-		Magic.cast(SpellBook.Standard.WIND_STRIKE, NPCs.getNearest("Chicken"));
 		for (ScriptTask task : tasks)
 		{
 			if (task.validate())

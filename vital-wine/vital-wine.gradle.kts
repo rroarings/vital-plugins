@@ -1,7 +1,7 @@
-version = "0.0.9"
+version = "0.0.10"
 
 project.extra["PluginName"] = "Vital Wine"
-project.extra["PluginDescription"] = "For ironmen to create wines at the cooking guild"
+project.extra["PluginDescription"] = "Make wine at the cooking guild"
 
 tasks {
     jar {

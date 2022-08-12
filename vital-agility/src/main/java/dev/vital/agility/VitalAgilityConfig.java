@@ -16,7 +16,13 @@ public interface VitalAgilityConfig extends Config
 	//)
 	//String needleAndThreadConfig = "needleAndThreadConfig";
 
-
+	@ConfigSection(
+			keyName = "dsa",
+			name = "Description",
+			description = "",
+			position = 60
+	)
+	String dsa = "Currently only the wilderness course is supported.";
 
 	//delay configs
 

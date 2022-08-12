@@ -29,7 +29,7 @@ public class TalkToFred implements ScriptTask
     }
 
     DialogTask talk_to_fred = new DialogTask("Fred the Farmer",  farmer_fred_point,
-            "yes.", "I'm looking for a quest.", "Yes, okay. I can do that.");
+            "Yes.", "I'm looking for a quest.", "Yes, okay. I can do that.");
 
     @Override
     public int execute() {

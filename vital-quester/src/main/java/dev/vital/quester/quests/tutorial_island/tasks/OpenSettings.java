@@ -2,6 +2,7 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.*;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.game.GameSettings;
 import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
@@ -32,6 +33,11 @@ public class OpenSettings implements ScriptTask
     @Override
     public int execute()
     {
+        if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
+            GameSettings.Display.setMode(GameSettings.Display.FIXED);
+            return -5;
+        }
+
         var widget = Widgets.get(548,50);
         if(widget != null) {
             Mouse.click(widget.getClickPoint().getAwtPoint(), true);

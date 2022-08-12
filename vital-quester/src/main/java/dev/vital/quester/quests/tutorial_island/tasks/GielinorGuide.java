@@ -28,7 +28,7 @@ public class GielinorGuide implements ScriptTask
         return false;
     }
 
-    DialogTask talk_to_guide = new DialogTask("Gielinor Guide", gielinor_guide_point, "I am an experienced player.");
+    DialogTask talk_to_guide = new DialogTask("Gielinor Guide", gielinor_guide_point, "I am brand new!");
 
     @Override
     public int execute()

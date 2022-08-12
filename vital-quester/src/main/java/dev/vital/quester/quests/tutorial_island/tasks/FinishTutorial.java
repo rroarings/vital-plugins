@@ -28,7 +28,7 @@ public class FinishTutorial implements ScriptTask
         return false;
     }
 
-    DialogTask talk_to_magic_instructor = new DialogTask("Magic Instructor", magic_instructor_point, "Yes.", "No, I'm not planning to do that.");
+    DialogTask talk_to_magic_instructor = new DialogTask("Magic Instructor", magic_instructor_point, "Yes, send me to the mainland", "No, I'm not planning to do that.");
 
     @Override
     public int execute()

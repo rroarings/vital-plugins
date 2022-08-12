@@ -10,6 +10,7 @@ import net.unethicalite.api.game.Game;
 import net.unethicalite.api.widgets.Widgets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ChooseAppearance implements ScriptTask
@@ -49,7 +50,10 @@ public class ChooseAppearance implements ScriptTask
         List<AppearanceWidget> stuff = new ArrayList<>();
 
         var name = LocalPlayer.getUsername();
-        name = name.substring(0, Math.min(name.length(), 7));
+        if(name.length() < 12) {
+            name = name.concat(name);
+        }
+        name = name.substring(0, Math.min(name.length(), 12));
 
         for(var letter : name.toCharArray()) {
             stuff.add(new AppearanceWidget(Character.getNumericValue(letter)));
@@ -58,6 +62,8 @@ public class ChooseAppearance implements ScriptTask
         return stuff;
     }
 
+    List<Integer> widgets_list = List.of(13, 17, 21, 25, 29, 33, 37, 44, 48, 52, 56, 60);
+
     @Override
     public int execute() {
        var stuff = generateSeedFromName();
@@ -65,21 +71,21 @@ public class ChooseAppearance implements ScriptTask
         int widget_begin = 0;
 
         for (var appearance : stuff) {
-            widget_begin = widget_begin + 4;
 
-            var widget = Widgets.get(679, 13 + widget_begin);
-            widget_begin = widget_begin + 4;
             if (appearance.completed) {
                 continue;
             }
 
+            var widget = Widgets.get(679, widgets_list.get(widget_begin));
+
             while (appearance.current_times < appearance.wanted_times) {
                 widget.interact("Select");
                 appearance.current_times++;
-                Time.sleep(Rand.nextInt(400, 1200));
+                Time.sleep(Rand.nextInt(200, 1200));
             }
 
             appearance.completed = true;
+            widget_begin++;
         }
 
         if (stuff.stream().allMatch(x -> x.completed)) {

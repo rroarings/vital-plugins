@@ -25,7 +25,6 @@ public class TutorialIsland implements ScriptTask
         tasks.add(new GielinorGuide(config));
         tasks.add(new OpenSettings(config));
         tasks.add(new GielinorGuide2(config));
-        tasks.add(new GielinorGuide2(config));
         tasks.add(new OpenGuideDoor(config));
         tasks.add(new TalkToExpert(config));
         tasks.add(new OpenInventory(config));

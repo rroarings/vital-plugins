@@ -31,6 +31,10 @@ public class OpenSettings implements ScriptTask
     {
         var widget = Widgets.get(164,40);
         if(widget != null) {
+
+            String test = "widget (164, 40) is not null, position is " + widget.getClickPoint().getX() + " " +widget.getClickPoint().getY();
+            System.out.println(test);
+
             Mouse.click(widget.getClickPoint().getAwtPoint(), true);
         }
 

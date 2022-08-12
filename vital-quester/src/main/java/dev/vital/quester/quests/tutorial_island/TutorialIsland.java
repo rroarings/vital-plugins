@@ -19,7 +19,10 @@ public class TutorialIsland implements ScriptTask
         this.config = config;
 
         tasks.clear();
-
+        tasks.add(new ChooseName(config));
+        tasks.add(new ChooseName2(config));
+        tasks.add(new ChooseName3(config));
+        tasks.add(new ChooseAppearance(config));
         tasks.add(new GielinorGuide(config));
         tasks.add(new OpenSettings(config));
         tasks.add(new GielinorGuide2(config));
@@ -93,10 +96,10 @@ public class TutorialIsland implements ScriptTask
     @Override
     public int execute() {
 
-        if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
-            GameSettings.Display.setMode(GameSettings.Display.FIXED);
-            return -5;
-        }
+        //if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
+        //    GameSettings.Display.setMode(GameSettings.Display.FIXED);
+        //    return -5;
+        //}
 
         for (ScriptTask task : tasks)
         {

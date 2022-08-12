@@ -5,12 +5,10 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.unethicalite.api.SceneEntity;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
-import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
@@ -21,7 +19,6 @@ import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Tools
@@ -214,7 +211,7 @@ public class Tools
 		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
 		if(shop != null && Reachable.isInteractable(shop)) {
 			shop.interact("Trade");
-			return -5;
+			return -4;
 		}
 		else if(!Movement.isWalking()) {
 			Movement.walkTo(point);

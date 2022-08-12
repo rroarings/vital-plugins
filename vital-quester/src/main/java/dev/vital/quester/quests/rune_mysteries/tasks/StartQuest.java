@@ -5,6 +5,7 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class StartQuest implements ScriptTask
 {
@@ -20,7 +21,7 @@ public class StartQuest implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Vars.getBit(13720) == 0;
+        return Vars.getVarp(QuestVarPlayer.QUEST_RUNE_MYSTERIES.getId()) == 0;
     }
 
     DialogTask start_quest = new DialogTask("Duke Horacio", duke_point, "Have you any quests for me?");

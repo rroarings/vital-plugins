@@ -1,15 +1,12 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.*;
-import dev.vital.quester.tools.Tools;
-import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.game.GameSettings;
 import net.unethicalite.api.widgets.Widgets;
 
 public class OpenGuideDoor implements ScriptTask
 {
-    private final WorldPoint gielinor_guide_point = new WorldPoint(3094, 3107, 0);
-
     VitalQuesterConfig config;
 
     public OpenGuideDoor(VitalQuesterConfig config)
@@ -33,7 +30,13 @@ public class OpenGuideDoor implements ScriptTask
     @Override
     public int execute()
     {
-        TileObjects.getNearest("Door").interact("Open");
+        if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
+            GameSettings.Display.setMode(GameSettings.Display.FIXED);
+            return -5;
+        }
+        else {
+            TileObjects.getNearest("Door").interact("Open");
+        }
 
         return -2;
     }

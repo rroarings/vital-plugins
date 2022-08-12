@@ -24,7 +24,7 @@ public class StartQuest implements ScriptTask
         return Vars.getVarp(QuestVarPlayer.QUEST_RUNE_MYSTERIES.getId()) == 0;
     }
 
-    DialogTask start_quest = new DialogTask("Duke Horacio", duke_point, "Have you any quests for me?");
+    DialogTask start_quest = new DialogTask("Duke Horacio", duke_point, "Have you any quests for me?", "Yes.");
 
     @Override
     public int execute() {

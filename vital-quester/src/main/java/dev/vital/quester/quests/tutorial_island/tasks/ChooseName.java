@@ -18,9 +18,8 @@ public class ChooseName implements ScriptTask
     {
         var widget  = Widgets.get(558, 13);
         if(widget != null) {
-           if(widget != null) {
-               return widget.getText().contains("Please look up a name to see") || widget.getText().contains("Please enter a name to look up");
-           }
+
+            return widget.getText().contains("Please look up a name to see") || widget.getText().contains("Please enter a name to look up");
         }
         return false;
     }

@@ -5,7 +5,6 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.tutorial_island.tasks.*;
 import net.unethicalite.api.game.GameSettings;
-import net.unethicalite.client.Static;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,10 @@ public class TutorialIsland implements ScriptTask
         this.config = config;
 
         tasks.clear();
-
+        tasks.add(new ChooseName(config));
+        tasks.add(new ChooseName2(config));
+        tasks.add(new ChooseName3(config));
+        tasks.add(new ChooseAppearance(config));
         tasks.add(new GielinorGuide(config));
         tasks.add(new OpenSettings(config));
         tasks.add(new GielinorGuide2(config));
@@ -94,10 +96,10 @@ public class TutorialIsland implements ScriptTask
     @Override
     public int execute() {
 
-        if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
-            Static.getClient().runScript(new Object[]{3998, 0});
-            return -5;
-        }
+        //if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
+        //    GameSettings.Display.setMode(GameSettings.Display.FIXED);
+        //    return -5;
+        //}
 
         for (ScriptTask task : tasks)
         {

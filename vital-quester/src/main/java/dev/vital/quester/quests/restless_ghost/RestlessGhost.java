@@ -33,7 +33,7 @@ public class RestlessGhost implements ScriptTask
 	@Override
 	public boolean validate()
 	{
-		return config.currentQuest().equals(QuestList.THE_RESTLESS_GHOST) && Quests.getState(Quest.THE_RESTLESS_GHOST) != QuestState.FINISHED;
+		return (config.currentQuest().equals(QuestList.THE_RESTLESS_GHOST) || config.automaticOptimal()) && Quests.getState(Quest.THE_RESTLESS_GHOST) != QuestState.FINISHED;
 	}
 
 	@Override

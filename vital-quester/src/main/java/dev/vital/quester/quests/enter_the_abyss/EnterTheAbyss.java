@@ -36,7 +36,7 @@ public class EnterTheAbyss implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.RUNE_MYSTERIES) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
+        return (config.currentQuest().equals(QuestList.RUNE_MYSTERIES) || config.automaticOptimal()) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
     }
 
     @Override

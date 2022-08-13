@@ -1,12 +1,15 @@
 package dev.vital.quester.quests.tutorial_island;
 
+import com.google.common.collect.ImmutableSet;
 import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.tutorial_island.tasks.*;
+import net.unethicalite.api.account.LocalPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class TutorialIsland implements ScriptTask
 {
@@ -85,10 +88,12 @@ public class TutorialIsland implements ScriptTask
         tasks.add(new FinishTutorial(config));
     }
 
+    private static final Set<Integer> TUTORIAL_ISLAND_REGIONS = ImmutableSet.of(12336, 12335, 12592, 12080, 12079, 12436);
+
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.TUTORIAL_ISLAND);
+        return (config.currentQuest().equals(QuestList.TUTORIAL_ISLAND) || config.automaticOptimal()) && TUTORIAL_ISLAND_REGIONS.contains(LocalPlayer.get().getWorldLocation().getRegionID());
     }
 
     @Override

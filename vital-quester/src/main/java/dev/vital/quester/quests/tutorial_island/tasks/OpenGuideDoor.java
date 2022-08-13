@@ -1,8 +1,10 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.*;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.GameSettings;
+import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
 public class OpenGuideDoor implements ScriptTask
@@ -31,13 +33,24 @@ public class OpenGuideDoor implements ScriptTask
     public int execute()
     {
         if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
-            GameSettings.Display.setMode(GameSettings.Display.FIXED);
-            return -5;
+
+            var display_menu = Widgets.get(116, 112);
+            Mouse.click(display_menu.getClickPoint().getAwtPoint(), true);
+
+            Time.sleepTick();
+
+            var drop_down = Widgets.get(116, 27, 3);
+            Mouse.click(drop_down.getClickPoint().getAwtPoint(), true);
+
+            Time.sleepTick();
+
+            var fixed = Widgets.get(116, 84, 1);
+            Mouse.click(fixed.getClickPoint().getAwtPoint(), true);
         }
         else {
             TileObjects.getNearest("Door").interact("Open");
         }
 
-        return -2;
+        return -5;
     }
 }

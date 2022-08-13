@@ -34,7 +34,7 @@ public class XMarksTheSpot implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.X_MARKS_THE_SPOT) && Quests.getState(Quest.X_MARKS_THE_SPOT) != QuestState.FINISHED;
+        return (config.currentQuest().equals(QuestList.X_MARKS_THE_SPOT) || config.automaticOptimal()) && Quests.getState(Quest.X_MARKS_THE_SPOT) != QuestState.FINISHED;
     }
 
     @Override

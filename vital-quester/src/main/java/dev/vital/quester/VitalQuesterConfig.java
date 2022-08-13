@@ -17,6 +17,14 @@ public interface VitalQuesterConfig extends Config
 	default QuestList currentQuest() { return QuestList.COOKS_ASSISTANT; }
 
 	@ConfigItem(
+			keyName = "automaticOptimal",
+			name = "Automatic Optimal Questing",
+			description = "Completes quest in the order they appear in the quest helper when set to optimal.",
+			position = 10
+	)
+	default boolean automaticOptimal() { return false; }
+
+	@ConfigItem(
 			keyName = "startStopPlugin",
 			name = "Start / Stop",
 			description = "",

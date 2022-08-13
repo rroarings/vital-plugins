@@ -61,6 +61,7 @@ public class VitalQuester extends LoopedPlugin
 		{
 			if(Dialog.canContinue()) {
 				Dialog.continueSpace();
+				return -1;
 			}
 
 			for (ScriptTask task : tasks)

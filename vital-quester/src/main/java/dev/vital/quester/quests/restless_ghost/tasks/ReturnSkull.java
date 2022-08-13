@@ -7,6 +7,7 @@ import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class ReturnSkull implements ScriptTask
@@ -27,7 +28,7 @@ public class ReturnSkull implements ScriptTask
     BasicTask open_coffin = new BasicTask(() -> {
 
         var coffin = TileObjects.getFirstAt(new WorldPoint(3249, 3192, 0), "Coffin");
-        if (coffin != null) {
+        if (coffin != null && Reachable.isInteractable(coffin)) {
             if(coffin.hasAction("Search")) {
                 coffin.interact("Search");
             }

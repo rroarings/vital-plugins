@@ -41,12 +41,8 @@ public class DialogTask {
             }
         }
         else {
-            if(!Dialog.canContinue() && !Dialog.isViewingOptions() && !Dialog.isOpen()) {
-                this.task_completed = this.dialog_options.isEmpty();
-                if(this.task_completed) {
-                    return -1;
-                }
-            }
+
+            this.task_completed = this.dialog_options.isEmpty();
         }
 
         return Tools.talkTo(name, point, dialog_options);

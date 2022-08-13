@@ -26,7 +26,7 @@ public class FillCrate implements ScriptTask
             return 0;
         }
 
-        if(Inventory.contains(ItemID.BANANA)) {
+        if(Inventory.getCount(false, ItemID.BANANA) >= 10) {
             return Tools.interactWith("Crate", "Fill", luthas_location, Tools.EntityType.TILE_OBJECT);
         }
         else {

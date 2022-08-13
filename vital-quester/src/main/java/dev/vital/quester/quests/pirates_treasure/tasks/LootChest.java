@@ -28,8 +28,10 @@ public class LootChest implements ScriptTask
             return 0;
         }
 
-        if(!Movement.isWalking() && !LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3219,3395, 1))) {
-            Movement.walkTo(rum_point);
+        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3219,3395, 1))) {
+            if(!Movement.isWalking()) {
+                Movement.walkTo(rum_point);
+            }
         }
         else {
 

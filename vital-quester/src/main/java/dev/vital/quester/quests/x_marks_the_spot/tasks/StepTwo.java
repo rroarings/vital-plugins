@@ -28,8 +28,10 @@ public class StepTwo implements ScriptTask
     @Override
     public int execute() {
 
-        if(!LocalPlayer.get().getWorldLocation().equals(dig_two_point) && !Movement.isWalking()) {
-            Movement.walkTo(dig_two_point);
+        if(!LocalPlayer.get().getWorldLocation().equals(dig_two_point)) {
+            if(!Movement.isWalking()) {
+                Movement.walkTo(dig_two_point);
+            }
             return -1;
         }
 

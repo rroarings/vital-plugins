@@ -70,11 +70,18 @@ public class Tools
 			return -1;
 		}
 
-		if(Dialog.isViewingOptions()) {
+		boolean is_wanted_text = false;
+		for(var d : dialog) {
+			if(Dialog.getOptions().stream().anyMatch(x -> x.getText().contains(d))) {
+				is_wanted_text = true;
+			}
+		}
+
+		if(Dialog.isViewingOptions() && is_wanted_text) {
 			for(var option : dialog) {
 				if(Dialog.chooseOption(option)) {
 					dialog.remove(option);
-					break;
+					return -2;
 				}
 			}
 			return -2;

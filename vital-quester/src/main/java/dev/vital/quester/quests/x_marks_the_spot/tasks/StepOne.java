@@ -28,8 +28,10 @@ public class StepOne implements ScriptTask
     @Override
     public int execute() {
 
-       if(!LocalPlayer.get().getWorldLocation().equals(dig_one_point) && !Movement.isWalking()) {
-           Movement.walkTo(dig_one_point);
+       if(!LocalPlayer.get().getWorldLocation().equals(dig_one_point)) {
+           if(!Movement.isWalking()) {
+               Movement.walkTo(dig_one_point);
+           }
            return -1;
        }
 

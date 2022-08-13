@@ -70,23 +70,27 @@ public class Tools
 			return -1;
 		}
 
-		boolean is_wanted_text = false;
-		for(var d : dialog) {
-			if(Dialog.getOptions().stream().anyMatch(x -> x.getText().contains(d))) {
-				is_wanted_text = true;
-			}
-		}
-
-		if(Dialog.isViewingOptions() && is_wanted_text) {
-			for(var option : dialog) {
-				if(Dialog.chooseOption(option)) {
-					dialog.remove(option);
-					return -2;
+		if(dialog != null) {
+			boolean is_wanted_text = false;
+			for (var d : dialog) {
+				if(d == null) {
+					continue;
+				}
+				if (Dialog.getOptions().stream().anyMatch(x -> x.getText().contains(d))) {
+					is_wanted_text = true;
 				}
 			}
-			return -2;
-		}
 
+			if (Dialog.isViewingOptions() && is_wanted_text) {
+				for (var option : dialog) {
+					if (Dialog.chooseOption(option)) {
+						dialog.remove(option);
+						return -2;
+					}
+				}
+				return -2;
+			}
+		}
 		var entity = NPCs.getNearest(x -> x.getName().equals(name));
 		if(entity != null && Reachable.isInteractable(entity)) {
 

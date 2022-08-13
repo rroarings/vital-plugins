@@ -27,10 +27,12 @@ public class WorkFalador implements ScriptTask
 
     BasicTask dig = new BasicTask(() ->
     {
-        if (!Movement.isWalking()) {
-            Movement.walkTo(2999, 3383, 0);
+        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
+            if (!Movement.isWalking()) {
+                Movement.walkTo(2999, 3383, 0);
+            }
         }
-        else if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
+        else {
             Inventory.getFirst(ItemID.SPADE).interact("Dig");
             return 0;
         }
@@ -39,9 +41,12 @@ public class WorkFalador implements ScriptTask
 
     BasicTask dig2 = new BasicTask(() ->
     {
-        if (!Movement.isWalking()) {
-            Movement.walkTo(2999, 3383, 0);
-        } else if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
+        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
+            if (!Movement.isWalking()) {
+                Movement.walkTo(2999, 3383, 0);
+            }
+        }
+        else {
             Inventory.getFirst(ItemID.SPADE).interact("Dig");
             return 0;
         }

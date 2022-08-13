@@ -24,8 +24,8 @@ public class GetQuest implements ScriptTask
         return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 0;
     }
 
-    DialogTask talk_to_aereck = new DialogTask("Father Urhney",  father_aereck_point,
-            "Father Aereck sent me to talk to you.", "He's got a ghost haunting his graveyard.");
+    DialogTask talk_to_aereck = new DialogTask("Father Aereck",  father_aereck_point,
+            "I'm looking for a quest!", "Yes.");
 
     @Override
     public int execute() {

@@ -12,12 +12,10 @@ import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.events.ConfigButtonClicked;
+import net.runelite.api.events.GameTick;
 import net.runelite.client.events.ConfigChanged;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.Game;
-import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
-import net.unethicalite.api.widgets.Dialog;
 import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -37,21 +35,9 @@ public class VitalQuester extends LoopedPlugin
 	static boolean plugin_enabled = false;
 	static List<ScriptTask> tasks = new ArrayList<>();
 
-	static boolean thread_once = false;
-	Thread t1 = new Thread(() -> {
-		if(Game.isLoggedIn()) {
-			Tools.isAnimating(1);
-		}
-		Time.sleepTick();
-	});
-
 	@Override
 	protected void startUp()
 	{
-		if(!thread_once) {
-			t1.start();
-			thread_once = true;
-		}
 		plugin_enabled = false;
 
 		tasks.clear();
@@ -67,21 +53,11 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new EnterTheAbyss(config));
 	}
 
-
 	@Override
 	protected int loop()
 	{
 		if(Game.isLoggedIn() && plugin_enabled)
 		{
-			if(Dialog.canContinue()) {
-				Dialog.continueSpace();
-				return -1;
-			}
-
-			if(Movement.isWalking()) {
-				return -1;
-			}
-
 			for (ScriptTask task : tasks)
 			{
 				if (task.validate())
@@ -96,6 +72,13 @@ public class VitalQuester extends LoopedPlugin
 		}
 
 		return -1;
+	}
+
+	@Subscribe
+	private void onGameTick(GameTick event) {
+		if(Game.isLoggedIn()) {
+			Tools.isAnimating(1);
+		}
 	}
 
 	@Subscribe
@@ -121,6 +104,7 @@ public class VitalQuester extends LoopedPlugin
 				break;
 		}
 	}
+
 	@Provides
 	VitalQuesterConfig getConfig(ConfigManager configManager)
 	{

@@ -65,18 +65,23 @@ public class Tools
 
 	public static int talkTo(String name, WorldPoint point, List<String> dialog) {
 
+		if(Dialog.canContinue()) {
+			Dialog.continueSpace();
+			return -1;
+		}
+
+		if(Dialog.isViewingOptions()) {
+			for(var option : dialog) {
+				if(Dialog.chooseOption(option)) {
+					dialog.remove(option);
+					break;
+				}
+			}
+			return -2;
+		}
+
 		var entity = NPCs.getNearest(x -> x.getName().equals(name));
 		if(entity != null && Reachable.isInteractable(entity)) {
-
-			if(Dialog.isViewingOptions()) {
-				for(var option : dialog) {
-					if(Dialog.chooseOption(option)) {
-						dialog.remove(option);
-						break;
-					}
-				}
-				return -2;
-			}
 
 			entity.interact("Talk-to");
 			return -5;

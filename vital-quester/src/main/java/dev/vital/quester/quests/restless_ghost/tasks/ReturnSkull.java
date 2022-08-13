@@ -6,6 +6,7 @@ import dev.vital.quester.BasicTask;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class ReturnSkull implements ScriptTask
@@ -33,6 +34,9 @@ public class ReturnSkull implements ScriptTask
             else if(coffin.hasAction("Open")) {
                 coffin.interact("Open");
             }
+        }
+        else if(!Movement.isWalking()) {
+            Movement.walkTo(new WorldPoint(3249, 3192, 0));
         }
 
         return -5;

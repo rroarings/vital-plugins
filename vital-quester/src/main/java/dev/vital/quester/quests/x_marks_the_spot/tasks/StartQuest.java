@@ -7,7 +7,7 @@ import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.quests.QuestVarbits;
 
-public class StartQuest implements ScriptTask
+public class    StartQuest implements ScriptTask
 {
     private final WorldPoint veos_point = new WorldPoint(3228, 3241, 0);
 
@@ -26,7 +26,7 @@ public class StartQuest implements ScriptTask
 
 
     DialogTask talk_to_veos = new DialogTask("Veos",  veos_point,
-            "Yes,", "I'm looking for a quest.", "Okay, thanks Veos.");
+            "Yes.","Yes,", "I'm looking for a quest.", "Okay, thanks Veos.");
 
     @Override
     public int execute() {

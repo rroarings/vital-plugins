@@ -10,15 +10,12 @@ import java.util.List;
 
 public class DialogTask {
 
-    public interface TaskFunction {
-        int execute(List<String> dialog_options);
-    }
-
     boolean task_completed;
     String name;
     WorldPoint point;
     List<String> dialog_options;
     boolean has_opened;
+
     public DialogTask(String name, WorldPoint point, String... dialog_options) {
         this.task_completed = false;
         this.name = name;
@@ -33,22 +30,24 @@ public class DialogTask {
     }
 
     public int execute() {
-        if (!has_opened && (Dialog.isViewingOptions() || Dialog.isOpen() || Dialog.canContinue())) {
-            this.has_opened = true;
+
+        if(this.dialog_options == null) {
+            if (!has_opened && (Dialog.canContinue())) {
+                this.has_opened = true;
+            }
+            else if(this.has_opened && (!Dialog.canContinue())) {
+                this.task_completed = true;
+                return -1;
+            }
+        }
+        else {
+            this.task_completed = this.dialog_options.isEmpty();
         }
 
         return Tools.talkTo(name, point, dialog_options);
     }
 
     public boolean taskCompleted() {
-        if(this.dialog_options == null) {
-            if(this.has_opened && (!Dialog.isOpen() && !Dialog.isViewingOptions() && !Dialog.canContinue())) {
-                return true;
-            }
-            return false;
-        }
-        else {
-            return this.dialog_options.isEmpty();
-        }
+        return this.task_completed;
     }
 }

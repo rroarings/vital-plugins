@@ -20,6 +20,7 @@ import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.widgets.Dialog;
 import org.pf4j.Extension;
 
 import java.util.ArrayList;
@@ -58,6 +59,10 @@ public class VitalQuester extends LoopedPlugin
 	{
 		if(Game.isLoggedIn() && plugin_enabled)
 		{
+			if(Dialog.canContinue()) {
+				Dialog.continueSpace();
+			}
+
 			for (ScriptTask task : tasks)
 			{
 				if (task.validate())

@@ -3,13 +3,8 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
-import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
-import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.widgets.Widgets;
 
 public class KillRat implements ScriptTask
@@ -28,7 +23,7 @@ public class KillRat implements ScriptTask
         if(widget != null) {
             var widget_child = widget. getChild(0);
             if(widget_child != null) {
-                return widget_child.getText().contains("It's time to slay some rats!");
+                return widget_child.getText().contains("It's time to slay some rats!") || widget_child.getText().contains("While you are fighting");
             }
         }
         return false;

@@ -4,6 +4,7 @@ import dev.vital.quester.CameraTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.widgets.Widgets;
 
@@ -28,7 +29,7 @@ public class LeaveChefsRoom implements ScriptTask
         }
         return false;
     }
-    CameraTask camera_task = new CameraTask(1);
+    CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
 
     @Override
     public int execute()

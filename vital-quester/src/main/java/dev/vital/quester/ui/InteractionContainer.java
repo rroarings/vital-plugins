@@ -16,19 +16,10 @@ public class InteractionContainer extends PanelContainer
 	{
 		removeAll();
 
+		add(createCheckBox("Automatic optimal questing", "automaticOptimal"), "wrap");
 		add(createComboBoxSection("Task", "currentQuest", QuestList.class), "wrap");
 
-		switch (config.currentQuest()) {
-			case TUTORIAL_ISLAND:
-
-				break;
-			default: {
-				add(createCheckBox("Automatic Optimal Questing", "automaticOptimal"), "wrap");
-				add(createCheckBox("Handle Genie", "handleGenie"), "wrap");
-				add(createCheckBox("Handle Lamps", "handleLamp"), "wrap");
-				break;
-			}
-		}
+		add(createButton("Start task", "Stop task", "startStopPlugin"), "wrap");
 
 		revalidate();
 	}

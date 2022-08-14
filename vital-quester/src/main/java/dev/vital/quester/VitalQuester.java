@@ -16,7 +16,6 @@ import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
 import dev.vital.quester.ui.VitalPanel;
 import net.runelite.api.Client;
-import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
@@ -104,7 +103,7 @@ public class VitalQuester extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-		if(Game.isLoggedIn() && plugin_enabled)
+		if(Game.isLoggedIn() && config.startStopPlugin())
 		{
 			if(Dialog.canContinue()) {
 				Dialog.continueSpace();
@@ -149,20 +148,6 @@ public class VitalQuester extends LoopedPlugin
 		}
 
 		plugin_enabled = false;
-	}
-
-	@Subscribe
-	public void onConfigButtonClicked(ConfigButtonClicked e) {
-
-		if (!e.getGroup().equals("vitalquesterconfig")) {
-			return;
-		}
-
-		switch (e.getKey()) {
-			case "startStopPlugin":
-				plugin_enabled = !plugin_enabled;
-				break;
-		}
 	}
 
 	@Provides

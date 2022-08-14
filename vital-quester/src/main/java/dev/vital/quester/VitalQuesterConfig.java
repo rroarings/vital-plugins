@@ -82,5 +82,5 @@ public interface VitalQuesterConfig extends Config
 			position = 35,
 			hidden = true
 	)
-	default Button startStopPlugin() { return new Button(); }
+	default boolean startStopPlugin() { return false; }
 }

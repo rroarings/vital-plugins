@@ -24,12 +24,15 @@ public class VitalPanel extends PluginPanel
 		setLayout(new MigLayout());
 
 		InteractionContainer interactionContainer = new InteractionContainer(config, configManager);
+		MiscellaneousContainer miscellaneousContainer = new MiscellaneousContainer(config, configManager);
 
 		containers.add(interactionContainer);
+		containers.add(miscellaneousContainer);
 
 		add(tabbedPane);
 
 		tabbedPane.addTab(interactionContainer.getTitle(), interactionContainer);
+		tabbedPane.addTab(miscellaneousContainer.getTitle(), miscellaneousContainer);
 	}
 
 	@Subscribe

@@ -32,6 +32,19 @@ public abstract class PanelContainer extends JPanel
 		rebuild();
 	}
 
+	protected JButton createButton(String enable, String disable, String configKey)
+	{
+		var current = Boolean.parseBoolean(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey));
+
+		JButton button = new JButton(current ? disable : enable);
+		button.setSelected(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey, Boolean.class));
+		button.setSize(200, 20);
+		button.setMinimumSize(new Dimension(200,20));
+		button.addActionListener(l -> configManager.setConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey, !Boolean.parseBoolean(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey))));
+
+		return button;
+	}
+
 	protected JCheckBox createCheckBox(String text, String configKey)
 	{
 		JCheckBox checkBox = new JCheckBox(text);

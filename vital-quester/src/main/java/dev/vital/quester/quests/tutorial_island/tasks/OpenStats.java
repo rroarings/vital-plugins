@@ -2,7 +2,6 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
 public class OpenStats implements ScriptTask
@@ -30,9 +29,9 @@ public class OpenStats implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,63);
+        var widget = Widgets.get(164,52);
         if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
+            widget.interact("Skills");
         }
 
         return -2;

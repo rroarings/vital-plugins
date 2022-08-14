@@ -6,10 +6,6 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.tutorial_island.tasks.*;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Time;
-import net.unethicalite.api.game.GameSettings;
-import net.unethicalite.api.input.Mouse;
-import net.unethicalite.api.widgets.Widgets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,47 +96,8 @@ public class TutorialIsland implements ScriptTask
         return (config.currentQuest().equals(QuestList.TUTORIAL_ISLAND) || config.automaticOptimal()) && TUTORIAL_ISLAND_REGIONS.contains(LocalPlayer.get().getWorldLocation().getRegionID());
     }
 
-    void handleDisplay() {
-        if(GameSettings.Display.getCurrentMode() == GameSettings.Display.RESIZABLE_MODERN) {
-
-            var settings_menu = Widgets.get(164,40);
-            if(settings_menu == null) {
-                return;
-            }
-
-            Mouse.click(settings_menu.getClickPoint().getAwtPoint(), true);
-            Time.sleepTick();
-
-            var display_menu = Widgets.get(116, 112);
-            if(display_menu == null) {
-                return;
-            }
-
-            Mouse.click(display_menu.getClickPoint().getAwtPoint(), true);
-            Time.sleepTick();
-
-            var drop_down = Widgets.get(116, 27, 3);
-            if(drop_down == null) {
-                return;
-            }
-
-            Mouse.click(drop_down.getClickPoint().getAwtPoint(), true);
-            Time.sleepTick();
-
-            var fixed = Widgets.get(116, 84, 1);
-            if(fixed == null) {
-                return;
-            }
-
-            Mouse.click(fixed.getClickPoint().getAwtPoint(), true);
-            Time.sleepTick();
-        }
-    }
-
     @Override
     public int execute() {
-
-        handleDisplay();
 
         for (ScriptTask task : tasks)
         {

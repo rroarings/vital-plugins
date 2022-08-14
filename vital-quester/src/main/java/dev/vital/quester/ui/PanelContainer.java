@@ -38,8 +38,8 @@ public abstract class PanelContainer extends JPanel
 
 		JButton button = new JButton(current ? disable : enable);
 		button.setSelected(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey, Boolean.class));
-		button.setSize(200, 20);
-		button.setMinimumSize(new Dimension(200,20));
+		button.setSize(200, 15);
+		button.setMinimumSize(new Dimension(200,15));
 		button.addActionListener(l -> configManager.setConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey, !Boolean.parseBoolean(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey))));
 
 		return button;

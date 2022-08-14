@@ -1,5 +1,6 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
+import dev.vital.quester.CameraTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
@@ -28,9 +29,16 @@ public class OpenChefDoor implements ScriptTask
         return false;
     }
 
+    CameraTask camera_task = new CameraTask(4);
+
     @Override
     public int execute()
     {
+        if(!camera_task.taskCompleted()) {
+            camera_task.moveRight();
+            return-2;
+        }
+
         TileObjects.getFirstAt(new WorldPoint(3079, 3084, 0), "Door").interact("Open");
 
         return -5;

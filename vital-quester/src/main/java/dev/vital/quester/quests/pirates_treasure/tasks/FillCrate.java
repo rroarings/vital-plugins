@@ -22,16 +22,17 @@ public class FillCrate implements ScriptTask
 
     BasicTask fill_crate = new BasicTask(() ->
     {
-        if(Inventory.contains(ItemID.BANANA)) {
+        if(!Inventory.contains(ItemID.KARAMJAN_RUM)) {
+            return 0;
+        }
+
+        if(Inventory.getCount(false, ItemID.BANANA) >= 10) {
             return Tools.interactWith("Crate", "Fill", luthas_location, Tools.EntityType.TILE_OBJECT);
         }
         else {
             Inventory.getFirst(ItemID.KARAMJAN_RUM).useOn(TileObjects.getNearest(x -> x.hasAction("Fill")));
         }
 
-        if(!Inventory.contains(ItemID.KARAMJAN_RUM)) {
-            return 0;
-        }
         return -1;
     });
 

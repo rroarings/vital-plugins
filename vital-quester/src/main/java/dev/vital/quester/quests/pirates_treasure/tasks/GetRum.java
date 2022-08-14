@@ -1,15 +1,14 @@
 package dev.vital.quester.quests.pirates_treasure.tasks;
 
+import dev.vital.quester.ObjectItemTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.items.Inventory;
 
 public class GetRum implements ScriptTask
 {
-    private final WorldPoint rum_point = new WorldPoint(3010, 3206, 0);
+    private final WorldPoint rum_point = new WorldPoint(3010, 3208, 0);
 
     VitalQuesterConfig config;
 
@@ -18,20 +17,17 @@ public class GetRum implements ScriptTask
         this.config = config;
     }
 
+    ObjectItemTask get_rum = new ObjectItemTask(2071, ItemID.KARAMJAN_RUM, 1, false, "Search", rum_point);
+
     @Override
     public boolean validate()
     {
-        return !Inventory.contains(ItemID.KARAMJAN_RUM);
+        return !get_rum.taskCompleted();
     }
 
     @Override
     public int execute() {
 
-        if (Tools.interactWith("Crate", "Search", rum_point, Tools.EntityType.TILE_OBJECT) == -5) {
-
-            return -5;
-        }
-
-        return -1;
+        return get_rum.execute();
     }
 }

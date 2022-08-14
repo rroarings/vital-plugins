@@ -2,27 +2,34 @@ package dev.vital.quester;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
+import dev.vital.quester.quests.enter_the_abyss.EnterTheAbyss;
 import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
-import dev.vital.quester.quests.pirates_treasure.tasks.GetJob;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
 import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
 import dev.vital.quester.quests.tutorial_island.TutorialIsland;
 import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
+import dev.vital.quester.tasks.HandleGenie;
+import dev.vital.quester.tasks.HandleLamp;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
-import net.runelite.api.events.ConfigButtonClicked;
-import net.unethicalite.api.commons.Time;
+import dev.vital.quester.ui.VitalPanel;
+import net.runelite.api.events.GameTick;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
+import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
+import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.ImageUtil;
 import net.unethicalite.api.game.Game;
-import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
-import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.plugins.PluginDescriptor;
 import org.pf4j.Extension;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,53 +37,75 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-	@Inject
+    public static String version = "0.1.17";
+
+    @Inject
 	public VitalQuesterConfig config;
+
+	@Inject
+	private EventBus eventBus;
+
+	@Inject
+	private ClientToolbar clientToolbar;
+
+	@Inject
+	private ConfigManager configManager;
+
+	private VitalPanel vitalPanel;
+	private NavigationButton navButton;
 
 	static boolean plugin_enabled = false;
 	static List<ScriptTask> tasks = new ArrayList<>();
 
-	static boolean thread_once = false;
-	Thread t1 = new Thread(() -> {
-		if(Game.isLoggedIn()) {
-			Tools.isAnimating(1);
-		}
-		Time.sleepTick();
-	});
+	public VitalQuester() {
+	}
 
 	@Override
 	protected void startUp()
 	{
-		if(!thread_once) {
-			t1.start();
-			thread_once = true;
-		}
+		configManager.setConfiguration(VitalQuesterConfig.CONFIG_GROUP, "startStopPlugin", false);
+
 		plugin_enabled = false;
 
 		tasks.clear();
 
-		tasks.add(new TutorialIsland(config));
 		tasks.add(new HandleQuestComplete(config));
+		tasks.add(new HandleGenie(config));
+		tasks.add(new HandleLamp(config));
+
+		tasks.add(new TutorialIsland(config));
+
 		tasks.add(new CooksAssistant(config));
-		tasks.add(new RestlessGhost(config));
 		tasks.add(new SheepShearer(config));
+		tasks.add(new RestlessGhost(config));
+		tasks.add(new RuneMysteries(config));
 		tasks.add(new XMarksTheSpot(config));
 		tasks.add(new PiratesTreasure(config));
-		tasks.add(new RuneMysteries(config));
-	}
+		tasks.add(new EnterTheAbyss(config));
 
+		vitalPanel = new VitalPanel(config, configManager);
+
+		eventBus.register(vitalPanel);
+
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "1583.png");
+
+		navButton = NavigationButton.builder()
+				.tooltip("Vital Quester")
+				.icon(icon)
+				.priority(10)
+				.panel(vitalPanel)
+				.build();
+
+		clientToolbar.addNavigation(navButton);
+	}
 
 	@Override
 	protected int loop()
 	{
-		if(Game.isLoggedIn() && plugin_enabled)
+		if(Game.isLoggedIn() && config.startStopPlugin())
 		{
 			if(Dialog.canContinue()) {
 				Dialog.continueSpace();
-				return -1;
-			}
-
-			if(Movement.isWalking()) {
 				return -1;
 			}
 
@@ -96,19 +125,30 @@ public class VitalQuester extends LoopedPlugin
 		return -1;
 	}
 
-	@Subscribe
-	public void onConfigButtonClicked(ConfigButtonClicked e) {
+	@Override
+	protected void shutDown()
+	{
+		clientToolbar.removeNavigation(navButton);
+		eventBus.unregister(vitalPanel);
+	}
 
-		if (!e.getGroup().equals("vitalquesterconfig")) {
+	@Subscribe
+	private void onGameTick(GameTick event) {
+		if(Game.isLoggedIn()) {
+			Tools.isAnimating(1);
+		}
+	}
+
+	@Subscribe
+	public void onConfigChanged(ConfigChanged e)
+	{
+		if (!e.getGroup().equals("vitalquesterconfig") && !e.getKey().equals("currentQuest")) {
 			return;
 		}
 
-		switch (e.getKey()) {
-			case "startStopPlugin":
-				plugin_enabled = !plugin_enabled;
-				break;
-		}
+		plugin_enabled = false;
 	}
+
 	@Provides
 	VitalQuesterConfig getConfig(ConfigManager configManager)
 	{

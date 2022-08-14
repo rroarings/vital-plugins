@@ -5,12 +5,10 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
 import net.unethicalite.api.SceneEntity;
 import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
-import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
@@ -21,7 +19,6 @@ import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Tools
@@ -68,18 +65,34 @@ public class Tools
 
 	public static int talkTo(String name, WorldPoint point, List<String> dialog) {
 
-		var entity = NPCs.getNearest(x -> x.getName().equals(name));
-		if(entity != null && Reachable.isInteractable(entity)) {
+		if(Dialog.canContinue()) {
+			Dialog.continueSpace();
+			return -1;
+		}
 
-			if(Dialog.isViewingOptions()) {
-				for(var option : dialog) {
-					if(Dialog.chooseOption(option)) {
+		if(dialog != null) {
+			boolean is_wanted_text = false;
+			for (var d : dialog) {
+				if(d == null) {
+					continue;
+				}
+				if (Dialog.getOptions().stream().anyMatch(x -> x.getText().contains(d))) {
+					is_wanted_text = true;
+				}
+			}
+
+			if (Dialog.isViewingOptions() && is_wanted_text) {
+				for (var option : dialog) {
+					if (Dialog.chooseOption(option)) {
 						dialog.remove(option);
-						break;
+						return -2;
 					}
 				}
 				return -2;
 			}
+		}
+		var entity = NPCs.getNearest(x -> x.getName().equals(name));
+		if(entity != null && Reachable.isInteractable(entity)) {
 
 			entity.interact("Talk-to");
 			return -5;
@@ -214,7 +227,7 @@ public class Tools
 		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
 		if(shop != null && Reachable.isInteractable(shop)) {
 			shop.interact("Trade");
-			return -5;
+			return -4;
 		}
 		else if(!Movement.isWalking()) {
 			Movement.walkTo(point);

@@ -1,17 +1,12 @@
 package dev.vital.quester;
 
-import dev.vital.quester.tools.Tools;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 
-
 public class ItemTask {
-    public interface TaskFunction {
-        int execute();
-    }
 
     boolean task_completed;
     int id;
@@ -28,6 +23,12 @@ public class ItemTask {
     }
 
     public int execute() {
+
+        if(Inventory.getCount(this.stack, this.id) == this.quantity) {
+            task_completed = true;
+            return -1;
+        }
+
         var item = TileItems.getNearest(id);
         if(item != null && Reachable.isInteractable(item)) {
             item.interact("Take");
@@ -41,6 +42,6 @@ public class ItemTask {
     }
 
     public boolean taskCompleted() {
-        return Inventory.getCount(this.stack, this.id) == this.quantity;
+        return this.task_completed;
     }
 }

@@ -6,8 +6,7 @@ import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.rune_mysteries.tasks.AcceptPackage;
 import dev.vital.quester.quests.rune_mysteries.tasks.DeliverNotes;
 import dev.vital.quester.quests.rune_mysteries.tasks.DeliverPackage;
-import dev.vital.quester.quests.sheep_shearer.tasks.*;
-import dev.vital.quester.quests.x_marks_the_spot.tasks.StartQuest;
+import dev.vital.quester.quests.rune_mysteries.tasks.StartQuest;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.unethicalite.api.quests.Quests;
@@ -35,7 +34,7 @@ public class RuneMysteries implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.RUNE_MYSTERIES) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
+        return (config.currentQuest().equals(QuestList.RUNE_MYSTERIES) || config.automaticOptimal()) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
     }
 
     @Override

@@ -5,15 +5,11 @@ import dev.vital.quester.quests.cooks_assistant.tasks.GetEgg;
 import dev.vital.quester.quests.cooks_assistant.tasks.GetFlour;
 import dev.vital.quester.quests.cooks_assistant.tasks.GetMilk;
 import dev.vital.quester.quests.cooks_assistant.tasks.TalkToCook;
-import dev.vital.quester.tools.Tools;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
-import net.runelite.api.VarPlayer;
-import net.unethicalite.api.game.Vars;
-import net.unethicalite.api.quests.QuestVarPlayer;
-import net.unethicalite.api.quests.Quests;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.ScriptTask;
+import net.unethicalite.api.quests.Quests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +34,7 @@ public class CooksAssistant implements ScriptTask
 	@Override
 	public boolean validate()
 	{
-		return config.currentQuest().equals(QuestList.COOKS_ASSISTANT) && Tools.getQuestProgress(QuestVarPlayer.QUEST_COOKS_ASSISTANT) != 2;
+		return (config.currentQuest().equals(QuestList.COOKS_ASSISTANT) || config.automaticOptimal()) && Quests.getState(Quest.COOKS_ASSISTANT) != QuestState.FINISHED;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class PiratesTreasure implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.PIRATES_TREASURE) && Quests.getState(Quest.PIRATES_TREASURE) != QuestState.FINISHED;
+        return (config.currentQuest().equals(QuestList.PIRATES_TREASURE) || config.automaticOptimal()) && Quests.getState(Quest.PIRATES_TREASURE) != QuestState.FINISHED;
     }
 
     @Override

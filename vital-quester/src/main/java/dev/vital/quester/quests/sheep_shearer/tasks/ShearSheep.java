@@ -1,17 +1,18 @@
 package dev.vital.quester.quests.sheep_shearer.tasks;
 
-import dev.vital.quester.ScriptTask;
-import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.BasicTask;
-import dev.vital.quester.tools.Tools;
+import dev.vital.quester.*;
 import net.runelite.api.ItemID;
+import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Movement;
 
 public class ShearSheep implements ScriptTask
 {
-    private final WorldPoint farmer_fred_point = new WorldPoint(3195, 3269, 0);
+    private final WorldPoint sheep_point = new WorldPoint(3199, 3268, 0);
+
+    private final WorldArea sheep_point2 = new WorldArea(3192, 3256, 23, 18, 0);
 
     VitalQuesterConfig config;
 
@@ -20,15 +21,7 @@ public class ShearSheep implements ScriptTask
         this.config = config;
     }
 
-    BasicTask sheer_sheap = new BasicTask(() ->
-    {
-        if(!Inventory.contains(20, ItemID.WOOL)) {
-            return Tools.interactWith(2693, "Shear", farmer_fred_point, Tools.EntityType.TILE_OBJECT);
-        }
-        else {
-            return 0;
-        }
-    });
+    NPCItemTask sheer_sheap = new NPCItemTask(2693, ItemID.WOOL, 20, false, "Shear", sheep_point);
 
     @Override
     public boolean validate()
@@ -41,7 +34,12 @@ public class ShearSheep implements ScriptTask
 
         if(!sheer_sheap.taskCompleted()) {
 
-            return sheer_sheap.execute();
+            if(sheep_point2.contains(LocalPlayer.get())) {
+                return sheer_sheap.execute();
+            }
+            else if(!Movement.isWalking()) {
+                Movement.walkTo(sheep_point);
+            }
         }
 
         return -1;

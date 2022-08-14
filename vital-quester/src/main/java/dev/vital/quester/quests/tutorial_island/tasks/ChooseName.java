@@ -2,6 +2,9 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.input.Keyboard;
+import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.widgets.Widgets;
 
 public class ChooseName implements ScriptTask
@@ -18,13 +21,13 @@ public class ChooseName implements ScriptTask
     {
         var widget  = Widgets.get(558, 13);
         if(widget != null) {
-           if(widget != null) {
-               return widget.getText().contains("Please look up a name to see") || widget.getText().contains("Please enter a name to look up");
-           }
+
+            return widget.getText().contains("Please look up a name to see") || widget.getText().contains("Please enter a name to look up");
         }
         return false;
     }
 
+    String vitalflea = "Vitalflea";
     @Override
     public int execute()
     {
@@ -32,8 +35,16 @@ public class ChooseName implements ScriptTask
         var look_up_name  = Widgets.get(558, 18);
         if(name_text != null) {
 
-            if (!name_text.getText().equals("Vitalflea")) {
-                name_text.setText("Vitalflea");
+            if (!name_text.getText().equals("Vitalflea*")) {
+
+                Mouse.click(Widgets.get(558, 7).getClickPoint().getAwtPoint(), true);
+
+                Time.sleepTicks(2);
+
+                for (var character : vitalflea.toCharArray()) {
+                    Keyboard.type(character);
+                   Time.sleep(220, 420);
+                }
             }
             else {
 

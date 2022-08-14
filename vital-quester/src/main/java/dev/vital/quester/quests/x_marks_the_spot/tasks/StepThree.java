@@ -28,8 +28,10 @@ public class StepThree implements ScriptTask
     @Override
     public int execute() {
 
-        if(!LocalPlayer.get().getWorldLocation().equals(dig_three_point) && !Movement.isWalking()) {
-            Movement.walkTo(dig_three_point);
+        if(!LocalPlayer.get().getWorldLocation().equals(dig_three_point)) {
+            if(!Movement.isWalking()) {
+                Movement.walkTo(dig_three_point);
+            }
             return -1;
         }
 

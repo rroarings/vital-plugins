@@ -6,7 +6,6 @@ import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 
 public class GetShovel implements ScriptTask
 {
@@ -29,19 +28,9 @@ public class GetShovel implements ScriptTask
     public int execute() {
 
         if(!Inventory.contains(ItemID.SPADE) && Inventory.getCount(true, ItemID.COINS_995) >= 3) {
-
-            if (Tools.interactWith("Shop keeper", "Trade", shop_keeper_point, Tools.EntityType.NPC) == -5) {
-                return -5;
-            }
-
-            if (Shop.isOpen()) {
-                Shop.buyOne(ItemID.SPADE);
-                return -5;
-            }
-
-            return -1;
+            return Tools.purchaseFrom("Shop keeper", shop_keeper_point, ItemID.SPADE, 1, false);
         }
 
-        return -1;
+        return -2;
     }
 }

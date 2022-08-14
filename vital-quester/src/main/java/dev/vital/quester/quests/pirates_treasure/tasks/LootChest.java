@@ -5,7 +5,7 @@ import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.BasicTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
@@ -23,17 +23,22 @@ public class LootChest implements ScriptTask
 
     BasicTask loot_chest = new BasicTask(() ->
     {
-        if(!Movement.isWalking()) {
-           TileObjects.getFirstAt(1764,3858, 0,8975).interact("Chip");
-           if(Movement.walkTo(rum_point)) {
-               Inventory.getFirst(ItemID.CHEST_KEY).useOn(TileObjects.getNearest("Chest"));
-               Time.sleepTicks(6);
-               if(Inventory.contains(ItemID.PIRATE_MESSAGE)) {
-                   Inventory.getFirst(ItemID.PIRATE_MESSAGE).interact("Read");
-                   return 0;
-               }
-           }
-       }
+        if (Inventory.contains(ItemID.PIRATE_MESSAGE)) {
+            Inventory.getFirst(ItemID.PIRATE_MESSAGE).interact("Read");
+            return 0;
+        }
+
+        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3219,3395, 1))) {
+            if(!Movement.isWalking()) {
+                Movement.walkTo(rum_point);
+            }
+        }
+        else {
+
+            Inventory.getFirst(ItemID.CHEST_KEY).useOn(TileObjects.getNearest("Chest"));
+
+            return -5;
+        }
 
         return -1;
     });

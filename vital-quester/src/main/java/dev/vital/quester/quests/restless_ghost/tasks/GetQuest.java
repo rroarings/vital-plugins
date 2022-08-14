@@ -1,13 +1,11 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
 import dev.vital.quester.DialogTask;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.ScriptTask;
-import net.unethicalite.api.quests.Quests;
-import dev.vital.quester.tools.Tools;
+import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class GetQuest implements ScriptTask
 {
@@ -23,11 +21,11 @@ public class GetQuest implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Quests.getState(Quest.THE_RESTLESS_GHOST) == QuestState.NOT_STARTED;
+        return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 0;
     }
 
-    DialogTask talk_to_aereck = new DialogTask("Father Urhney",  father_aereck_point,
-            "Father Aereck sent me to talk to you.", "He's got a ghost haunting his graveyard.");
+    DialogTask talk_to_aereck = new DialogTask("Father Aereck",  father_aereck_point,
+            "I'm looking for a quest!", "Yes.");
 
     @Override
     public int execute() {

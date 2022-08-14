@@ -1,13 +1,19 @@
 package dev.vital.quester.quests.tutorial_island;
 
+import com.google.common.collect.ImmutableSet;
 import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.tutorial_island.tasks.*;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.GameSettings;
+import net.unethicalite.api.input.Mouse;
+import net.unethicalite.api.widgets.Widgets;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class TutorialIsland implements ScriptTask
 {
@@ -25,7 +31,6 @@ public class TutorialIsland implements ScriptTask
         tasks.add(new ChooseAppearance(config));
         tasks.add(new GielinorGuide(config));
         tasks.add(new OpenSettings(config));
-        tasks.add(new GielinorGuide2(config));
         tasks.add(new GielinorGuide2(config));
         tasks.add(new OpenGuideDoor(config));
         tasks.add(new TalkToExpert(config));
@@ -87,19 +92,55 @@ public class TutorialIsland implements ScriptTask
         tasks.add(new FinishTutorial(config));
     }
 
+    private static final Set<Integer> TUTORIAL_ISLAND_REGIONS = ImmutableSet.of(12336, 12335, 12592, 12080, 12079, 12436);
+
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.TUTORIAL_ISLAND);
+        return (config.currentQuest().equals(QuestList.TUTORIAL_ISLAND) || config.automaticOptimal()) && TUTORIAL_ISLAND_REGIONS.contains(LocalPlayer.get().getWorldLocation().getRegionID());
+    }
+
+    void handleDisplay() {
+        if(GameSettings.Display.getCurrentMode() == GameSettings.Display.RESIZABLE_MODERN) {
+
+            var settings_menu = Widgets.get(164,40);
+            if(settings_menu == null) {
+                return;
+            }
+
+            Mouse.click(settings_menu.getClickPoint().getAwtPoint(), true);
+            Time.sleepTick();
+
+            var display_menu = Widgets.get(116, 112);
+            if(display_menu == null) {
+                return;
+            }
+
+            Mouse.click(display_menu.getClickPoint().getAwtPoint(), true);
+            Time.sleepTick();
+
+            var drop_down = Widgets.get(116, 27, 3);
+            if(drop_down == null) {
+                return;
+            }
+
+            Mouse.click(drop_down.getClickPoint().getAwtPoint(), true);
+            Time.sleepTick();
+
+            var fixed = Widgets.get(116, 84, 1);
+            if(fixed == null) {
+                return;
+            }
+
+            Mouse.click(fixed.getClickPoint().getAwtPoint(), true);
+            Time.sleepTick();
+        }
     }
 
     @Override
     public int execute() {
 
-        //if(GameSettings.Display.getCurrentMode() != GameSettings.Display.FIXED) {
-        //    GameSettings.Display.setMode(GameSettings.Display.FIXED);
-        //    return -5;
-        //}
+        handleDisplay();
 
         for (ScriptTask task : tasks)
         {

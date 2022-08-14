@@ -1,14 +1,11 @@
 package dev.vital.quester.quests.pirates_treasure.tasks;
 
 import dev.vital.quester.DialogTask;
-import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.quests.Quests;
+import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class StartQuest implements ScriptTask
 {
@@ -24,7 +21,7 @@ public class StartQuest implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.PIRATES_TREASURE) && Quests.getState(Quest.PIRATES_TREASURE) == QuestState.NOT_STARTED;
+        return Vars.getVarp(QuestVarPlayer.QUEST_PIRATES_TREASURE.getId()) == 0;
     }
 
     DialogTask talk_to_frank = new DialogTask("Redbeard Frank", pirate_point,

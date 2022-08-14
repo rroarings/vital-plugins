@@ -30,8 +30,11 @@ public class OpenBank implements ScriptTask
     @Override
     public int execute()
     {
-        TileObjects.getNearest("Bank booth").interact("Use");
+        var booth = TileObjects.getNearest("Bank booth");
+        if(booth != null) {
 
+            booth.interact("Use");
+        }
         return -5;
     }
 }

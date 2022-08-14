@@ -31,7 +31,7 @@ public class SheepShearer implements ScriptTask
     @Override
     public boolean validate()
     {
-        return config.currentQuest().equals(QuestList.SHEEP_SHEARER) && Quests.getState(Quest.SHEEP_SHEARER) != QuestState.FINISHED;
+        return (config.currentQuest().equals(QuestList.SHEEP_SHEARER) || config.automaticOptimal()) && Quests.getState(Quest.SHEEP_SHEARER) != QuestState.FINISHED;
     }
 
     @Override

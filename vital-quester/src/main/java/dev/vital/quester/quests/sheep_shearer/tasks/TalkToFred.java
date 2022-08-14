@@ -2,14 +2,10 @@ package dev.vital.quester.quests.sheep_shearer.tasks;
 
 import dev.vital.quester.DialogTask;
 import net.runelite.api.ItemID;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
 import net.runelite.api.coords.WorldPoint;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.ScriptTask;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.quests.Quests;
-import dev.vital.quester.tools.Tools;
 
 public class TalkToFred implements ScriptTask
 {
@@ -29,7 +25,7 @@ public class TalkToFred implements ScriptTask
     }
 
     DialogTask talk_to_fred = new DialogTask("Fred the Farmer",  farmer_fred_point,
-            "yes.", "I'm looking for a quest.", "Yes, okay. I can do that.");
+            "Yes.", "I'm looking for a quest.", "Yes, okay. I can do that.");
 
     @Override
     public int execute() {

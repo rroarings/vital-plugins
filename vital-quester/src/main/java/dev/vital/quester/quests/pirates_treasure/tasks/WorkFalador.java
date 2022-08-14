@@ -12,8 +12,6 @@ import net.unethicalite.api.movement.Movement;
 
 public class WorkFalador implements ScriptTask
 {
-    private final WorldPoint pirate_point = new WorldPoint(3054, 3253, 0);
-
     VitalQuesterConfig config;
 
     public WorkFalador(VitalQuesterConfig config)
@@ -29,38 +27,41 @@ public class WorkFalador implements ScriptTask
 
     BasicTask dig = new BasicTask(() ->
     {
-        if(!Movement.isWalking()) {
-            if(Movement.walkTo(2999,3383, 0)) {
-                if(LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999,3383, 0))) {
-                    Inventory.getFirst(ItemID.SPADE).interact("Dig");
-                    return 0;
-                }
+        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
+            if (!Movement.isWalking()) {
+                Movement.walkTo(2999, 3383, 0);
             }
         }
-
+        else {
+            Inventory.getFirst(ItemID.SPADE).interact("Dig");
+            return 0;
+        }
         return -1;
     });
+
     BasicTask dig2 = new BasicTask(() ->
     {
-        if(!Movement.isWalking()) {
-            if(Movement.walkTo(2999,3383, 0)) {
-                if(LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999,3383, 0))) {
-                    Inventory.getFirst(ItemID.SPADE).interact("Dig");
-                    return 0;
-                }
+        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
+            if (!Movement.isWalking()) {
+                Movement.walkTo(2999, 3383, 0);
             }
+        }
+        else {
+            Inventory.getFirst(ItemID.SPADE).interact("Dig");
+            return 0;
         }
 
         return -1;
     });
+
     BasicTask wait = new BasicTask(() ->
     {
-        if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3005, 3383, 0))) {
+        if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3010, 3383, 0))) {
             Time.sleepTicks(6);
             return 0;
         }
         else {
-            Movement.walkTo(3005, 3383, 0);
+            Movement.walkTo(3010, 3383, 0);
         }
 
         return -1;

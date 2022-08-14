@@ -2,11 +2,11 @@ package dev.vital.quester.quests.cooks_assistant.tasks;
 
 import dev.vital.quester.ItemTask;
 import dev.vital.quester.ObjectItemTask;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.items.Inventory;
-import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.ScriptTask;
 
 public class GetMilk implements ScriptTask
 {

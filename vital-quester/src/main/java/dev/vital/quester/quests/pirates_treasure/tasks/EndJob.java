@@ -3,8 +3,6 @@ package dev.vital.quester.quests.pirates_treasure.tasks;
 import dev.vital.quester.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.BasicTask;
-import dev.vital.quester.tools.Tools;
 import net.runelite.api.coords.WorldPoint;
 
 public class EndJob implements ScriptTask
@@ -18,7 +16,7 @@ public class EndJob implements ScriptTask
         this.config = config;
     }
 
-    DialogTask talk_to_luthus = new DialogTask("Luthas", luthas_location, (String)null);
+    DialogTask talk_to_luthus = new DialogTask("Luthas", luthas_location, "Thank you, I'll be on my way");
 
     @Override
     public boolean validate()

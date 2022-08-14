@@ -3,9 +3,9 @@ package dev.vital.quester;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
-import dev.vital.quester.quests.enter_the_abyss.EnterTheAbyss;
 import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
+import dev.vital.quester.quests.romeo_and_juliet.RomeoAndJuliet;
 import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
 import dev.vital.quester.quests.tutorial_island.TutorialIsland;
@@ -37,7 +37,7 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-    public static String version = "0.2.1";
+    public static String version = "0.2.2";
 
     @Inject
 	public VitalQuesterConfig config;
@@ -81,7 +81,7 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new RuneMysteries(config));
 		tasks.add(new XMarksTheSpot(config));
 		tasks.add(new PiratesTreasure(config));
-		tasks.add(new EnterTheAbyss(config));
+		tasks.add(new RomeoAndJuliet(config));
 
 		vitalPanel = new VitalPanel(config, configManager);
 

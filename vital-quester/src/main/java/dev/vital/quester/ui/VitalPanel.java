@@ -3,7 +3,6 @@ package dev.vital.quester.ui;
 import dev.vital.quester.VitalQuesterConfig;
 import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
-import net.runelite.api.Client;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -19,20 +18,23 @@ public class VitalPanel extends PluginPanel
 	private final List<PanelContainer> containers = new ArrayList<>();
 	private final JTabbedPane tabbedPane = new JTabbedPane();
 
-	public VitalPanel(Client client, VitalQuesterConfig config, ConfigManager configManager)
+	public VitalPanel(VitalQuesterConfig config, ConfigManager configManager)
 	{
 		setLayout(new MigLayout());
 
-		InteractionContainer interactionContainer = new InteractionContainer(config, configManager);
+		QuestContainer questContainer = new QuestContainer(config, configManager);
 		MiscellaneousContainer miscellaneousContainer = new MiscellaneousContainer(config, configManager);
+		AboutContainer aboutContainer = new AboutContainer(config, configManager);
 
-		containers.add(interactionContainer);
+		containers.add(questContainer);
 		containers.add(miscellaneousContainer);
+		containers.add(aboutContainer);
 
 		add(tabbedPane);
 
-		tabbedPane.addTab(interactionContainer.getTitle(), interactionContainer);
+		tabbedPane.addTab(questContainer.getTitle(), questContainer);
 		tabbedPane.addTab(miscellaneousContainer.getTitle(), miscellaneousContainer);
+		tabbedPane.addTab(aboutContainer.getTitle(), aboutContainer);
 	}
 
 	@Subscribe

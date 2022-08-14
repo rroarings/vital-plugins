@@ -21,7 +21,6 @@ import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.unethicalite.regions.RegionHandler;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
@@ -38,14 +37,13 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-	@Inject
+    public static String version = "0.1.17";
+
+    @Inject
 	public VitalQuesterConfig config;
 
 	@Inject
 	private EventBus eventBus;
-
-	@Inject
-	private RegionHandler regionHandler;
 
 	@Inject
 	private ClientToolbar clientToolbar;
@@ -58,6 +56,9 @@ public class VitalQuester extends LoopedPlugin
 
 	static boolean plugin_enabled = false;
 	static List<ScriptTask> tasks = new ArrayList<>();
+
+	public VitalQuester() {
+	}
 
 	@Override
 	protected void startUp()

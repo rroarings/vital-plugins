@@ -2,6 +2,7 @@ package dev.vital.quester;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
 import dev.vital.quester.quests.enter_the_abyss.EnterTheAbyss;
 import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
@@ -9,17 +10,18 @@ import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
 import dev.vital.quester.quests.tutorial_island.TutorialIsland;
 import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
+import dev.vital.quester.tasks.HandleGenie;
+import dev.vital.quester.tasks.HandleLamp;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
-import net.runelite.client.events.ConfigChanged;
-import net.unethicalite.api.game.Game;
-import net.unethicalite.api.plugins.LoopedPlugin;
-import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.game.Game;
+import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
 import org.pf4j.Extension;
 
@@ -43,8 +45,12 @@ public class VitalQuester extends LoopedPlugin
 
 		tasks.clear();
 
-		tasks.add(new TutorialIsland(config));
 		tasks.add(new HandleQuestComplete(config));
+		tasks.add(new HandleGenie(config));
+		tasks.add(new HandleLamp(config));
+
+		tasks.add(new TutorialIsland(config));
+
 		tasks.add(new CooksAssistant(config));
 		tasks.add(new SheepShearer(config));
 		tasks.add(new RestlessGhost(config));

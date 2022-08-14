@@ -1,4 +1,4 @@
-version = "0.1.14"
+version = "0.1.15"
 
 project.extra["PluginName"] = "Vital Quester"
 project.extra["PluginDescription"] = ""
@@ -15,4 +15,8 @@ tasks {
             ))
         }
     }
+}
+
+dependencies {
+    implementation("com.miglayout:miglayout:3.7.4")
 }

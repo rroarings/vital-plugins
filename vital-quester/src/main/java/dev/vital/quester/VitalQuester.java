@@ -14,17 +14,25 @@ import dev.vital.quester.tasks.HandleGenie;
 import dev.vital.quester.tasks.HandleLamp;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
+import dev.vital.quester.ui.VitalPanel;
+import net.runelite.api.Client;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.plugins.unethicalite.regions.RegionHandler;
+import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
+import net.runelite.client.util.ImageUtil;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
 import org.pf4j.Extension;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +42,24 @@ public class VitalQuester extends LoopedPlugin
 {
 	@Inject
 	public VitalQuesterConfig config;
+
+	@Inject
+	private EventBus eventBus;
+
+	@Inject
+	private RegionHandler regionHandler;
+
+	@Inject
+	private ClientToolbar clientToolbar;
+
+	@Inject
+	private ConfigManager configManager;
+
+	@Inject
+	private Client client;
+
+	private VitalPanel vitalPanel;
+	private NavigationButton navButton;
 
 	static boolean plugin_enabled = false;
 	static List<ScriptTask> tasks = new ArrayList<>();
@@ -58,6 +84,21 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new XMarksTheSpot(config));
 		tasks.add(new PiratesTreasure(config));
 		tasks.add(new EnterTheAbyss(config));
+
+		vitalPanel = new VitalPanel(client, config, configManager);
+
+		eventBus.register(vitalPanel);
+
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "1583.png");
+
+		navButton = NavigationButton.builder()
+				.tooltip("Vital Quester")
+				.icon(icon)
+				.priority(10)
+				.panel(vitalPanel)
+				.build();
+
+		clientToolbar.addNavigation(navButton);
 	}
 
 	@Override
@@ -84,6 +125,13 @@ public class VitalQuester extends LoopedPlugin
 		}
 
 		return -1;
+	}
+
+	@Override
+	protected void shutDown() throws Exception
+	{
+		clientToolbar.removeNavigation(navButton);
+		eventBus.unregister(vitalPanel);
 	}
 
 	@Subscribe

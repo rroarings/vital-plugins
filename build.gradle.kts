@@ -51,7 +51,7 @@ allprojects {
     dependencies {
         annotationProcessor(Libraries.lombok)
         annotationProcessor(Libraries.pf4j)
-
+        implementation("com.miglayout:miglayout:3.7.4")
         compileOnly("net.unethicalite:runelite-api:$unethicaliteVersion+")
         compileOnly("net.unethicalite:runelite-client:$unethicaliteVersion+")
 

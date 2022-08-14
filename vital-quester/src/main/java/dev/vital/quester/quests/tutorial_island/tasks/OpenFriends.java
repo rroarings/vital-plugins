@@ -1,7 +1,7 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import net.unethicalite.api.input.Mouse;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import net.unethicalite.api.widgets.Widgets;
 
 public class OpenFriends implements ScriptTask
@@ -29,9 +29,9 @@ public class OpenFriends implements ScriptTask
     @Override
     public int execute()
     {
-        var widget = Widgets.get(548,48);
+        var widget = Widgets.get(164,39);
         if(widget != null) {
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
+            widget.interact("Friends List");
         }
 
         return -2;

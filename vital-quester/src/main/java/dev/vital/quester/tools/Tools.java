@@ -21,6 +21,8 @@ import net.unethicalite.client.Static;
 
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 public class Tools
 {
 	public enum EntityType {
@@ -196,6 +198,44 @@ public class Tools
 		}
 
 		return (tick_count - animation_tick) <= delta;
+	}
+
+	public static int sellTo(String name, WorldPoint point, int id, int amount, boolean stack) {
+
+		int current_amount = Inventory.getCount(stack, id);
+		if(current_amount == amount) {
+			return 0;
+		}
+
+		if(Shop.isOpen()) {
+
+			int amount_needed = abs(amount - current_amount);
+			if(amount_needed >= 50) {
+				Shop.sellFifty(id);
+			}
+			else if(amount_needed >= 10) {
+				Shop.sellTen(id);
+			}
+			else if(amount_needed >= 5) {
+				Shop.sellFifty(id);
+			}
+			else if(amount_needed >= 1) {
+				Shop.sellOne(id);
+			}
+
+			return -2;
+		}
+
+		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
+		if(shop != null && Reachable.isInteractable(shop)) {
+			shop.interact("Trade");
+			return -4;
+		}
+		else if(!Movement.isWalking()) {
+			Movement.walkTo(point);
+		}
+
+		return -1;
 	}
 
 	public static int purchaseFrom(String name, WorldPoint point, int id, int amount, boolean stack) {

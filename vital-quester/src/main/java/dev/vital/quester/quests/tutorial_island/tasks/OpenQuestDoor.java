@@ -3,6 +3,7 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
@@ -35,7 +36,7 @@ public class OpenQuestDoor implements ScriptTask
     public int execute()
     {
         var door = TileObjects.getFirstAt(quest_door, "Door");
-        if(door != null && Reachable.isInteractable(door)) {
+        if(door != null && Reachable.isInteractable(door) && LocalPlayer.get().getWorldLocation().distanceTo2D(door.getWorldLocation()) < 5) {
             door.interact("Open");
             return -5;
         }

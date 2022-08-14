@@ -15,7 +15,6 @@ import dev.vital.quester.tasks.HandleLamp;
 import dev.vital.quester.tasks.HandleQuestComplete;
 import dev.vital.quester.tools.Tools;
 import dev.vital.quester.ui.VitalPanel;
-import net.runelite.api.Client;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
@@ -54,9 +53,6 @@ public class VitalQuester extends LoopedPlugin
 	@Inject
 	private ConfigManager configManager;
 
-	@Inject
-	private Client client;
-
 	private VitalPanel vitalPanel;
 	private NavigationButton navButton;
 
@@ -66,6 +62,8 @@ public class VitalQuester extends LoopedPlugin
 	@Override
 	protected void startUp()
 	{
+		configManager.setConfiguration(VitalQuesterConfig.CONFIG_GROUP, "startStopPlugin", false);
+
 		plugin_enabled = false;
 
 		tasks.clear();
@@ -84,7 +82,7 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new PiratesTreasure(config));
 		tasks.add(new EnterTheAbyss(config));
 
-		vitalPanel = new VitalPanel(client, config, configManager);
+		vitalPanel = new VitalPanel(config, configManager);
 
 		eventBus.register(vitalPanel);
 
@@ -127,7 +125,7 @@ public class VitalQuester extends LoopedPlugin
 	}
 
 	@Override
-	protected void shutDown() throws Exception
+	protected void shutDown()
 	{
 		clientToolbar.removeNavigation(navButton);
 		eventBus.unregister(vitalPanel);

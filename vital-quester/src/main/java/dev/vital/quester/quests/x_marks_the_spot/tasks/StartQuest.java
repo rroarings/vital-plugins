@@ -7,7 +7,7 @@ import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.quests.QuestVarbits;
 
-public class    StartQuest implements ScriptTask
+public class StartQuest implements ScriptTask
 {
     private final WorldPoint veos_point = new WorldPoint(3228, 3241, 0);
 

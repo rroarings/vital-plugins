@@ -2,6 +2,7 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.*;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.widgets.Widgets;
 
 public class TalkToMiningInstructor implements ScriptTask
@@ -30,9 +31,16 @@ public class TalkToMiningInstructor implements ScriptTask
 
     DialogTask talk_to_mining_instructor = new DialogTask("Mining Instructor", quest_guide_point, (String)null);
 
+    CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
+
     @Override
     public int execute()
     {
+        if(!camera_task.taskCompleted()) {
+            camera_task.moveRight();
+            return -1;
+        }
+
         if(!talk_to_mining_instructor.taskCompleted()) {
             return talk_to_mining_instructor.execute();
         }

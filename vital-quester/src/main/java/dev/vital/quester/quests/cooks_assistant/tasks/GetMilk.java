@@ -1,7 +1,7 @@
 package dev.vital.quester.quests.cooks_assistant.tasks;
 
-import dev.vital.quester.ItemTask;
-import dev.vital.quester.ObjectItemTask;
+import dev.vital.quester.tasks.ItemTask;
+import dev.vital.quester.tasks.ObjectItemTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.ItemID;

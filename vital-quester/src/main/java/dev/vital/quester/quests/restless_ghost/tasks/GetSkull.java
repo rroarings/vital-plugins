@@ -1,8 +1,8 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
-import dev.vital.quester.ObjectItemTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.ObjectItemTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;

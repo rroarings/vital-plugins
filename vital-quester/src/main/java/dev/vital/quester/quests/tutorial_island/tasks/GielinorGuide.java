@@ -1,6 +1,8 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.widgets.Widgets;
 

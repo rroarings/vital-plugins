@@ -1,6 +1,6 @@
 package dev.vital.quester.quests.restless_ghost.tasks;
 
-import dev.vital.quester.DialogTask;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.coords.WorldPoint;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.ScriptTask;

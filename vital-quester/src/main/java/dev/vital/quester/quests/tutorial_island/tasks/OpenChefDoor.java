@@ -1,8 +1,8 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.CameraTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.CameraTask;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.TileObjects;

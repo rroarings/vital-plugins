@@ -10,7 +10,7 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class GetSkull implements ScriptTask
 {
-    private final WorldPoint altar_point = new WorldPoint(3111, 9559, 0);
+    private final WorldPoint altar_point = new WorldPoint(3119, 9565, 0);
 
     VitalQuesterConfig config;
 

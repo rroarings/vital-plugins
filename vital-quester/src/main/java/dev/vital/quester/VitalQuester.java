@@ -35,7 +35,7 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-    public static String version = "0.2.5";
+    public static String version = "0.2.6";
 
     @Inject
 	public VitalQuesterConfig config;

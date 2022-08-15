@@ -1,9 +1,10 @@
 package dev.vital.quester.quests.romeo_and_juliet.tasks;
 
-import dev.vital.quester.DialogTask;
+import dev.vital.quester.tasks.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.quests.QuestVarPlayer;
 
@@ -21,7 +22,7 @@ public class TalkToRomeo2 implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Vars.getBit(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 60;
+        return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 60;
     }
 
     DialogTask talk_to_romeo = new DialogTask("Romeo",  romeo_point,
@@ -30,7 +31,7 @@ public class TalkToRomeo2 implements ScriptTask
     @Override
     public int execute() {
 
-        if (!talk_to_romeo.taskCompleted()) {
+        if (!talk_to_romeo.taskCompleted() && LocalPlayer.get().getWorldLocation().getRegionID() != 48174) {
             return talk_to_romeo.execute();
         }
 

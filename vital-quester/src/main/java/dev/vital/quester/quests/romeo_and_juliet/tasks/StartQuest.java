@@ -1,6 +1,6 @@
 package dev.vital.quester.quests.romeo_and_juliet.tasks;
 
-import dev.vital.quester.DialogTask;
+import dev.vital.quester.tasks.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
@@ -21,7 +21,7 @@ public class StartQuest implements ScriptTask
     @Override
     public boolean validate()
     {
-        return Vars.getBit(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 0;
+        return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 0;
     }
 
     DialogTask talk_to_romeo = new DialogTask("Romeo",  romeo_point,

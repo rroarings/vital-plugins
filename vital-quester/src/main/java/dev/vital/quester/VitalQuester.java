@@ -10,9 +10,7 @@ import dev.vital.quester.quests.rune_mysteries.RuneMysteries;
 import dev.vital.quester.quests.sheep_shearer.SheepShearer;
 import dev.vital.quester.quests.tutorial_island.TutorialIsland;
 import dev.vital.quester.quests.x_marks_the_spot.XMarksTheSpot;
-import dev.vital.quester.tasks.HandleGenie;
-import dev.vital.quester.tasks.HandleLamp;
-import dev.vital.quester.tasks.HandleQuestComplete;
+import dev.vital.quester.tasks.*;
 import dev.vital.quester.tools.Tools;
 import dev.vital.quester.ui.VitalPanel;
 import net.runelite.api.events.GameTick;
@@ -37,7 +35,7 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-    public static String version = "0.2.3";
+    public static String version = "0.2.4";
 
     @Inject
 	public VitalQuesterConfig config;
@@ -70,6 +68,8 @@ public class VitalQuester extends LoopedPlugin
 		tasks.clear();
 
 		tasks.add(new HandleQuestComplete(config));
+		tasks.add(new HandleDeath(config));
+		tasks.add(new HandleGrave(config));
 		tasks.add(new HandleGenie(config));
 		tasks.add(new HandleLamp(config));
 

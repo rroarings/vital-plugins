@@ -11,7 +11,7 @@ import net.unethicalite.api.items.Inventory;
 public class GetMilk implements ScriptTask
 {
     private final WorldPoint bucket_point = new WorldPoint(3225, 3294, 0);
-    private final WorldPoint dairy_cow_point = new WorldPoint(3225, 3294, 0);
+    private final WorldPoint dairy_cow_point = new WorldPoint(3253, 3274, 0);
 
     VitalQuesterConfig config;
 

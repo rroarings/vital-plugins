@@ -18,9 +18,11 @@ public class MiscellaneousContainer extends PanelContainer
 
         add(createCheckBox("Handle genie", "handleGenie"), "wrap");
         add(createCheckBox("Handle lamps", "handleLamp"), "wrap");
+        add(createCheckBox("Handle death", "handleDeath"), "wrap");
+        add(createCheckBox("Handle grave", "handleGrave"), "wrap");
 
-        if(Boolean.parseBoolean(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, "handleLamp"))) {
-            add(createComboBoxSection("Skill", "lampSkill", Skill.class), "wrap");
+        if(config.handleLamp()) {
+            add(createComboBoxSection("Lamp skill", "lampSkill", Skill.class), "wrap");
         }
 
         revalidate();

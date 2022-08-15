@@ -104,6 +104,7 @@ public class VitalQuester extends LoopedPlugin
 	protected int loop()
 	{
 		var logged_in = Game.isLoggedIn();
+
 		if(!logged_in && plugin_enabled) {
 			plugin_enabled = false;
 		}

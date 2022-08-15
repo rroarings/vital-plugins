@@ -23,16 +23,19 @@ public class VitalPanel extends PluginPanel
 		setLayout(new MigLayout());
 
 		QuestContainer questContainer = new QuestContainer(config, configManager);
+		CombatContainer combatContainer = new CombatContainer(config, configManager);
 		MiscellaneousContainer miscellaneousContainer = new MiscellaneousContainer(config, configManager);
 		AboutContainer aboutContainer = new AboutContainer(config, configManager);
 
 		containers.add(questContainer);
+		containers.add(combatContainer);
 		containers.add(miscellaneousContainer);
 		containers.add(aboutContainer);
 
 		add(tabbedPane);
 
 		tabbedPane.addTab(questContainer.getTitle(), questContainer);
+		tabbedPane.addTab(combatContainer.getTitle(), combatContainer);
 		tabbedPane.addTab(miscellaneousContainer.getTitle(), miscellaneousContainer);
 		tabbedPane.addTab(aboutContainer.getTitle(), aboutContainer);
 	}

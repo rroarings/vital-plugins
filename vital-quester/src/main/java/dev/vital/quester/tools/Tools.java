@@ -1,5 +1,6 @@
 package dev.vital.quester.tools;
 
+import net.runelite.api.Item;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
@@ -20,6 +21,7 @@ import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import static java.lang.Math.abs;
 
@@ -34,6 +36,10 @@ public class Tools
 	public static boolean localHas(int... ids) {
 
 		return Inventory.contains(ids) || Equipment.contains(ids);
+	}
+	public static boolean localHas(Predicate<Item> item) {
+
+		return Inventory.contains(item) || Equipment.contains(item);
 	}
 	public static String getDialogueHeader()
 	{
@@ -192,8 +198,9 @@ public class Tools
 	static int animation_tick = 0;
 	public static boolean isAnimating(int delta) {
 
+		var local_player = LocalPlayer.get();
 		int tick_count = Static.getClient().getTickCount();
-		if(LocalPlayer.get().isAnimating()) {
+		if(local_player.isAnimating() || local_player.getPoseAnimation() == 824) {
 			animation_tick = tick_count;
 		}
 

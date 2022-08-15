@@ -1,7 +1,10 @@
 package dev.vital.quester;
 
 import net.runelite.api.Skill;
-import net.runelite.client.config.*;
+import net.runelite.client.config.Config;
+import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.ConfigItem;
+import net.unethicalite.api.game.Combat;
 
 @ConfigGroup("vitalquesterconfig")
 public interface VitalQuesterConfig extends Config
@@ -62,6 +65,14 @@ public interface VitalQuesterConfig extends Config
 	)
 	default boolean handleGrave() { return false; }
 
+	@ConfigItem(
+			keyName = "useGrandExchange",
+			name = "Grand Exchange",
+			description = "",
+			section = "miscellaneous",
+			hidden = true
+	)
+	default boolean useGrandExchange() { return false; }
 
 	@ConfigItem(
 			keyName = "lampSkill",
@@ -87,6 +98,14 @@ public interface VitalQuesterConfig extends Config
 			hidden = true
 	)
 	default boolean sheepShearerBankInventory() { return false; }
+
+	@ConfigItem(
+			keyName = "preferedStyle",
+			name = "",
+			description = "",
+			hidden = true
+	)
+	default Combat.AttackStyle preferedStyle() { return Combat.AttackStyle.FIRST; }
 
 	@ConfigItem(
 			keyName = "sheepShearerExcludedItems",

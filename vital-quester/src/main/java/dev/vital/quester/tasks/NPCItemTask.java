@@ -1,4 +1,4 @@
-package dev.vital.quester;
+package dev.vital.quester.tasks;
 
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.SceneEntity;

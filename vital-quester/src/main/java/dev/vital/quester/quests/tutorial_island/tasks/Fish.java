@@ -1,6 +1,6 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.CameraTask;
+import dev.vital.quester.tasks.CameraTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;

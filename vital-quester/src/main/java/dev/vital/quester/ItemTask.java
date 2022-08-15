@@ -1,6 +1,7 @@
 package dev.vital.quester;
 
 import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
@@ -30,7 +31,7 @@ public class ItemTask {
         }
 
         var item = TileItems.getNearest(id);
-        if(item != null && Reachable.isInteractable(item)) {
+        if(item != null && Reachable.isInteractable(item) && LocalPlayer.get().getWorldLocation().distanceTo2D(item.getWorldLocation()) < 4) {
             item.interact("Take");
             return -5;
         }

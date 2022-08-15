@@ -2,6 +2,7 @@ package dev.vital.quester;
 
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.SceneEntity;
+import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
@@ -53,7 +54,7 @@ public class ObjectItemTask {
             entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);
         }
 
-        if(entity != null && Reachable.isInteractable(entity)) {
+        if(entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 5) {
             entity.interact(this.action);
             return -5;
         }

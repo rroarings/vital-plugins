@@ -94,7 +94,7 @@ public class Tools
 			}
 		}
 		var entity = NPCs.getNearest(x -> x.getName().equals(name));
-		if(entity != null && Reachable.isInteractable(entity)) {
+		if(entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10) {
 
 			entity.interact("Talk-to");
 			return -5;

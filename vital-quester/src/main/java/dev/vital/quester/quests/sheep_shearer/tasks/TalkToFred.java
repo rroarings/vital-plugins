@@ -1,6 +1,6 @@
 package dev.vital.quester.quests.sheep_shearer.tasks;
 
-import dev.vital.quester.DialogTask;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import dev.vital.quester.VitalQuesterConfig;

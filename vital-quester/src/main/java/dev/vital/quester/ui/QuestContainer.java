@@ -36,10 +36,8 @@ public class QuestContainer extends PanelContainer
 				panel.setBorder(new TitledBorder("Sheep Shearer configuration"));
 				panel.add(createCheckBox("Bank Inventory", "sheepShearerBankInventory"), "wrap");
 				if(config.sheepShearerBankInventory()) {
-					var text_section = createTextSection("", "sheepShearerExcludedItems", false);
-					text_section.setToolTipText("Prevent items from being banked, separated by , ");
-					//text_section.setPreferredSize(new Dimension(300,15));
-					//text_section.setMinimumSize(new Dimension(300,15));
+					var text_section = createTextSection("Items", "sheepShearerExcludedItems", false);
+					text_section.setToolTipText("Prevent items from being banked. separated by ,");
 					panel.add(text_section, "wrap");
 				}
 				main_panel.add(panel, "wrap");

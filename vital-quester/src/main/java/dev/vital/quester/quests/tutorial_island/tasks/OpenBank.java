@@ -2,6 +2,8 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.CameraTask;
+import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.widgets.Widgets;
 
@@ -27,9 +29,16 @@ public class OpenBank implements ScriptTask
         return false;
     }
 
+    CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
+
     @Override
     public int execute()
     {
+        if(!camera_task.taskCompleted()) {
+            camera_task.moveRight();
+            return -2;
+        }
+
         var booth = TileObjects.getNearest("Bank booth");
         if(booth != null) {
 

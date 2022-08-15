@@ -13,25 +13,26 @@ import java.util.List;
 
 public class SheepShearer implements ScriptTask
 {
-    VitalQuesterConfig config;
+    VitalQuesterConfig vital_config;
 
     static List<ScriptTask> tasks = new ArrayList<>();
 
-    public SheepShearer(VitalQuesterConfig config) {
-        this.config = config;
+    public SheepShearer(VitalQuesterConfig vital_config) {
+        this.vital_config = vital_config;
 
         tasks.clear();
 
-        tasks.add(new GetShears(config));
-        tasks.add(new ShearSheep(config));
-        tasks.add(new SpinWool(config));
-        tasks.add(new TalkToFred(config));
+        tasks.add(new BankInventory(vital_config));
+        tasks.add(new GetShears(vital_config));
+        tasks.add(new ShearSheep(vital_config));
+        tasks.add(new SpinWool(vital_config));
+        tasks.add(new TalkToFred(vital_config));
     }
 
     @Override
     public boolean validate()
     {
-        return (config.currentQuest().equals(QuestList.SHEEP_SHEARER) || config.automaticOptimal()) && Quests.getState(Quest.SHEEP_SHEARER) != QuestState.FINISHED;
+        return (vital_config.currentQuest().equals(QuestList.SHEEP_SHEARER) || vital_config.automaticOptimal()) && Quests.getState(Quest.SHEEP_SHEARER) != QuestState.FINISHED;
     }
 
     @Override

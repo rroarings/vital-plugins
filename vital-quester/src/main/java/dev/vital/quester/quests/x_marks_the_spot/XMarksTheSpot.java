@@ -22,8 +22,9 @@ public class XMarksTheSpot implements ScriptTask
 
         tasks.clear();
 
+        tasks.add(new GetAxe(config));
+        tasks.add(new GetSpade(config));
         tasks.add(new StartQuest(config));
-        tasks.add(new GetShovel(config));
         tasks.add(new StepOne(config));
         tasks.add(new StepTwo(config));
         tasks.add(new StepThree(config));

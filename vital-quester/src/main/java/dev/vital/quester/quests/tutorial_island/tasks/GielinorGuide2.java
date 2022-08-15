@@ -1,14 +1,9 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import dev.vital.quester.tools.Tools;
-import net.runelite.api.ItemID;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
-import net.unethicalite.api.game.Vars;
-import net.unethicalite.api.input.Mouse;
-import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.widgets.Widgets;
 
 public class GielinorGuide2 implements ScriptTask

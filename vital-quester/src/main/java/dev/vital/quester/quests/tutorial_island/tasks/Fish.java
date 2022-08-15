@@ -1,19 +1,17 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
+import dev.vital.quester.tasks.CameraTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
-import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.widgets.Widgets;
 
 public class Fish implements ScriptTask
 {
-    private final WorldPoint gielinor_guide_point = new WorldPoint(3094, 3107, 0);
-
     VitalQuesterConfig config;
 
     public Fish(VitalQuesterConfig config)
@@ -34,9 +32,15 @@ public class Fish implements ScriptTask
         return false;
     }
 
+    CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
+
     @Override
     public int execute()
     {
+        if(!camera_task.taskCompleted()) {
+            camera_task.moveLeft();
+            return -1;
+        }
         if(!Inventory.contains(ItemID.RAW_SHRIMPS_2514) && !Tools.isAnimating(5)) {
             NPCs.getNearest(3317).interact("Net");
         }

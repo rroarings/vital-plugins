@@ -1,5 +1,6 @@
 package dev.vital.quester.tools;
 
+import net.runelite.api.Item;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
@@ -20,6 +21,9 @@ import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 
 import java.util.List;
+import java.util.function.Predicate;
+
+import static java.lang.Math.abs;
 
 public class Tools
 {
@@ -32,6 +36,10 @@ public class Tools
 	public static boolean localHas(int... ids) {
 
 		return Inventory.contains(ids) || Equipment.contains(ids);
+	}
+	public static boolean localHas(Predicate<Item> item) {
+
+		return Inventory.contains(item) || Equipment.contains(item);
 	}
 	public static String getDialogueHeader()
 	{
@@ -92,7 +100,7 @@ public class Tools
 			}
 		}
 		var entity = NPCs.getNearest(x -> x.getName().equals(name));
-		if(entity != null && Reachable.isInteractable(entity)) {
+		if(entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10) {
 
 			entity.interact("Talk-to");
 			return -5;
@@ -190,12 +198,51 @@ public class Tools
 	static int animation_tick = 0;
 	public static boolean isAnimating(int delta) {
 
+		var local_player = LocalPlayer.get();
 		int tick_count = Static.getClient().getTickCount();
-		if(LocalPlayer.get().isAnimating()) {
+		if(local_player.isAnimating() || local_player.getPoseAnimation() == 824) {
 			animation_tick = tick_count;
 		}
 
 		return (tick_count - animation_tick) <= delta;
+	}
+
+	public static int sellTo(String name, WorldPoint point, int id, int amount, boolean stack) {
+
+		int current_amount = Inventory.getCount(stack, id);
+		if(current_amount == amount) {
+			return 0;
+		}
+
+		if(Shop.isOpen()) {
+
+			int amount_needed = abs(amount - current_amount);
+			if(amount_needed >= 50) {
+				Shop.sellFifty(id);
+			}
+			else if(amount_needed >= 10) {
+				Shop.sellTen(id);
+			}
+			else if(amount_needed >= 5) {
+				Shop.sellFifty(id);
+			}
+			else if(amount_needed >= 1) {
+				Shop.sellOne(id);
+			}
+
+			return -2;
+		}
+
+		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
+		if(shop != null && Reachable.isInteractable(shop)) {
+			shop.interact("Trade");
+			return -4;
+		}
+		else if(!Movement.isWalking()) {
+			Movement.walkTo(point);
+		}
+
+		return -1;
 	}
 
 	public static int purchaseFrom(String name, WorldPoint point, int id, int amount, boolean stack) {

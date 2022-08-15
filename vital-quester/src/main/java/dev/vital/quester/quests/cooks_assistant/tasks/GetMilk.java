@@ -1,7 +1,7 @@
 package dev.vital.quester.quests.cooks_assistant.tasks;
 
-import dev.vital.quester.ItemTask;
-import dev.vital.quester.ObjectItemTask;
+import dev.vital.quester.tasks.ItemTask;
+import dev.vital.quester.tasks.ObjectItemTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.ItemID;
@@ -11,7 +11,7 @@ import net.unethicalite.api.items.Inventory;
 public class GetMilk implements ScriptTask
 {
     private final WorldPoint bucket_point = new WorldPoint(3225, 3294, 0);
-    private final WorldPoint dairy_cow_point = new WorldPoint(3225, 3294, 0);
+    private final WorldPoint dairy_cow_point = new WorldPoint(3253, 3274, 0);
 
     VitalQuesterConfig config;
 

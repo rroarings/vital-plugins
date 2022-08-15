@@ -2,7 +2,7 @@ package dev.vital.quester.quests.restless_ghost.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.BasicTask;
+import dev.vital.quester.tasks.BasicTask;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;

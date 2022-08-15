@@ -1,13 +1,13 @@
 package dev.vital.quester.quests.x_marks_the_spot.tasks;
 
-import dev.vital.quester.DialogTask;
+import dev.vital.quester.tasks.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.quests.QuestVarbits;
 
-public class    StartQuest implements ScriptTask
+public class StartQuest implements ScriptTask
 {
     private final WorldPoint veos_point = new WorldPoint(3228, 3241, 0);
 

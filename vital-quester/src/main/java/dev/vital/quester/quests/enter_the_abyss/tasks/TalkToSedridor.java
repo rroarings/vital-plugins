@@ -1,15 +1,10 @@
 package dev.vital.quester.quests.enter_the_abyss.tasks;
 
-import dev.vital.quester.DialogTask;
-import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.tools.Tools;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.game.Vars;
-import net.unethicalite.api.quests.Quests;
 
 public class TalkToSedridor implements ScriptTask
 {

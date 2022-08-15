@@ -1,13 +1,14 @@
-package dev.vital.quester;
+package dev.vital.quester.tasks;
 
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.SceneEntity;
-import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 
-public class ObjectItemTask {
+public class NPCItemTask {
 
     boolean task_completed;
     int object_id;
@@ -18,7 +19,7 @@ public class ObjectItemTask {
     WorldPoint point;
     WorldPoint exact_point;
 
-    public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point) {
+    public NPCItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point) {
         this.task_completed = false;
         this.object_id = object_id;
         this.item_id = item_id;
@@ -28,7 +29,7 @@ public class ObjectItemTask {
         this.point = point;
         this.exact_point = null;
     }
-    public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point, WorldPoint exact_point) {
+    public NPCItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point, WorldPoint exact_point) {
         this.task_completed = false;
         this.object_id = object_id;
         this.item_id = item_id;
@@ -47,13 +48,13 @@ public class ObjectItemTask {
 
         SceneEntity entity;
         if(this.exact_point == null) {
-            entity = TileObjects.getNearest(this.object_id);
+            entity = NPCs.getNearest(this.object_id);
         }
         else {
-            entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);
+            entity = NPCs.getNearest(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);
         }
 
-        if(entity != null && Reachable.isInteractable(entity)) {
+        if(entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10) {
             entity.interact(this.action);
             return -5;
         }

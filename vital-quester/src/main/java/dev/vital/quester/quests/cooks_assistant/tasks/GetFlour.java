@@ -1,6 +1,9 @@
 package dev.vital.quester.quests.cooks_assistant.tasks;
 
 import dev.vital.quester.*;
+import dev.vital.quester.tasks.BasicTask;
+import dev.vital.quester.tasks.ItemTask;
+import dev.vital.quester.tasks.ObjectItemTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;

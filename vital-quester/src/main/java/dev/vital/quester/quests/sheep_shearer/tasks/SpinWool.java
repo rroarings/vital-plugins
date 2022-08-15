@@ -2,7 +2,7 @@ package dev.vital.quester.quests.sheep_shearer.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.BasicTask;
+import dev.vital.quester.tasks.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;

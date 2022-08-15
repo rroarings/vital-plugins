@@ -1,4 +1,4 @@
-package dev.vital.quester.tasks;
+package dev.vital.quester.handlers;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;

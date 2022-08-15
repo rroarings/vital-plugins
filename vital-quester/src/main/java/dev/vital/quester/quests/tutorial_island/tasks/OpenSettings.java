@@ -1,7 +1,9 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import net.unethicalite.api.input.Mouse;
+import dev.vital.quester.tasks.CameraTask;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.widgets.Widgets;
 
 public class OpenSettings implements ScriptTask
@@ -26,16 +28,20 @@ public class OpenSettings implements ScriptTask
         return false;
     }
 
+    CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
+
     @Override
     public int execute()
     {
+        if(!camera_task.taskCompleted()) {
+            camera_task.moveLeft();
+            return -2;
+        }
+
         var widget = Widgets.get(164,40);
         if(widget != null) {
 
-            String test = "widget (164, 40) is not null, position is " + widget.getClickPoint().getX() + " " +widget.getClickPoint().getY();
-            System.out.println(test);
-
-            Mouse.click(widget.getClickPoint().getAwtPoint(), true);
+            widget.interact("Settings");
         }
 
         return -2;

@@ -31,7 +31,10 @@ public class OpenBankDoor implements ScriptTask
     @Override
     public int execute()
     {
-        TileObjects.getFirstAt(new WorldPoint(3125, 3124, 0), "Door").interact("Open");
+        var door = TileObjects.getFirstAt(new WorldPoint(3125, 3124, 0), "Door");
+        if(door != null) {
+            door.interact("Open");
+        }
 
         return -5;
     }

@@ -1,4 +1,4 @@
-package dev.vital.quester;
+package dev.vital.quester.tasks;
 
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.input.Keyboard;

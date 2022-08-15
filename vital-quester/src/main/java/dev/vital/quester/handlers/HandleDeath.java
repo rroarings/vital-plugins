@@ -1,6 +1,6 @@
-package dev.vital.quester.tasks;
+package dev.vital.quester.handlers;
 
-import dev.vital.quester.DialogTask;
+import dev.vital.quester.tasks.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;

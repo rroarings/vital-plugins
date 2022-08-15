@@ -1,4 +1,4 @@
-package dev.vital.quester;
+package dev.vital.quester.tasks;
 
 public class BasicTask {
     public interface TaskFunction {
@@ -20,6 +20,10 @@ public class BasicTask {
         }
 
         return sleep;
+    }
+
+    public void setCompletionFlag(boolean flag) {
+        this.task_completed = flag;
     }
 
     public boolean taskCompleted() {

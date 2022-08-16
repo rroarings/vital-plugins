@@ -1,20 +1,14 @@
 package dev.vital.quester.quests.tutorial_island.tasks;
 
-import dev.vital.quester.*;
-import dev.vital.quester.tools.Tools;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.widgets.Widgets;
 
 public class SmeltOre implements ScriptTask
 {
-    private final WorldPoint master_chef_point = new WorldPoint(3076, 3085, 0);
-
     VitalQuesterConfig config;
 
     public SmeltOre(VitalQuesterConfig config)

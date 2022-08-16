@@ -79,7 +79,7 @@ public class Tools
 		}
 
 		if(dialog != null) {
-			boolean is_wanted_text = false;
+			/*boolean is_wanted_text = false;
 			for (var d : dialog) {
 				if(d == null) {
 					continue;
@@ -87,9 +87,9 @@ public class Tools
 				if (Dialog.getOptions().stream().anyMatch(x -> x.getText().contains(d))) {
 					is_wanted_text = true;
 				}
-			}
+			}*/
 
-			if (Dialog.isViewingOptions() && is_wanted_text) {
+			if (Dialog.isViewingOptions()/* && is_wanted_text*/) {
 				for (var option : dialog) {
 					if (Dialog.chooseOption(option)) {
 						dialog.remove(option);

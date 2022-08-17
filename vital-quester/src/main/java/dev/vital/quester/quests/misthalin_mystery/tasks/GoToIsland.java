@@ -1,0 +1,49 @@
+package dev.vital.quester.quests.misthalin_mystery.tasks;
+
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.BasicTask;
+import dev.vital.quester.tasks.ItemTask;
+import dev.vital.quester.tools.Tools;
+import net.runelite.api.ItemID;
+import net.runelite.api.coords.WorldPoint;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.quests.QuestVarbits;
+
+public class GoToIsland implements ScriptTask
+{
+    private final WorldPoint boat_point = new WorldPoint(3237, 3150, 0);
+
+    VitalQuesterConfig config;
+
+    public GoToIsland(VitalQuesterConfig config)
+    {
+        this.config = config;
+    }
+
+    @Override
+    public boolean validate()
+    {
+        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 10;
+    }
+
+    BasicTask talk_to_abigale = new BasicTask(() -> {
+        if(LocalPlayer.get().getWorldLocation().getRegionID() != 6475) {
+
+            return Tools.interactWith(30108,"Board", boat_point, Tools.EntityType.TILE_OBJECT);
+        }
+
+        return 0;
+    });
+
+    @Override
+    public int execute() {
+
+        if (!talk_to_abigale.taskCompleted()) {
+            return talk_to_abigale.execute();
+        }
+
+        return -1;
+    }
+}

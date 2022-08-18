@@ -1,8 +1,8 @@
 package dev.vital.guardians.tasks;
 
 import dev.vital.guardians.VitalGuardiansConfig;
-import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.coords.WorldArea;
+import net.runelite.api.coords.WorldPoint;
 
 public class EnterGame implements ScriptTask {
 

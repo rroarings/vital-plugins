@@ -1,8 +1,8 @@
 package dev.vital.quester.quests.romeo_and_juliet.tasks;
 
-import dev.vital.quester.tasks.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.game.Vars;

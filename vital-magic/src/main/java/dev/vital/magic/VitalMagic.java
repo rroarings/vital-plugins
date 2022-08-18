@@ -2,7 +2,10 @@ package dev.vital.magic;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Skill;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.game.Game;
@@ -16,9 +19,6 @@ import net.unethicalite.api.magic.SpellBook;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
 import net.unethicalite.api.widgets.Dialog;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.plugins.PluginDescriptor;
 import org.pf4j.Extension;
 
 @PluginDescriptor(name = "vital-magic", enabledByDefault = false)

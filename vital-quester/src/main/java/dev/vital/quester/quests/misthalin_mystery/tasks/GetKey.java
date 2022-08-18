@@ -28,9 +28,9 @@ public class GetKey implements ScriptTask
     }
 
     BasicTask work_barrel = new BasicTask(() -> {
-       if(Inventory.contains(ItemID.BUCKET_OF_WATER)) {
+       if(Inventory.contains(ItemID.BUCKET_OF_WATER) && !Inventory.contains(ItemID.MANOR_KEY_21052)) {
 
-            TileObjects.getNearest("A barrel of rainwater").interact("Search");
+            TileObjects.getNearest("Barrel").interact("Search");
             return -5;
         }
        else if(Inventory.contains(ItemID.MANOR_KEY_21052)) {

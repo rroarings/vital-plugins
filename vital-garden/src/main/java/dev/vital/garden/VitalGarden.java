@@ -3,6 +3,11 @@ package dev.vital.garden;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.openosrs.client.game.WorldLocation;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.coords.WorldArea;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
@@ -12,12 +17,6 @@ import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.LoopedPlugin;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.TileObject;
-import net.runelite.api.coords.WorldArea;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.plugins.PluginDescriptor;
 import org.pf4j.Extension;
 
 @PluginDescriptor(name = "vital-garden", enabledByDefault = false)

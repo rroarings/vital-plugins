@@ -8,6 +8,8 @@ import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.quests.QuestVarbits;
 
 public class GetRubyKey implements ScriptTask
@@ -36,9 +38,14 @@ public class GetRubyKey implements ScriptTask
             painting.interact("Search");
         }
         else{
-            Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest(29650));
+            if(Reachable.isInteractable(painting)) {
+                Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest(29650));
+            }
+            else {
+                Movement.walkTo(painting);
+            }
         }
-        return 0;
+        return -5;
     });
 
     @Override

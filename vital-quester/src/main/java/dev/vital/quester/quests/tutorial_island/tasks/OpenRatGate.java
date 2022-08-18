@@ -4,7 +4,6 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.api.widgets.Widgets;
 

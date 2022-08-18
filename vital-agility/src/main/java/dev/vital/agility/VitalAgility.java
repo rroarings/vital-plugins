@@ -2,15 +2,15 @@ package dev.vital.agility;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.config.ConfigManager;
+import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.plugins.LoopedPlugin;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.plugins.PluginDescriptor;
 import org.pf4j.Extension;
 
 @PluginDescriptor(name = "vital-agility", enabledByDefault = false)

@@ -2,9 +2,6 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import net.runelite.api.ItemID;
-import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.widgets.Widgets;
 
 public class EquipDagger implements ScriptTask

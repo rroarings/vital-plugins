@@ -1,12 +1,12 @@
 package dev.vital.fisher.tasks;
 
+import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
-import net.runelite.api.ItemID;
 
 public class GoFish implements ScriptTask {
 

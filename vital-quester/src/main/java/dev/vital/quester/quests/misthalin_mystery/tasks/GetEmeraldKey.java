@@ -15,6 +15,7 @@ public class GetEmeraldKey implements ScriptTask
 {
     WorldPoint piano_point = new WorldPoint(1645, 4843, 0);
     WorldPoint wall_point = new WorldPoint(1649, 4831, 0);
+    WorldPoint shelves_point = new WorldPoint(1646, 4827, 0);
     WorldPoint door_point = new WorldPoint(1634, 4835, 0);
     VitalQuesterConfig config;
 
@@ -53,6 +54,15 @@ public class GetEmeraldKey implements ScriptTask
 
     BasicTask open_door = new BasicTask(() -> {
 
+        if(Tools.interactWith(30116, "Open", shelves_point, Tools.EntityType.TILE_OBJECT) == -5) {
+            return 0;
+        }
+
+        return -5;
+    });
+
+    BasicTask open_door2 = new BasicTask(() -> {
+
         if(Tools.interactWith(30117, "Open", door_point, Tools.EntityType.TILE_OBJECT) == -5) {
             return 0;
         }
@@ -71,6 +81,9 @@ public class GetEmeraldKey implements ScriptTask
         }
         else if (!open_door.taskCompleted()) {
             return open_door.execute();
+        }
+        else if (!open_door2.taskCompleted()) {
+            return open_door2.execute();
         }
 
         return -1;

@@ -5,9 +5,7 @@ import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.input.Mouse;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.widgets.Widgets;
 

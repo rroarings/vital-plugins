@@ -35,9 +35,10 @@ public class FillBucket implements ScriptTask
         else if(Inventory.contains(ItemID.BUCKET_OF_WATER)) {
 
             TileObjects.getNearest("A barrel of rainwater").interact("Search");
+            return 0;
         }
 
-        return 0;
+        return -5;
     });
 
     @Override

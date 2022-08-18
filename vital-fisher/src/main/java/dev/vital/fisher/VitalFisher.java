@@ -1,10 +1,10 @@
 package dev.vital.fisher;
 
-import net.unethicalite.api.plugins.Script;
 import dev.vital.fisher.tasks.GearUp;
 import dev.vital.fisher.tasks.GoFish;
 import dev.vital.fisher.tasks.ScriptTask;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.plugins.Script;
 import org.pf4j.Extension;
 
 @PluginDescriptor(name = "vital-fisher", enabledByDefault = false)

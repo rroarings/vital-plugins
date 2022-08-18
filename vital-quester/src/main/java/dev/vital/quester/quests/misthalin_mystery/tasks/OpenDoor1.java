@@ -3,7 +3,7 @@ package dev.vital.quester.quests.misthalin_mystery.tasks;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.BasicTask;
-import dev.vital.quester.tasks.ItemTask;
+import dev.vital.quester.tasks.ObjectItemTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
@@ -27,13 +27,13 @@ public class OpenDoor1 implements ScriptTask
         return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 30;
     }
 
-    ItemTask pickup_knife  = new ItemTask(ItemID.KNIFE, 1, false, knife_point);
+    ObjectItemTask pickup_knife  = new ObjectItemTask(30145, ItemID.KNIFE, 1, false, "Take-knife", knife_point);
     BasicTask open_door = new BasicTask(() -> {
         if(Tools.interactWith(30112, "Open", door_point, Tools.EntityType.TILE_OBJECT) == -5) {
             return 0;
         }
 
-        return 0;
+        return -5;
     });
 
     @Override

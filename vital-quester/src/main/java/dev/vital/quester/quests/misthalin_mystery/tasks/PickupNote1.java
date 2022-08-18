@@ -29,11 +29,12 @@ public class PickupNote1 implements ScriptTask
     BasicTask pickup_note = new BasicTask(() -> {
         if(Inventory.contains(ItemID.NOTES_21056)) {
             Inventory.getFirst(ItemID.NOTES_21056).interact("Read");
+            return 0;
         }
         else{
             Tools.interactWith(2266, "Take", note_point, Tools.EntityType.TILE_OBJECT);
+            return -5;
         }
-        return 0;
     });
 
     @Override

@@ -4,11 +4,8 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.BasicTask;
 import dev.vital.quester.tools.Tools;
-import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
-import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.quests.QuestVarbits;
 
 public class RunAway implements ScriptTask

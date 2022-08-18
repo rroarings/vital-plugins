@@ -31,9 +31,9 @@ public class GetTinderBox implements ScriptTask
 
     BasicTask light_candles = new BasicTask(() -> {
 
-        var painting = TileObjects.getNearest("Unlit candle");
-        if(painting != null) {
-            Inventory.getFirst(ItemID.TINDERBOX).useOn(painting);
+        var unlit_candle = TileObjects.getNearest("Unlit candle");
+        if(unlit_candle != null) {
+            Inventory.getFirst(ItemID.TINDERBOX).useOn(unlit_candle);
             return -5;
         }
         else{

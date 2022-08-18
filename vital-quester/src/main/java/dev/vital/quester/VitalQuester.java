@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provides;
 import dev.vital.quester.handlers.*;
 import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
+import dev.vital.quester.quests.misthalin_mystery.MisthalinMystery;
 import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
 import dev.vital.quester.quests.restless_ghost.RestlessGhost;
 import dev.vital.quester.quests.romeo_and_juliet.RomeoAndJuliet;
@@ -83,6 +84,7 @@ public class VitalQuester extends LoopedPlugin
 		tasks.add(new XMarksTheSpot(config));
 		tasks.add(new PiratesTreasure(config));
 		tasks.add(new RomeoAndJuliet(config));
+		tasks.add(new MisthalinMystery(config));
 
 		vitalPanel = new VitalPanel(config, configManager);
 

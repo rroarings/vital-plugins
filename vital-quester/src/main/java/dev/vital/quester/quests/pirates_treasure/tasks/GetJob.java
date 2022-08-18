@@ -1,8 +1,8 @@
 package dev.vital.quester.quests.pirates_treasure.tasks;
 
-import dev.vital.quester.tasks.DialogTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.coords.WorldPoint;
 
 public class GetJob implements ScriptTask

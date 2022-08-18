@@ -1,14 +1,12 @@
 package dev.vital.fisher.tasks;
 
-import net.unethicalite.api.account.LocalPlayer;
+import net.runelite.api.ItemID;
+import net.runelite.api.coords.WorldArea;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Game;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
-import net.runelite.api.ItemID;
-import net.runelite.api.Player;
-import net.runelite.api.coords.WorldArea;
 
 public class GearUp implements ScriptTask {
 

@@ -1,6 +1,7 @@
 package dev.vital.quester.quests.sheep_shearer.tasks;
 
-import dev.vital.quester.*;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.NPCItemTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldArea;

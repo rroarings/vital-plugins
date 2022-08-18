@@ -3,8 +3,11 @@ package dev.vital.quester.quests.misthalin_mystery.tasks;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.BasicTask;
+import net.runelite.api.ItemID;
 import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
+import net.unethicalite.api.input.Mouse;
+import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.quests.QuestVarbits;
 import net.unethicalite.api.widgets.Widgets;
 
@@ -28,16 +31,17 @@ public class PlayPiano  implements ScriptTask
         var piano_widget = Widgets.get(554, 5);
         if(piano_widget != null) {
             if(counter == 0) {
-                Widgets.get(554, 21).interact("Play-d");
+                Mouse.click(Widgets.get(554, 21).getClickPoint().getAwtPoint(), true);
             }
             else if(counter == 1) {
-                Widgets.get(554, 22).interact("Play-e");
+                Mouse.click(Widgets.get(554, 22).getClickPoint().getAwtPoint(), true);
             }
             if(counter == 2) {
-                Widgets.get(554, 25).interact("Play-a");
+                Mouse.click(Widgets.get(554, 25).getClickPoint().getAwtPoint(), true);
             }
             if(counter == 3) {
-                Widgets.get(554, 21).interact("Play-d");
+                Mouse.click(Widgets.get(554, 21).getClickPoint().getAwtPoint(), true);
+                return 0;
             }
         }
         else {
@@ -45,14 +49,30 @@ public class PlayPiano  implements ScriptTask
             return -5;
         }
 
-        return -1;
+        return -2;
     });
 
+    BasicTask get_emerald_key = new BasicTask(() -> {
+        if(Inventory.contains(ItemID.EMERALD_KEY_21054)) {
+            return 0;
+        }
+
+        var piano = TileObjects.getNearest(29658);
+        if(piano.hasAction("Search")) {
+            piano.interact("Search");
+            return -5;
+        }
+
+        return -1;
+    });
     @Override
     public int execute() {
 
         if (!play_piano.taskCompleted()) {
             return play_piano.execute();
+        }
+        else if (!get_emerald_key.taskCompleted()) {
+            return get_emerald_key.execute();
         }
 
         return -1;

@@ -2,11 +2,14 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import net.unethicalite.api.entities.TileObjects;
+import dev.vital.quester.tools.Tools;
+import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.widgets.Widgets;
 
 public class GoToCombatInstructor implements ScriptTask
 {
+    private final WorldPoint combat_instructor_point = new WorldPoint(3106, 9508, 0);
+
     VitalQuesterConfig config;
 
     public GoToCombatInstructor(VitalQuesterConfig config)
@@ -30,8 +33,6 @@ public class GoToCombatInstructor implements ScriptTask
     @Override
     public int execute()
     {
-        TileObjects.getNearest("Gate").interact("Open");
-
-        return -5;
+        return Tools.interactWith("Gate", "Open", combat_instructor_point, Tools.EntityType.TILE_OBJECT);
     }
 }

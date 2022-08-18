@@ -73,39 +73,26 @@ public class Tools
 
 	public static int talkTo(String name, WorldPoint point, List<String> dialog) {
 
-		if(Dialog.canContinue()) {
+		if (Dialog.canContinue()) {
 			Dialog.continueSpace();
 			return -1;
 		}
 
-		if(dialog != null) {
-			/*boolean is_wanted_text = false;
-			for (var d : dialog) {
-				if(d == null) {
-					continue;
+		if (!dialog.isEmpty() && !dialog.contains(null) && Dialog.isViewingOptions()) {
+			for (var option : dialog) {
+				if (Dialog.chooseOption(option)) {
+					dialog.remove(option);
+					return -2;
 				}
-				if (Dialog.getOptions().stream().anyMatch(x -> x.getText().contains(d))) {
-					is_wanted_text = true;
-				}
-			}*/
-
-			if (Dialog.isViewingOptions()/* && is_wanted_text*/) {
-				for (var option : dialog) {
-					if (Dialog.chooseOption(option)) {
-						dialog.remove(option);
-						return -2;
-					}
-				}
-				return -2;
 			}
 		}
+
 		var entity = NPCs.getNearest(x -> x.getName().equals(name));
-		if(entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10) {
+		if (entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10) {
 
 			entity.interact("Talk-to");
 			return -5;
-		}
-		else if(!Movement.isWalking()) {
+		} else if (!Movement.isWalking()) {
 			Movement.walkTo(point);
 		}
 

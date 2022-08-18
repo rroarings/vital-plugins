@@ -2,7 +2,6 @@ package dev.vital.quester.tasks;
 
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.coords.WorldPoint;
-import net.unethicalite.api.widgets.Dialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,21 +30,10 @@ public class DialogTask {
 
     public int execute() {
 
-        if(this.dialog_options == null) {
-            if (!has_opened && (Dialog.canContinue())) {
-                this.has_opened = true;
-            }
-            else if(this.has_opened && (!Dialog.canContinue())) {
-                this.task_completed = true;
-                return -1;
-            }
-        }
-        else {
+        this.task_completed = this.dialog_options.isEmpty();
 
-            this.task_completed = this.dialog_options.isEmpty();
-            if(this.task_completed) {
-                return -1;
-            }
+        if(this.task_completed) {
+            return -1;
         }
 
         return Tools.talkTo(name, point, dialog_options);

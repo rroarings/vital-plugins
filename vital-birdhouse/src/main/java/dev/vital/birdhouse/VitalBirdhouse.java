@@ -2,22 +2,15 @@ package dev.vital.birdhouse;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.birdhouse.tasks.FossilIsland;
-import dev.vital.birdhouse.tasks.GetMats;
-import dev.vital.birdhouse.tasks.GoHome;
-import dev.vital.birdhouse.tasks.Meadow;
-import dev.vital.birdhouse.tasks.Meadow2;
-import dev.vital.birdhouse.tasks.ScriptTask;
-import dev.vital.birdhouse.tasks.Valley;
-import dev.vital.birdhouse.tasks.Valley2;
+import dev.vital.birdhouse.tasks.*;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ItemID;
 import net.runelite.api.events.ConfigButtonClicked;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.plugins.PluginDescriptor;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.plugins.LoopedPlugin;
-import lombok.extern.slf4j.Slf4j;
-import net.runelite.client.config.ConfigManager;
-import net.runelite.client.plugins.PluginDescriptor;
 import org.pf4j.Extension;
 
 import java.util.ArrayList;

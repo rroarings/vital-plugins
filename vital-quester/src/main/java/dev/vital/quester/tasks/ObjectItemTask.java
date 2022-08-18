@@ -48,7 +48,7 @@ public class ObjectItemTask {
 
         SceneEntity entity;
         if(this.exact_point == null) {
-            entity = TileObjects.getNearest(this.object_id);
+            entity = TileObjects.getNearest(x -> x.getId() == this.object_id && x.hasAction(this.action));
         }
         else {
             entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);

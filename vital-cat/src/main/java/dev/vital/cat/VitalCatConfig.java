@@ -3,7 +3,6 @@ package dev.vital.cat;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.Button;
 
 @ConfigGroup("vitalcatconfig")
 public interface VitalCatConfig extends Config

@@ -9,7 +9,6 @@ import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
-import net.unethicalite.api.packets.ItemPackets;
 import net.unethicalite.api.packets.ObjectPackets;
 import net.unethicalite.api.widgets.Dialog;
 

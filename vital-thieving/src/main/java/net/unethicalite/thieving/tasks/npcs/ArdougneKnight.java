@@ -1,5 +1,6 @@
 package net.unethicalite.thieving.tasks.npcs;
 
+import net.runelite.api.ItemID;
 import net.runelite.api.Skill;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.NPCs;
@@ -7,7 +8,6 @@ import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
-import net.runelite.api.ItemID;
 import net.unethicalite.client.Static;
 import net.unethicalite.thieving.ThievingType;
 import net.unethicalite.thieving.VitalThievingConfig;

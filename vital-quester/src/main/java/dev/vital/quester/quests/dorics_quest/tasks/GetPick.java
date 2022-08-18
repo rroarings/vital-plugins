@@ -1,8 +1,8 @@
 package dev.vital.quester.quests.dorics_quest.tasks;
 
-import dev.vital.quester.tasks.BasicTask;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tasks.BasicTask;
 import dev.vital.quester.tools.Tools;
 import net.runelite.api.Skill;
 import net.unethicalite.api.account.LocalPlayer;

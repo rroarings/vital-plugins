@@ -4,7 +4,6 @@ import com.openosrs.client.game.WorldLocation;
 import dev.vital.sandcrab.Spot;
 import dev.vital.sandcrab.VitalSandCrab;
 import dev.vital.sandcrab.VitalSandCrabConfig;
-import net.runelite.api.World;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.Players;

@@ -1,14 +1,14 @@
 package dev.vital.quester.quests.cooks_assistant;
 
 import dev.vital.quester.QuestList;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.quests.cooks_assistant.tasks.GetEgg;
 import dev.vital.quester.quests.cooks_assistant.tasks.GetFlour;
 import dev.vital.quester.quests.cooks_assistant.tasks.GetMilk;
 import dev.vital.quester.quests.cooks_assistant.tasks.TalkToCook;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
-import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.ScriptTask;
 import net.unethicalite.api.quests.Quests;
 
 import java.util.ArrayList;

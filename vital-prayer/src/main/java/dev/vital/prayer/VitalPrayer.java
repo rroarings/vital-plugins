@@ -2,21 +2,16 @@ package dev.vital.prayer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.prayer.tasks.DontPanic;
-import dev.vital.prayer.tasks.Panic;
-import dev.vital.prayer.tasks.SacraficeBones;
-import dev.vital.prayer.tasks.ScriptTask;
-import dev.vital.prayer.tasks.UnnoteBones;
-import net.runelite.api.events.ConfigButtonClicked;
-import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.game.Game;
-import net.unethicalite.api.plugins.LoopedPlugin;
-
+import dev.vital.prayer.tasks.*;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.game.Game;
+import net.unethicalite.api.plugins.LoopedPlugin;
 import org.pf4j.Extension;
 
 import java.util.ArrayList;

@@ -4,8 +4,8 @@ import dev.vital.birdhouse.Steps;
 import dev.vital.birdhouse.Tools;
 import dev.vital.birdhouse.VitalBirdhouse;
 import dev.vital.birdhouse.VitalBirdhouseConfig;
-import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.coords.WorldArea;
+import net.runelite.api.coords.WorldPoint;
 
 public class Meadow implements ScriptTask {
 

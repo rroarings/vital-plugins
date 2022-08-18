@@ -1,9 +1,9 @@
 package dev.vital.guardians;
 
+import net.runelite.client.config.Button;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.Button;
 
 @ConfigGroup("vitalguardiansconfig")
 public interface VitalGuardiansConfig extends Config

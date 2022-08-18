@@ -1,6 +1,8 @@
 package net.unethicalite.thieving.tasks.stalls;
 
+import net.runelite.api.ItemID;
 import net.runelite.api.World;
+import net.runelite.api.coords.WorldArea;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.Players;
@@ -8,8 +10,6 @@ import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
-import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldArea;
 import net.unethicalite.api.movement.Reachable;
 import net.unethicalite.thieving.ThievingType;
 import net.unethicalite.thieving.VitalThievingConfig;

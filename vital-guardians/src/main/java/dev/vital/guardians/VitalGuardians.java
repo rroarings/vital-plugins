@@ -2,24 +2,8 @@ package dev.vital.guardians;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import net.runelite.api.Quest;
-import net.runelite.api.QuestState;
-import net.unethicalite.api.account.LocalPlayer;
-import net.unethicalite.api.commons.Rand;
-import net.unethicalite.api.entities.NPCs;
-import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.game.Game;
-import net.unethicalite.api.game.Skills;
-import net.unethicalite.api.game.Worlds;
-import net.unethicalite.api.items.Inventory;
-import net.unethicalite.api.movement.Movement;
-import net.unethicalite.api.plugins.LoopedPlugin;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
-import net.runelite.api.DynamicObject;
-import net.runelite.api.GameObject;
-import net.runelite.api.ItemID;
-import net.runelite.api.Skill;
+import net.runelite.api.*;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.ConfigButtonClicked;
@@ -27,17 +11,20 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.plugins.skillcalculator.skills.RunecraftAction;
-import net.runelite.client.plugins.worldhopper.WorldHopperPlugin;
+import net.unethicalite.api.account.LocalPlayer;
+import net.unethicalite.api.commons.Rand;
+import net.unethicalite.api.entities.NPCs;
+import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.game.Game;
+import net.unethicalite.api.game.Skills;
+import net.unethicalite.api.items.Inventory;
+import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.plugins.Script;
 import net.unethicalite.api.quests.Quests;
 import net.unethicalite.api.script.blocking_events.ResizableEvent;
-import net.unethicalite.api.script.blocking_events.WelcomeScreenEvent;
 import org.pf4j.Extension;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 @PluginDescriptor(name = "vital-guardians", enabledByDefault = false)
 @Extension

@@ -1,6 +1,7 @@
 package dev.vital.quester.quests.cooks_assistant.tasks;
 
-import dev.vital.quester.*;
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.BasicTask;
 import dev.vital.quester.tasks.ItemTask;
 import dev.vital.quester.tasks.ObjectItemTask;

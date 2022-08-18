@@ -1,10 +1,10 @@
 package dev.vital.quester.quests.sheep_shearer.tasks;
 
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.DialogTask;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
-import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.ScriptTask;
 import net.unethicalite.api.items.Inventory;
 
 public class TalkToFred implements ScriptTask

@@ -1,11 +1,11 @@
 package dev.vital.quester.quests.cooks_assistant.tasks;
 
+import dev.vital.quester.ScriptTask;
+import dev.vital.quester.VitalQuesterConfig;
+import dev.vital.quester.tools.Tools;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.items.Inventory;
-import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.ScriptTask;
-import dev.vital.quester.tools.Tools;
 
 public class GetEgg implements ScriptTask
 {

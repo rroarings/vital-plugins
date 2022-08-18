@@ -119,7 +119,7 @@ public class Tools
 			}
 		}
 
-		if(entity != null && Reachable.isInteractable(entity)) {
+		if(entity != null && Reachable.isInteractable(entity) && entity.getWorldLocation().distanceTo2D(LocalPlayer.get().getWorldLocation()) <  5) {
 
 			entity.interact(action);
 			return -5;

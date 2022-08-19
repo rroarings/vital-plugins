@@ -19,7 +19,7 @@ open class BootstrapTask : DefaultTask() {
 
     private fun hash(file: ByteArray): String {
         return MessageDigest.getInstance("SHA-512").digest(file).fold("", { str, it -> str + "%02x".format(it) })
-            .toUpperCase()
+                .toUpperCase()
     }
 
     private fun getBootstrap(filename: String): JSONArray? {
@@ -41,7 +41,7 @@ open class BootstrapTask : DefaultTask() {
 
             val plugins = ArrayList<JSONObject>()
             val baseBootstrap = getBootstrap("$bootstrapDir/plugins.json")
-                ?: throw RuntimeException("Base bootstrap is null!")
+                    ?: throw RuntimeException("Base bootstrap is null!")
 
             project.subprojects.forEach {
                 if (it.project.properties.containsKey("PluginName") && it.project.properties.containsKey("PluginDescription")) {
@@ -52,26 +52,26 @@ open class BootstrapTask : DefaultTask() {
 
                     val sha512 = hash(plugin.readBytes())
                     releases.add(
-                        JsonBuilder(
-                            "version" to it.project.version,
-                            "requires" to ProjectVersions.apiVersion,
-                            "date" to formatDate(Date()),
-                            "url" to "https://raw.githubusercontent.com/${project.rootProject.extra.get("GithubUserName")}/${
-                                project.rootProject.extra.get(
-                                    "GithubRepoName"
-                                )
-                            }/master/${it.project.name}-${it.project.version}.jar",
-                            "sha512sum" to sha512
-                        )
+                            JsonBuilder(
+                                    "version" to it.project.version,
+                                    "requires" to ProjectVersions.apiVersion,
+                                    "date" to formatDate(Date()),
+                                    "url" to "https://raw.githubusercontent.com/${project.rootProject.extra.get("GithubUserName")}/${
+                                        project.rootProject.extra.get(
+                                                "GithubRepoName"
+                                        )
+                                    }/master/${it.project.name}-${it.project.version}.jar",
+                                    "sha512sum" to sha512
+                            )
                     )
 
                     val pluginObject = JsonBuilder(
-                        "name" to it.project.extra.get("PluginName"),
-                        "id" to nameToId(it.project.extra.get("PluginName") as String),
-                        "description" to it.project.extra.get("PluginDescription"),
-                        "provider" to it.project.extra.get("PluginProvider"),
-                        "projectUrl" to it.project.extra.get("ProjectSupportUrl"),
-                        "releases" to releases.toTypedArray()
+                            "name" to it.project.extra.get("PluginName"),
+                            "id" to nameToId(it.project.extra.get("PluginName") as String),
+                            "description" to it.project.extra.get("PluginDescription"),
+                            "provider" to it.project.extra.get("PluginProvider"),
+                            "projectUrl" to it.project.extra.get("ProjectSupportUrl"),
+                            "releases" to releases.toTypedArray()
                     ).jsonObject()
 
                     for (i in 0 until baseBootstrap.length()) {
@@ -94,14 +94,13 @@ open class BootstrapTask : DefaultTask() {
                         pluginAdded = true
                     }
 
-                    if (!pluginAdded)
-                    {
+                    if (!pluginAdded) {
                         plugins.add(pluginObject)
                     }
 
                     plugin.copyTo(
-                        Paths.get(bootstrapReleaseDir.toString(), "${it.project.name}-${it.project.version}.jar").toFile(),
-                        overwrite = true
+                            Paths.get(bootstrapReleaseDir.toString(), "${it.project.name}-${it.project.version}.jar").toFile(),
+                            overwrite = true
                     )
                 }
             }

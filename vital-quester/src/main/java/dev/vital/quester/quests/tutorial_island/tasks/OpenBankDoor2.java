@@ -8,31 +8,33 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class OpenBankDoor2 implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public OpenBankDoor2(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public OpenBankDoor2(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("Continue through the next door.");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("Continue through the next door.");
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public int execute()
-    {
-        TileObjects.getFirstAt(new WorldPoint(3130, 3124, 0), "Door").interact("Open");
+	@Override
+	public int execute()
+	{
+		TileObjects.getFirstAt(new WorldPoint(3130, 3124, 0), "Door").interact("Open");
 
-        return -5;
-    }
+		return -5;
+	}
 }

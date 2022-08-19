@@ -9,28 +9,29 @@ import net.unethicalite.api.items.Inventory;
 
 public class GetEgg implements ScriptTask
 {
-    private final WorldPoint coop_point = new WorldPoint(3231, 3298, 0);
+	private final WorldPoint coop_point = new WorldPoint(3231, 3298, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public GetEgg(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetEgg(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !Inventory.contains(ItemID.EGG);
-    }
+	@Override
+	public boolean validate()
+	{
+		return !Inventory.contains(ItemID.EGG);
+	}
 
-    @Override
-    public int execute()
-    {
-       if(Tools.interactWith("Coop", "Search", coop_point, Tools.EntityType.TILE_OBJECT) == -5) {
-           return -5;
-       }
+	@Override
+	public int execute()
+	{
+		if (Tools.interactWith("Coop", "Search", coop_point, Tools.EntityType.TILE_OBJECT) == -5)
+		{
+			return -5;
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 }

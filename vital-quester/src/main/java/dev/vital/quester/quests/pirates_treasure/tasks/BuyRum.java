@@ -9,31 +9,32 @@ import net.runelite.api.coords.WorldPoint;
 
 public class BuyRum implements ScriptTask
 {
-    private final WorldPoint zambo_location = new WorldPoint(2928, 3144, 0);
+	private final WorldPoint zambo_location = new WorldPoint(2928, 3144, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask buy_rum = new BasicTask(() ->
+			Tools.purchaseFrom("Zambo", zambo_location, ItemID.KARAMJAN_RUM, 1, false));
 
-    public BuyRum(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public BuyRum(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    BasicTask buy_rum = new BasicTask(() ->
-            Tools.purchaseFrom("Zambo", zambo_location, ItemID.KARAMJAN_RUM, 1, false));
+	@Override
+	public boolean validate()
+	{
+		return !buy_rum.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !buy_rum.taskCompleted();
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!buy_rum.taskCompleted())
+		{
+			return buy_rum.execute();
+		}
 
-       if(!buy_rum.taskCompleted()) {
-           return buy_rum.execute();
-       }
-
-        return -1;
-    }
+		return -1;
+	}
 }

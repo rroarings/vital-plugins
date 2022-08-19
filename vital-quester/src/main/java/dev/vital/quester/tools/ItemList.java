@@ -2,7 +2,8 @@ package dev.vital.quester.tools;
 
 import net.unethicalite.api.items.Bank;
 
-enum ItemState {
+enum ItemState
+{
 	UNCHECKED,
 	PRESENT,
 	ABSENT,
@@ -10,7 +11,8 @@ enum ItemState {
 	CHECK_BANK
 }
 
-public class ItemList {
+public class ItemList
+{
 	public int item_id;
 	public ItemState state;
 	public int price;
@@ -20,6 +22,7 @@ public class ItemList {
 	public boolean equip;
 	public String interaction;
 	boolean stack;
+
 	public ItemList(int item_id, int price, int quantity, boolean stack, Bank.WithdrawMode mode, boolean equip,
 					String interaction)
 	{

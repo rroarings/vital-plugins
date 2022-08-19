@@ -16,11 +16,11 @@ import java.util.List;
 
 public class CooksAssistant implements ScriptTask
 {
+	static List<ScriptTask> tasks = new ArrayList<>();
 	VitalQuesterConfig config;
 
-	static List<ScriptTask> tasks = new ArrayList<>();
-
-	public CooksAssistant(VitalQuesterConfig config) {
+	public CooksAssistant(VitalQuesterConfig config)
+	{
 		this.config = config;
 
 		tasks.clear();
@@ -38,7 +38,8 @@ public class CooksAssistant implements ScriptTask
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		for (ScriptTask task : tasks)
 		{

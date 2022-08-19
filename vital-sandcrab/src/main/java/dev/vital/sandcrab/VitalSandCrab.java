@@ -25,30 +25,32 @@ import java.util.List;
 @PluginDescriptor(name = "vital-sandcrab", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalSandCrab extends LoopedPlugin {
+public class VitalSandCrab extends LoopedPlugin
+{
 
-	@Inject
-	private VitalSandCrabConfig config;
-
-	static List<ScriptTask> tasks = new ArrayList<>();
 	public static boolean should_find_new_spot = true;
 	public static boolean plugin_enabled = false;
 	public static int no_target_ticks = 0;
 	public static int stack_ticks = 0;
 	public static List<Spot> spots = Arrays.asList(
-			new Spot(new WorldPoint(1764,3445,0), new WorldPoint(1795,3408,0)),
-			new Spot(new WorldPoint(1758,3439,0), new WorldPoint(1796,3411,0)),
-			new Spot(new WorldPoint(1786,3404,0), new WorldPoint(1767,3448,0))
+			new Spot(new WorldPoint(1764, 3445, 0), new WorldPoint(1795, 3408, 0)),
+			new Spot(new WorldPoint(1758, 3439, 0), new WorldPoint(1796, 3411, 0)),
+			new Spot(new WorldPoint(1786, 3404, 0), new WorldPoint(1767, 3448, 0))
 	);
+	static List<ScriptTask> tasks = new ArrayList<>();
+	@Inject
+	private VitalSandCrabConfig config;
 
 	@Override
-	public void shutDown() {
+	public void shutDown()
+	{
 
 		plugin_enabled = false;
 	}
 
 	@Override
-	public void startUp() {
+	public void startUp()
+	{
 
 		tasks.clear();
 
@@ -57,16 +59,21 @@ public class VitalSandCrab extends LoopedPlugin {
 	}
 
 	@Override
-	protected int loop() {
+	protected int loop()
+	{
 
-		if(plugin_enabled && Game.isLoggedIn()) {
+		if (plugin_enabled && Game.isLoggedIn())
+		{
 
-			for (ScriptTask task : tasks){
+			for (ScriptTask task : tasks)
+			{
 
-				if (task.validate()) {
+				if (task.validate())
+				{
 
 					int sleep = task.execute();
-					if (task.blocking()) {
+					if (task.blocking())
+					{
 
 						return sleep;
 					}
@@ -78,44 +85,52 @@ public class VitalSandCrab extends LoopedPlugin {
 	}
 
 	@Subscribe
-	public void onConfigButtonClicked(ConfigButtonClicked e) {
+	public void onConfigButtonClicked(ConfigButtonClicked e)
+	{
 
-		if (!e.getGroup().equals("vitalsandcrabconfig")) {
+		if (!e.getGroup().equals("vitalsandcrabconfig"))
+		{
 			return;
 		}
 
-		switch (e.getKey()) {
-			case "startStopPlugin":
-				plugin_enabled = !plugin_enabled;
-				break;
+		if ("startStopPlugin".equals(e.getKey()))
+		{
+			plugin_enabled = !plugin_enabled;
 		}
 	}
 
 	@Subscribe
-	public void onGameTick(GameTick event) {
+	public void onGameTick(GameTick event)
+	{
 
 		var local_player = LocalPlayer.get();
-		if(Players.getAll(x -> !x.equals(local_player)).stream().anyMatch(x -> x.getWorldLocation().equals(local_player.getWorldLocation()))) {
+		if (Players.getAll(x -> !x.equals(local_player)).stream().anyMatch(x -> x.getWorldLocation().equals(local_player.getWorldLocation())))
+		{
 			stack_ticks++;
 		}
-		else {
+		else
+		{
 
 			stack_ticks = 0;
 		}
-		if(stack_ticks >= 10) {
+		if (stack_ticks >= 10)
+		{
 			should_find_new_spot = true;
 		}
-		if(local_player.getInteracting() == null && spots.stream().anyMatch(x -> x.spot.equals(local_player.getWorldLocation()))) {
+		if (local_player.getInteracting() == null && spots.stream().anyMatch(x -> x.spot.equals(local_player.getWorldLocation())))
+		{
 
 			no_target_ticks++;
 		}
-		else {
+		else
+		{
 			no_target_ticks = 0;
 		}
 	}
 
 	@Provides
-	VitalSandCrabConfig getConfig(ConfigManager configManager) {
+	VitalSandCrabConfig getConfig(ConfigManager configManager)
+	{
 
 		return configManager.getConfig(VitalSandCrabConfig.class);
 	}

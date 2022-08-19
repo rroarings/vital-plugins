@@ -8,34 +8,37 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class GoToCombatInstructor implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public GoToCombatInstructor(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GoToCombatInstructor(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("Congratulations, you've made your first weapon");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("Congratulations, you've made your first weapon");
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public int execute()
-    {
-        var gate = TileObjects.getNearest("Gate");
-        if(gate != null && Reachable.isInteractable(gate)) {
-            gate.interact("Open");
-        }
+	@Override
+	public int execute()
+	{
+		var gate = TileObjects.getNearest("Gate");
+		if (gate != null && Reachable.isInteractable(gate))
+		{
+			gate.interact("Open");
+		}
 
-        return -5;
-    }
+		return -5;
+	}
 }

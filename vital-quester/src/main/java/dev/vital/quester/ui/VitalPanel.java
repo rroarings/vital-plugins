@@ -8,7 +8,8 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.ui.PluginPanel;
 
-import javax.swing.*;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -11,43 +11,47 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class TalkToJuliet2 implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_juliet = null;
 
-    public TalkToJuliet2(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public TalkToJuliet2(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 50;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 50;
+	}
 
-    DialogTask talk_to_juliet = null;
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		var juliet = NPCs.getNearest("Juliet");
+		if (juliet == null)
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(new WorldPoint(3155, 3433, 1));
+			}
 
-        var juliet = NPCs.getNearest("Juliet");
-        if(juliet == null) {
-            if(!Movement.isWalking()) {
-                Movement.walkTo(new WorldPoint(3155, 3433, 1));
-            }
+			return -1;
+		}
 
-            return -1;
-        }
+		if (talk_to_juliet == null)
+		{
+			talk_to_juliet = new DialogTask("Juliet", juliet.getWorldLocation(),
+					(String) null);
+			return -1;
+		}
 
-        if(talk_to_juliet == null) {
-            talk_to_juliet = new DialogTask("Juliet", juliet.getWorldLocation(),
-                    (String)null);
-            return -1;
-        }
+		if (!talk_to_juliet.taskCompleted())
+		{
+			return talk_to_juliet.execute();
+		}
 
-        if (!talk_to_juliet.taskCompleted()) {
-            return talk_to_juliet.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

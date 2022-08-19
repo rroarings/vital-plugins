@@ -9,19 +9,22 @@ public class Panic implements ScriptTask
 {
 	VitalPrayerConfig config;
 
-	public Panic(VitalPrayerConfig config) {
+	public Panic(VitalPrayerConfig config)
+	{
 
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		return !Players.getAll(x -> !x.equals(LocalPlayer.get())).isEmpty();
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Worlds.hopTo(Worlds.getRandom(x -> x.isNormal() && !x.isMembers()), true);
 

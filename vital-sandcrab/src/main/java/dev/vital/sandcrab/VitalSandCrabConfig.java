@@ -31,7 +31,10 @@ public interface VitalSandCrabConfig extends Config
 			description = "",
 			position = 40
 	)
-	default String description() { return "Requires gold in the bank to be able to gain access to crab claw isle."; }
+	default String description()
+	{
+		return "Requires gold in the bank to be able to gain access to crab claw isle.";
+	}
 
 	@ConfigItem(
 			keyName = "hopWorlds",
@@ -39,7 +42,10 @@ public interface VitalSandCrabConfig extends Config
 			description = "This will attempt to hop worlds when all spots are taken (may be bugged)",
 			position = 50
 	)
-	default boolean hopWorlds() { return false; }
+	default boolean hopWorlds()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "startStopPlugin",
@@ -47,5 +53,8 @@ public interface VitalSandCrabConfig extends Config
 			description = "",
 			position = 55
 	)
-	default Button startStopPlugin() { return new Button(); }
+	default Button startStopPlugin()
+	{
+		return new Button();
+	}
 }

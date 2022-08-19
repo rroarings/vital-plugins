@@ -13,7 +13,10 @@ public interface VitalMotherlodeConfig extends Config
 			description = "",
 			position = 0
 	)
-	default int miningAnimation() { return 6758; }
+	default int miningAnimation()
+	{
+		return 6758;
+	}
 
 	@ConfigItem(
 			keyName = "animationDelta",
@@ -21,5 +24,8 @@ public interface VitalMotherlodeConfig extends Config
 			description = "How many ticks to wait before considered not mining.",
 			position = 5
 	)
-	default int animationDelta() { return 6; }
+	default int animationDelta()
+	{
+		return 6;
+	}
 }

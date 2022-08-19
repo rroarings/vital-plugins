@@ -26,42 +26,50 @@ import org.pf4j.Extension;
 @Slf4j
 public class VitalSmithing extends LoopedPlugin
 {
+	public int ticker = 0;
+	public int oldticker = 0;
 	@Inject
 	private VitalSmithingConfig config;
-
 	private boolean smithing = false;
 
 	@Override
 	protected int loop()
 	{
-		if (!Game.isLoggedIn()) {
+		if (!Game.isLoggedIn())
+		{
 
 			return -1;
 		}
 
 		var local_player = LocalPlayer.get();
-		if (Movement.isWalking() || local_player.isAnimating() || smithing) {
+		if (Movement.isWalking() || local_player.isAnimating() || smithing)
+		{
 
 			return -1;
 		}
 
-		if (Inventory.getCount(false, config.barID()) == 27) {
+		if (Inventory.getCount(false, config.barID()) == 27)
+		{
 
-			if(Bank.isOpen()) {
+			if (Bank.isOpen())
+			{
 
 				Bank.close();
 
 				return Rand.nextInt(600, 1200);
 			}
-			else {
+			else
+			{
 
-				var widgets =Widgets.get(WidgetID.SMITHING_GROUP_ID);
+				var widgets = Widgets.get(WidgetID.SMITHING_GROUP_ID);
 
-				if(widgets.isEmpty()) {
+				if (widgets.isEmpty())
+				{
 
 					TileObjects.getNearest("Anvil").interact("Smith");
 				}
-				else if(Widgets.isVisible(widgets.get(0))){
+				else if (Widgets.isVisible(widgets.get(0)))
+				{
 
 					Keyboard.sendSpace();
 				}
@@ -81,7 +89,7 @@ public class VitalSmithing extends LoopedPlugin
 
 				if (Inventory.getFreeSlots() == 27)
 				{
-					if(Bank.getCount(false, config.barID()) >= 27)
+					if (Bank.getCount(false, config.barID()) >= 27)
 					{
 						Bank.withdraw(config.barID(), 27, Bank.WithdrawMode.ITEM);
 					}
@@ -101,19 +109,19 @@ public class VitalSmithing extends LoopedPlugin
 		return configManager.getConfig(VitalSmithingConfig.class);
 	}
 
-	public int ticker = 0;
-	public int oldticker = 0;
 	@Subscribe
 	private void onGameTick(GameTick event)
 	{
 		ticker++;
 		var local_player = LocalPlayer.get();
-		if(local_player.isAnimating()) {
+		if (local_player.isAnimating())
+		{
 
 			oldticker = ticker;
 			smithing = true;
 		}
-		else if(smithing && ticker - oldticker > 3) {
+		else if (smithing && ticker - oldticker > 3)
+		{
 			smithing = false;
 		}
 	}

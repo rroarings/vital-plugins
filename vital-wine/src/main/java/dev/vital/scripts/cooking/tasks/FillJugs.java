@@ -17,22 +17,26 @@ public class FillJugs implements ScriptTask
 
 	VitalWineConfig config;
 
-	public FillJugs(VitalWineConfig config) {
+	public FillJugs(VitalWineConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
-		return Inventory.contains(ItemID.JUG) &&Inventory.contains(ItemID.GRAPES) && COOKING_GUILD_0.contains(LocalPlayer.get());
+		return Inventory.contains(ItemID.JUG) && Inventory.contains(ItemID.GRAPES) && COOKING_GUILD_0.contains(LocalPlayer.get());
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
+		if (local.isAnimating() || Movement.isWalking())
+		{
 
 			return -1;
 		}

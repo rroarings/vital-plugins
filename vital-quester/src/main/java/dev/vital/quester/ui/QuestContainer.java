@@ -5,10 +5,11 @@ import dev.vital.quester.VitalQuesterConfig;
 import net.miginfocom.swing.MigLayout;
 import net.runelite.client.config.ConfigManager;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 
 public class QuestContainer extends PanelContainer
 {
@@ -29,21 +30,19 @@ public class QuestContainer extends PanelContainer
 		main_panel.add(createCheckBox("Automatic optimal questing", "automaticOptimal"), "wrap");
 		main_panel.add(createComboBoxSection("Task", "currentQuest", QuestList.class), "wrap");
 
-		switch(config.currentQuest()) {
-			case SHEEP_SHEARER: {
-				JPanel panel = new JPanel(new MigLayout());
-				panel.setPreferredSize(new Dimension(300,100));
-				panel.setBorder(new TitledBorder("Sheep Shearer configuration"));
-				panel.add(createCheckBox("Bank Inventory", "sheepShearerBankInventory"), "wrap");
-				if(config.sheepShearerBankInventory()) {
-					var text_section = createTextSection("Items", "sheepShearerExcludedItems", false);
-					text_section.setToolTipText("Prevent items from being banked. separated by ,");
-					panel.add(text_section, "wrap");
-				}
-				main_panel.add(panel, "wrap");
-
-				break;
+		if (config.currentQuest() == QuestList.SHEEP_SHEARER)
+		{
+			JPanel panel = new JPanel(new MigLayout());
+			panel.setPreferredSize(new Dimension(300, 100));
+			panel.setBorder(new TitledBorder("Sheep Shearer configuration"));
+			panel.add(createCheckBox("Bank Inventory", "sheepShearerBankInventory"), "wrap");
+			if (config.sheepShearerBankInventory())
+			{
+				var text_section = createTextSection("Items", "sheepShearerExcludedItems", false);
+				text_section.setToolTipText("Prevent items from being banked. separated by ,");
+				panel.add(text_section, "wrap");
 			}
+			main_panel.add(panel, "wrap");
 		}
 
 		add(main_panel, "wrap");

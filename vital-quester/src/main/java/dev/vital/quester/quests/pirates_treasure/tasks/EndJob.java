@@ -7,30 +7,31 @@ import net.runelite.api.coords.WorldPoint;
 
 public class EndJob implements ScriptTask
 {
-    private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
+	private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_luthus = new DialogTask("Luthas", luthas_location, "Thank you, I'll be on my way");
 
-    public EndJob(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public EndJob(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    DialogTask talk_to_luthus = new DialogTask("Luthas", luthas_location, "Thank you, I'll be on my way");
+	@Override
+	public boolean validate()
+	{
+		return !talk_to_luthus.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !talk_to_luthus.taskCompleted();
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_luthus.taskCompleted())
+		{
+			return talk_to_luthus.execute();
+		}
 
-        if(!talk_to_luthus.taskCompleted()) {
-            return talk_to_luthus.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

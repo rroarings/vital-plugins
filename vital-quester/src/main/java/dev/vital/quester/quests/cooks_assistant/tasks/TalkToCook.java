@@ -9,30 +9,30 @@ import net.unethicalite.api.items.Inventory;
 
 public class TalkToCook implements ScriptTask
 {
-    private final WorldPoint cooks_point = new WorldPoint(3210, 3213, 0);
+	private final WorldPoint cooks_point = new WorldPoint(3210, 3213, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_cook = new DialogTask("Cook", cooks_point, "What's wrong?", "Yes.");
 
-    public TalkToCook(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public TalkToCook(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Inventory.contains(ItemID.EGG) && Inventory.contains(ItemID.BUCKET_OF_MILK) && Inventory.contains(ItemID.POT_OF_FLOUR);
-    }
+	@Override
+	public boolean validate()
+	{
+		return Inventory.contains(ItemID.EGG) && Inventory.contains(ItemID.BUCKET_OF_MILK) && Inventory.contains(ItemID.POT_OF_FLOUR);
+	}
 
-    DialogTask talk_to_cook = new DialogTask("Cook", cooks_point, "What's wrong?", "Yes.");
+	@Override
+	public int execute()
+	{
+		if (!talk_to_cook.taskCompleted())
+		{
+			return talk_to_cook.execute();
+		}
 
-    @Override
-    public int execute()
-    {
-        if(!talk_to_cook.taskCompleted()) {
-            return talk_to_cook.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

@@ -13,15 +13,23 @@ public class FossilIsland implements ScriptTask
 
 	VitalBirdhouseConfig config = null;
 
-	public FossilIsland(VitalBirdhouseConfig config) { this.config = config; }
+	public FossilIsland(VitalBirdhouseConfig config)
+	{
+		this.config = config;
+	}
 
 	@Override
-	public boolean validate() { return VitalBirdhouse.step.equals(Steps.FOSSIL_ISLAND); }
+	public boolean validate()
+	{
+		return VitalBirdhouse.step.equals(Steps.FOSSIL_ISLAND);
+	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(Tools.goTo(FOSSIL_ISLAND_TELE_ROOM)) {
+		if (Tools.goTo(FOSSIL_ISLAND_TELE_ROOM))
+		{
 
 			VitalBirdhouse.step = Steps.VALLEY;
 		}

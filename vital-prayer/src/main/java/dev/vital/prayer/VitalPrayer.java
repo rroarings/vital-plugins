@@ -2,7 +2,11 @@ package dev.vital.prayer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.prayer.tasks.*;
+import dev.vital.prayer.tasks.DontPanic;
+import dev.vital.prayer.tasks.Panic;
+import dev.vital.prayer.tasks.SacraficeBones;
+import dev.vital.prayer.tasks.ScriptTask;
+import dev.vital.prayer.tasks.UnnoteBones;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.events.ConfigButtonClicked;
 import net.runelite.api.events.GameTick;
@@ -20,19 +24,18 @@ import java.util.List;
 @PluginDescriptor(name = "vital-prayer", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalPrayer extends LoopedPlugin {
+public class VitalPrayer extends LoopedPlugin
+{
 
+	public static int is_animating = 0;
 	List<ScriptTask> tasks = new ArrayList<>();
-
-	public static  int is_animating = 0;
-
+	boolean plugin_enabled = false;
 	@Inject
 	private VitalPrayerConfig config;
 
-	boolean plugin_enabled = false;
-
 	@Override
-	public void startUp() {
+	public void startUp()
+	{
 
 		plugin_enabled = false;
 
@@ -49,16 +52,21 @@ public class VitalPrayer extends LoopedPlugin {
 	}
 
 	@Override
-	protected int loop() {
+	protected int loop()
+	{
 
-		if(plugin_enabled && Game.isLoggedIn()) {
+		if (plugin_enabled && Game.isLoggedIn())
+		{
 
-			for (ScriptTask task : tasks){
+			for (ScriptTask task : tasks)
+			{
 
-				if (task.validate()) {
+				if (task.validate())
+				{
 
 					int sleep = task.execute();
-					if (task.blocking()) {
+					if (task.blocking())
+					{
 
 						return sleep;
 					}
@@ -70,39 +78,40 @@ public class VitalPrayer extends LoopedPlugin {
 	}
 
 	@Subscribe
-	private void onGameTick(GameTick event) {
+	private void onGameTick(GameTick event)
+	{
 
-		if(LocalPlayer.get().getAnimation() == 3705) {
+		if (LocalPlayer.get().getAnimation() == 3705)
+		{
 
 			is_animating = 0;
 		}
-		else {
+		else
+		{
 
 			is_animating++;
 		}
 	}
 
 	@Subscribe
-	public void onConfigButtonClicked(ConfigButtonClicked e) {
+	public void onConfigButtonClicked(ConfigButtonClicked e)
+	{
 
-		if (!e.getGroup().equals("vitalprayerconfig")) {
+		if (!e.getGroup().equals("vitalprayerconfig"))
+		{
 
 			return;
 		}
 
-		switch (e.getKey()) {
-
-			case "startStopPlugin": {
-
-				plugin_enabled = !plugin_enabled;
-
-				break;
-			}
+		if ("startStopPlugin".equals(e.getKey()))
+		{
+			plugin_enabled = !plugin_enabled;
 		}
 	}
 
 	@Provides
-	VitalPrayerConfig getConfig(ConfigManager configManager) {
+	VitalPrayerConfig getConfig(ConfigManager configManager)
+	{
 
 		return configManager.getConfig(VitalPrayerConfig.class);
 	}

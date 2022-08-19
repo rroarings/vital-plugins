@@ -1,4 +1,5 @@
 package dev.vital.quester.quests.witchs_potion;
 
-public class WitchesPotion {
+public class WitchesPotion
+{
 }

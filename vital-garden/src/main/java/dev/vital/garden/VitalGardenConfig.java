@@ -13,5 +13,8 @@ public interface VitalGardenConfig extends Config
 			description = "",
 			position = 0
 	)
-	default boolean autumnGarden() { return false; }
+	default boolean autumnGarden()
+	{
+		return false;
+	}
 }

@@ -15,6 +15,14 @@ public interface VitalMagicConfig extends Config
 			position = 0
 	)
 	String needleAndThreadConfig = "needleAndThreadConfig";
+	@ConfigSection(
+			keyName = "delayConfig",
+			name = "Delay Configuration",
+			description = "",
+			position = 12
+	)
+	String delayConfig = "delayConfig";
+
 	@ConfigItem(
 			keyName = "alchemyEnabled",
 			name = "Alchemy",
@@ -22,16 +30,10 @@ public interface VitalMagicConfig extends Config
 			position = 2,
 			section = "highAlchemy"
 	)
-	default boolean alchemyEnabled() { return false; }
-
-	@ConfigItem(
-			keyName = "teleportAlch",
-			name = "Teleport while alching",
-			description = "Teleport will be casted after casting high alch.",
-			position = 3,
-			section = "highAlchemy"
-	)
-	default boolean teleportAlch() { return false; }
+	default boolean alchemyEnabled()
+	{
+		return false;
+	}
 
 	/*@ConfigItem(
 			keyName = "enchantBolt",
@@ -43,13 +45,28 @@ public interface VitalMagicConfig extends Config
 	default boolean enchantBolt() { return false; }*/
 
 	@ConfigItem(
+			keyName = "teleportAlch",
+			name = "Teleport while alching",
+			description = "Teleport will be casted after casting high alch.",
+			position = 3,
+			section = "highAlchemy"
+	)
+	default boolean teleportAlch()
+	{
+		return false;
+	}
+
+	@ConfigItem(
 			keyName = "alchemyWhileMoving",
 			name = "Alchemy while moving",
 			description = "Enable to cast alchemy while moving.",
 			position = 5,
 			section = "highAlchemy"
 	)
-	default boolean alchemyWhileMoving() { return false; }
+	default boolean alchemyWhileMoving()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "alchemyItem",
@@ -58,7 +75,10 @@ public interface VitalMagicConfig extends Config
 			position = 6,
 			section = "highAlchemy"
 	)
-	default int alchemyItem() { return 0; }
+	default int alchemyItem()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "teleDelayMin",
@@ -67,7 +87,10 @@ public interface VitalMagicConfig extends Config
 			position = 7,
 			section = "delayConfig"
 	)
-	default int teleDelayMin() { return 0; }
+	default int teleDelayMin()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "teleDelayMax",
@@ -76,7 +99,10 @@ public interface VitalMagicConfig extends Config
 			position = 8,
 			section = "delayConfig"
 	)
-	default int teleDelayMax() { return 0; }
+	default int teleDelayMax()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "enchantMin",
@@ -85,7 +111,10 @@ public interface VitalMagicConfig extends Config
 			position = 9,
 			section = "delayConfig"
 	)
-	default int enchantMin() { return 0; }
+	default int enchantMin()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "enchantMax",
@@ -94,15 +123,10 @@ public interface VitalMagicConfig extends Config
 			position = 10,
 			section = "delayConfig"
 	)
-	default int enchantMax() { return 0; }
-
-	@ConfigSection(
-			keyName = "delayConfig",
-			name = "Delay Configuration",
-			description = "",
-			position = 12
-	)
-	String delayConfig = "delayConfig";
+	default int enchantMax()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "minimumDelay",
@@ -111,7 +135,10 @@ public interface VitalMagicConfig extends Config
 			position = 14,
 			section = "delayConfig"
 	)
-	default int minimumDelay() { return 0; }
+	default int minimumDelay()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "maximumDelay",
@@ -120,7 +147,10 @@ public interface VitalMagicConfig extends Config
 			position = 16,
 			section = "delayConfig"
 	)
-	default int maximumDelay() { return 0; }
+	default int maximumDelay()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "tickMinDelay",
@@ -129,7 +159,10 @@ public interface VitalMagicConfig extends Config
 			position = 18,
 			section = "delayConfig"
 	)
-	default int tickMinDelay() { return 0; }
+	default int tickMinDelay()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "tickMaxDelay",
@@ -138,7 +171,10 @@ public interface VitalMagicConfig extends Config
 			position = 20,
 			section = "delayConfig"
 	)
-	default int tickMaxDelay() { return 0; }
+	default int tickMaxDelay()
+	{
+		return 0;
+	}
 
 
 }

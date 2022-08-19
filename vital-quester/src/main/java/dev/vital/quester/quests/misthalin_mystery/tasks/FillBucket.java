@@ -12,42 +12,46 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class FillBucket implements ScriptTask
 {
-    private final WorldPoint bucket_point = new WorldPoint(1619, 4816, 0);
+	private final WorldPoint bucket_point = new WorldPoint(1619, 4816, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask work_barrel = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.BUCKET))
+		{
 
-    public FillBucket(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+			Inventory.getFirst(ItemID.BUCKET).useOn(TileObjects.getNearest("A barrel of rainwater"));
+		}
+		else if (Inventory.contains(ItemID.BUCKET_OF_WATER))
+		{
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 20;
-    }
+			TileObjects.getNearest("A barrel of rainwater").interact("Search");
+			return 0;
+		}
 
-    BasicTask work_barrel = new BasicTask(() -> {
-        if(Inventory.contains(ItemID.BUCKET)) {
+		return -5;
+	});
 
-            Inventory.getFirst(ItemID.BUCKET).useOn(TileObjects.getNearest("A barrel of rainwater"));
-        }
-        else if(Inventory.contains(ItemID.BUCKET_OF_WATER)) {
+	public FillBucket(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-            TileObjects.getNearest("A barrel of rainwater").interact("Search");
-            return 0;
-        }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 20;
+	}
 
-        return -5;
-    });
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!work_barrel.taskCompleted())
+		{
+			return work_barrel.execute();
+		}
 
-        if (!work_barrel.taskCompleted()) {
-            return work_barrel.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

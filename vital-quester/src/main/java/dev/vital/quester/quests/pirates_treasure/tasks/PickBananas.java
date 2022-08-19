@@ -10,34 +10,35 @@ import net.unethicalite.api.items.Inventory;
 
 public class PickBananas implements ScriptTask
 {
-    private final WorldPoint tree_point = new WorldPoint(2916, 3155, 0);
+	private final WorldPoint tree_point = new WorldPoint(2916, 3155, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask pick_bananas = new BasicTask(() ->
+	{
+		Tools.interactWith("Banana Tree", "Pick", tree_point, Tools.EntityType.TILE_OBJECT);
 
-    public PickBananas(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		if (Inventory.getCount(ItemID.BANANA) >= 10)
+		{
+			return 0;
+		}
+		return -2;
+	});
 
-    BasicTask pick_bananas = new BasicTask(() ->
-    {
-        Tools.interactWith("Banana Tree", "Pick", tree_point, Tools.EntityType.TILE_OBJECT);
+	public PickBananas(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        if(Inventory.getCount(ItemID.BANANA) >= 10) {
-            return 0;
-        }
-        return -2;
-    });
+	@Override
+	public boolean validate()
+	{
+		return !pick_bananas.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !pick_bananas.taskCompleted();
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
-
-        return pick_bananas.execute();
-    }
+		return pick_bananas.execute();
+	}
 }

@@ -15,16 +15,6 @@ public interface VitalBankStanderConfig extends Config
 			position = 0
 	)
 	String glassBlowConfig = "glassBlowConfig";
-
-	@ConfigItem(
-			keyName = "glass",
-			name = "Glass",
-			description = "Blow glass",
-			position = 5,
-			section = "glassBlowConfig"
-	)
-	default boolean glass() { return false; }
-
 	@ConfigSection(
 			keyName = "needleAndThreadConfig",
 			name = "Needle & Thread Configuration",
@@ -32,64 +22,6 @@ public interface VitalBankStanderConfig extends Config
 			position = 10
 	)
 	String needleAndThreadConfig = "needleAndThreadConfig";
-
-	@ConfigItem(
-			keyName = "needleAndThread",
-			name = "Needle & Thread",
-			description = "Crafting involving a needle and thread",
-			position = 15,
-			section = "needleAndThreadConfig"
-	)
-	default boolean needleAndThread() { return false; }
-
-
-
-	@ConfigItem(
-			keyName = "firstMaterial",
-			name = "First Material",
-			description = "The first material you want to use.",
-			position = 20,
-			section = "needleAndThreadConfig"
-	)
-	default int firstMaterial() { return 0; }
-
-	@ConfigItem(
-			keyName = "firstMaterialAmount",
-			name = "First Material Amount",
-			description = "The first material amount you want to use.",
-			position = 25,
-			section = "needleAndThreadConfig"
-	)
-	default int firstMaterialAmount() { return 0; }
-
-	@ConfigItem(
-			keyName = "secondMaterial",
-			name = "Second Material",
-			description = "The second material you want to use.",
-			position = 30,
-			section = "needleAndThreadConfig"
-	)
-	default int secondMaterial() { return 0; }
-
-	@ConfigItem(
-			keyName = "secondMaterialAmount",
-			name = "Second Material Amount",
-			description = "The second material amount you want to use.",
-			position = 35,
-			section = "needleAndThreadConfig"
-	)
-	default int secondMaterialAmount() { return 0; }
-
-	@ConfigItem(
-			keyName = "depositMaterial",
-			name = "Final product ID",
-			description = "The ID of the item that was made.",
-			position = 40,
-			section = "needleAndThreadConfig"
-	)
-	default int depositMaterial() { return 0; }
-
-
 	// fletching
 	@ConfigSection(
 			keyName = "bowAndStringConfig",
@@ -98,25 +30,6 @@ public interface VitalBankStanderConfig extends Config
 			position = 50
 	)
 	String bowAndStringConfig = "bowAndStringConfig";
-
-	@ConfigItem(
-			keyName = "bowAndString",
-			name = "Bow & String",
-			description = "Crafting involving a bow & string",
-			position = 51,
-			section = "bowAndStringConfig"
-	)
-	default boolean bowAndString() { return false; }
-
-	@ConfigItem(
-			keyName = "unfinishedBowID",
-			name = "Unfinished bow ID",
-			description = "The type of bow to use.",
-			position = 52,
-			section = "bowAndStringConfig"
-	)
-	default int unfinishedBowID() { return 0; }
-
 	// jugs
 	@ConfigSection(
 			keyName = "jugsConfig",
@@ -125,27 +38,6 @@ public interface VitalBankStanderConfig extends Config
 			position = 55
 	)
 	String jugsConfig = "jugsConfig";
-
-	@ConfigItem(
-			keyName = "jugs",
-			name = "Jugs of water and X",
-			description = "Crafting involving a jug of water and X",
-			position = 56,
-			section = "jugsConfig"
-	)
-	default boolean jugs() { return false; }
-
-	@ConfigItem(
-			keyName = "secondaryMat",
-			name = "2nd material ID",
-			description = "The id of the item to use on the jug of water.",
-			position = 57,
-			section = "jugsConfig"
-	)
-	default int secondaryMat() { return 0; }
-
-	//delay configs
-
 	@ConfigSection(
 			keyName = "delayConfig",
 			name = "Delay Configuration",
@@ -155,13 +47,150 @@ public interface VitalBankStanderConfig extends Config
 	String delayConfig = "delayConfig";
 
 	@ConfigItem(
+			keyName = "glass",
+			name = "Glass",
+			description = "Blow glass",
+			position = 5,
+			section = "glassBlowConfig"
+	)
+	default boolean glass()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "needleAndThread",
+			name = "Needle & Thread",
+			description = "Crafting involving a needle and thread",
+			position = 15,
+			section = "needleAndThreadConfig"
+	)
+	default boolean needleAndThread()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "firstMaterial",
+			name = "First Material",
+			description = "The first material you want to use.",
+			position = 20,
+			section = "needleAndThreadConfig"
+	)
+	default int firstMaterial()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "firstMaterialAmount",
+			name = "First Material Amount",
+			description = "The first material amount you want to use.",
+			position = 25,
+			section = "needleAndThreadConfig"
+	)
+	default int firstMaterialAmount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "secondMaterial",
+			name = "Second Material",
+			description = "The second material you want to use.",
+			position = 30,
+			section = "needleAndThreadConfig"
+	)
+	default int secondMaterial()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "secondMaterialAmount",
+			name = "Second Material Amount",
+			description = "The second material amount you want to use.",
+			position = 35,
+			section = "needleAndThreadConfig"
+	)
+	default int secondMaterialAmount()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "depositMaterial",
+			name = "Final product ID",
+			description = "The ID of the item that was made.",
+			position = 40,
+			section = "needleAndThreadConfig"
+	)
+	default int depositMaterial()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "bowAndString",
+			name = "Bow & String",
+			description = "Crafting involving a bow & string",
+			position = 51,
+			section = "bowAndStringConfig"
+	)
+	default boolean bowAndString()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "unfinishedBowID",
+			name = "Unfinished bow ID",
+			description = "The type of bow to use.",
+			position = 52,
+			section = "bowAndStringConfig"
+	)
+	default int unfinishedBowID()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
+			keyName = "jugs",
+			name = "Jugs of water and X",
+			description = "Crafting involving a jug of water and X",
+			position = 56,
+			section = "jugsConfig"
+	)
+	default boolean jugs()
+	{
+		return false;
+	}
+
+	//delay configs
+
+	@ConfigItem(
+			keyName = "secondaryMat",
+			name = "2nd material ID",
+			description = "The id of the item to use on the jug of water.",
+			position = 57,
+			section = "jugsConfig"
+	)
+	default int secondaryMat()
+	{
+		return 0;
+	}
+
+	@ConfigItem(
 			keyName = "minimumDelay",
 			name = "Minimum delay",
 			description = "Minimum amount of milliseconds to wait after casting.",
 			position = 61,
 			section = "needleAndThreadConfig"
 	)
-	default int minimumDelay() { return 120; }
+	default int minimumDelay()
+	{
+		return 120;
+	}
 
 	@ConfigItem(
 			keyName = "maximumDelay",
@@ -169,7 +198,10 @@ public interface VitalBankStanderConfig extends Config
 			description = "Maximum amount of milliseconds to wait after casting.",
 			position = 62
 	)
-	default int maximumDelay() { return 300; }
+	default int maximumDelay()
+	{
+		return 300;
+	}
 
 	@ConfigItem(
 			keyName = "tickMinDelay",
@@ -177,7 +209,10 @@ public interface VitalBankStanderConfig extends Config
 			description = "Minimum amount of ticks to wait after casting.",
 			position = 63
 	)
-	default int tickMinDelay() { return 45; }
+	default int tickMinDelay()
+	{
+		return 45;
+	}
 
 	@ConfigItem(
 			keyName = "tickMaxDelay",
@@ -185,14 +220,17 @@ public interface VitalBankStanderConfig extends Config
 			description = "Maximum amount of ticks to wait after casting.",
 			position = 64
 	)
-	default int tickMaxDelay() { return 55; }
+	default int tickMaxDelay()
+	{
+		return 55;
+	}
 
 	//@ConfigItem(
 	//		keyName = "potions",
 	//		name = "Potions",
 	//		description = "Crafting potions",
 	//		position = 2
-//	)
+	//	)
 	//default boolean potions() { return false; }
 	/*@ConfigItem(
 			keyName = "firstItemID",

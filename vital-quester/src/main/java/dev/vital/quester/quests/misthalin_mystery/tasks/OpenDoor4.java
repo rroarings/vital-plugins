@@ -10,35 +10,39 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class OpenDoor4 implements ScriptTask
 {
-    WorldPoint door_point = new WorldPoint(1631, 4842, 0);
+	WorldPoint door_point = new WorldPoint(1631, 4842, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask open_door = new BasicTask(() ->
+	{
+		if (Tools.interactWith(30118, "Open", door_point, Tools.EntityType.TILE_OBJECT) == -5)
+		{
+			return 0;
+		}
 
-    public OpenDoor4(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		return -5;
+	});
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 85;
-    }
-    BasicTask open_door = new BasicTask(() -> {
-        if(Tools.interactWith(30118, "Open", door_point, Tools.EntityType.TILE_OBJECT) == -5) {
-            return 0;
-        }
+	public OpenDoor4(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        return -5;
-    });
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 85;
+	}
 
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        if (!open_door.taskCompleted()) {
-            return open_door.execute();
-        }
+		if (!open_door.taskCompleted())
+		{
+			return open_door.execute();
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 }

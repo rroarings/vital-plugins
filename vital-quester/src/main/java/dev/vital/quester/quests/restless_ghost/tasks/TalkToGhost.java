@@ -12,53 +12,58 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class TalkToGhost implements ScriptTask
 {
-    private final WorldPoint ghost_point = new WorldPoint(3248, 3192, 0);
+	private final WorldPoint ghost_point = new WorldPoint(3248, 3192, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_ghost = new DialogTask("Restless ghost", ghost_point, "Yep, now tell me what the problem is.");
+	BasicTask open_coffin = new BasicTask(() ->
+	{
 
-    public TalkToGhost(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		if (NPCs.getNearest("Restless ghost") != null)
+		{
+			return 0;
+		}
 
-    DialogTask talk_to_ghost = new DialogTask("Restless ghost", ghost_point, "Yep, now tell me what the problem is.");
+		var coffin = TileObjects.getFirstAt(new WorldPoint(3249, 3192, 0), "Coffin");
+		if (coffin != null)
+		{
+			if (coffin.hasAction("Search"))
+			{
+				coffin.interact("Search");
+			}
+			else if (coffin.hasAction("Open"))
+			{
+				coffin.interact("Open");
+			}
+		}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 2;
-    }
+		return -5;
+	});
 
-    BasicTask open_coffin = new BasicTask(() -> {
+	public TalkToGhost(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        if(NPCs.getNearest("Restless ghost") != null) {
-            return 0;
-        }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 2;
+	}
 
-        var coffin = TileObjects.getFirstAt(new WorldPoint(3249, 3192, 0), "Coffin");
-        if (coffin != null) {
-            if(coffin.hasAction("Search")) {
-                coffin.interact("Search");
-            }
-            else if(coffin.hasAction("Open")) {
-                coffin.interact("Open");
-            }
-        }
+	@Override
+	public int execute()
+	{
+		if (!open_coffin.taskCompleted())
+		{
+			open_coffin.execute();
+		}
 
-        return -5;
-    });
+		if (!talk_to_ghost.taskCompleted())
+		{
+			talk_to_ghost.execute();
+		}
 
-    @Override
-    public int execute()
-    {
-        if(!open_coffin.taskCompleted()) {
-            open_coffin.execute();
-        }
-
-        if(!talk_to_ghost.taskCompleted()) {
-            talk_to_ghost.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

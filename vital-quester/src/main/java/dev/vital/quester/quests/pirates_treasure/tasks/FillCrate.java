@@ -11,42 +11,45 @@ import net.unethicalite.api.items.Inventory;
 
 public class FillCrate implements ScriptTask
 {
-    private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
+	private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask fill_crate = new BasicTask(() ->
+	{
+		if (!Inventory.contains(ItemID.KARAMJAN_RUM))
+		{
+			return 0;
+		}
 
-    public FillCrate(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		if (Inventory.getCount(false, ItemID.BANANA) >= 10)
+		{
+			return Tools.interactWith("Crate", "Fill", luthas_location, Tools.EntityType.TILE_OBJECT);
+		}
+		else
+		{
+			Inventory.getFirst(ItemID.KARAMJAN_RUM).useOn(TileObjects.getNearest(x -> x.hasAction("Fill")));
+		}
 
-    BasicTask fill_crate = new BasicTask(() ->
-    {
-        if(!Inventory.contains(ItemID.KARAMJAN_RUM)) {
-            return 0;
-        }
+		return -1;
+	});
 
-        if(Inventory.getCount(false, ItemID.BANANA) >= 10) {
-            return Tools.interactWith("Crate", "Fill", luthas_location, Tools.EntityType.TILE_OBJECT);
-        }
-        else {
-            Inventory.getFirst(ItemID.KARAMJAN_RUM).useOn(TileObjects.getNearest(x -> x.hasAction("Fill")));
-        }
+	public FillCrate(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        return -1;
-    });
+	@Override
+	public boolean validate()
+	{
+		return !fill_crate.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !fill_crate.taskCompleted();
-    }
-
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
 
-            return fill_crate.execute();
+		return fill_crate.execute();
 
-    }
+	}
 }

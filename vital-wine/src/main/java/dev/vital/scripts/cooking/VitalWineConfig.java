@@ -60,7 +60,8 @@ public interface VitalWineConfig extends Config
 			description = "Bank Pin (ex: 1234)",
 			position = 5
 	)
-	default String bankPin() {
+	default String bankPin()
+	{
 
 		return "1234";
 	}

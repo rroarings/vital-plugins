@@ -6,32 +6,34 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class EquipDagger implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public EquipDagger(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public EquipDagger(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("You can see what items you are wearing");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("You can see what items you are wearing");
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public int execute()
-    {
-        Widgets.get(85, 0 ,8).interact("Equip");
-        //Inventory.getFirst("Bronze dagger").interact("Equip");
+	@Override
+	public int execute()
+	{
+		Widgets.get(85, 0, 8).interact("Equip");
+		//Inventory.getFirst("Bronze dagger").interact("Equip");
 
-        return -5;
-    }
+		return -5;
+	}
 }

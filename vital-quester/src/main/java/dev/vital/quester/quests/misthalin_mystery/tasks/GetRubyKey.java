@@ -14,47 +14,54 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class GetRubyKey implements ScriptTask
 {
-    WorldPoint note_point = new WorldPoint(1632, 4833, 0);
-    VitalQuesterConfig config;
+	WorldPoint note_point = new WorldPoint(1632, 4833, 0);
+	VitalQuesterConfig config;
+	BasicTask get_ruby_key = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.RUBY_KEY_21053))
+		{
+			return 0;
+		}
 
-    public GetRubyKey(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		var painting = TileObjects.getNearest(29650);
+		if (painting.hasAction("Search"))
+		{
+			painting.interact("Search");
+		}
+		else
+		{
+			if (Reachable.isInteractable(painting))
+			{
+				Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest(29650));
+			}
+			else
+			{
+				Movement.walkTo(painting);
+			}
+		}
+		return -5;
+	});
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 40;
-    }
+	public GetRubyKey(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    BasicTask get_ruby_key = new BasicTask(() -> {
-        if(Inventory.contains(ItemID.RUBY_KEY_21053)) {
-            return 0;
-        }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 40;
+	}
 
-        var painting = TileObjects.getNearest(29650);
-        if(painting.hasAction("Search")) {
-            painting.interact("Search");
-        }
-        else{
-            if(Reachable.isInteractable(painting)) {
-                Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest(29650));
-            }
-            else {
-                Movement.walkTo(painting);
-            }
-        }
-        return -5;
-    });
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!get_ruby_key.taskCompleted())
+		{
+			return get_ruby_key.execute();
+		}
 
-        if (!get_ruby_key.taskCompleted()) {
-            return get_ruby_key.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

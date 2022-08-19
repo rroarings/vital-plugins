@@ -10,28 +10,32 @@ import net.unethicalite.api.widgets.Tabs;
 
 public class HandleCombatStyle implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public HandleCombatStyle(VitalQuesterConfig config) {
-        this.config = config;
-    }
+	public HandleCombatStyle(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(VarPlayer.ATTACK_STYLE.getId()) != config.preferedStyle().getIndex();
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(VarPlayer.ATTACK_STYLE.getId()) != config.preferedStyle().getIndex();
+	}
 
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        if (!Tabs.isOpen(Tab.COMBAT)) {
-            Tabs.open(Tab.COMBAT);
-        }
-        else {
-            Combat.setAttackStyle(config.preferedStyle());
-        }
+		if (!Tabs.isOpen(Tab.COMBAT))
+		{
+			Tabs.open(Tab.COMBAT);
+		}
+		else
+		{
+			Combat.setAttackStyle(config.preferedStyle());
+		}
 
-        return -5;
-    }
+		return -5;
+	}
 }

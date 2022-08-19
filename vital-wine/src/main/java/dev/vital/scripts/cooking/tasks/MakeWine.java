@@ -15,22 +15,26 @@ public class MakeWine implements ScriptTask
 
 	VitalWineConfig config;
 
-	public MakeWine(VitalWineConfig config) {
+	public MakeWine(VitalWineConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		return !Inventory.contains(ItemID.JUG) && Inventory.contains(ItemID.JUG_OF_WATER) && Inventory.contains(ItemID.GRAPES);
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
+		if (local.isAnimating() || Movement.isWalking())
+		{
 
 			return -1;
 		}

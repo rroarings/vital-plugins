@@ -8,31 +8,31 @@ import net.unethicalite.api.game.Vars;
 
 public class AcceptPackage implements ScriptTask
 {
-    private final WorldPoint sedridor_point = new WorldPoint(3104, 9571, 0);
+	private final WorldPoint sedridor_point = new WorldPoint(3104, 9571, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask accept_package = new DialogTask("Archmage Sedridor", sedridor_point,
+			"Okay, here you are.", "Go ahead.", "Yes, certainly.");
 
-    public AcceptPackage(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public AcceptPackage(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(13723) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(13723) == 0;
+	}
 
-    DialogTask accept_package = new DialogTask("Archmage Sedridor", sedridor_point,
-            "Okay, here you are.", "Go ahead.", "Yes, certainly.");
+	@Override
+	public int execute()
+	{
+		if (!accept_package.taskCompleted())
+		{
+			return accept_package.execute();
+		}
 
-    @Override
-    public int execute()
-    {
-        if(!accept_package.taskCompleted()) {
-            return accept_package.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

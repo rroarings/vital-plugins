@@ -21,30 +21,42 @@ public class FruitStall implements ScriptTask
 
 	VitalThievingConfig config;
 
-	public FruitStall(VitalThievingConfig config) { this.config = config; }
+	public FruitStall(VitalThievingConfig config)
+	{
+		this.config = config;
+	}
 
 	@Override
-	public boolean validate() { return config.thievingType().equals(ThievingType.STALL_FRUIT); }
+	public boolean validate()
+	{
+		return config.thievingType().equals(ThievingType.STALL_FRUIT);
+	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(Inventory.isFull() && config.dropItems()) {
+		if (Inventory.isFull() && config.dropItems())
+		{
 
 			for (var item : Inventory.getAll(ItemID.COOKING_APPLE, ItemID.STRANGE_FRUIT,
 					ItemID.BANANA, ItemID.LEMON,
 					ItemID.LIME, ItemID.GOLOVANOVA_FRUIT_TOP, ItemID.JANGERBERRIES, ItemID.PINEAPPLE,
-					ItemID.REDBERRIES, ItemID.STRAWBERRY, ItemID.PAPAYA_FRUIT)) {
+					ItemID.REDBERRIES, ItemID.STRAWBERRY, ItemID.PAPAYA_FRUIT))
+			{
 
 				item.interact("Drop");
 				Time.sleep(180, 230);
 			}
 		}
-		else {
+		else
+		{
 			var fruit_Stall = TileObjects.getNearest("Fruit Stall");
-			if(fruit_Stall != null && Reachable.isInteractable(fruit_Stall) && fruit_Stall.distanceTo(LocalPlayer.get()) < 5) {
+			if (fruit_Stall != null && Reachable.isInteractable(fruit_Stall) && fruit_Stall.distanceTo(LocalPlayer.get()) < 5)
+			{
 
-				if(Players.getNearest(x -> x != LocalPlayer.get() && FRUIT_STALLS.contains(x)) != null) {
+				if (Players.getNearest(x -> x != LocalPlayer.get() && FRUIT_STALLS.contains(x)) != null)
+				{
 
 					Worlds.hopTo(Worlds.getRandom(World::isMembers));
 					return -12;
@@ -54,7 +66,8 @@ public class FruitStall implements ScriptTask
 
 				Time.sleep(1500);
 			}
-			else {
+			else
+			{
 
 				Movement.walkTo(FRUIT_STALLS);
 			}

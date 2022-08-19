@@ -7,11 +7,14 @@ import net.runelite.client.config.ConfigItem;
 @ConfigGroup("vitalfisherconfig")
 public interface VitalFisherConfig extends Config
 {
-    @ConfigItem(
-            keyName = "description",
-            name = "Description",
-            description = "",
-            position = 0
-    )
-    default String description() { return "Currently only angler fish are supported."; }
+	@ConfigItem(
+			keyName = "description",
+			name = "Description",
+			description = "",
+			position = 0
+	)
+	default String description()
+	{
+		return "Currently only angler fish are supported.";
+	}
 }

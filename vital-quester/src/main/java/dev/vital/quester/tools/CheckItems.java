@@ -16,15 +16,17 @@ import java.util.List;
 public class CheckItems
 {
 
-	public static boolean check(List<ItemList> purchase_list) {
+	public static boolean check(List<ItemList> purchase_list)
+	{
 
-		if(purchase_list.stream().noneMatch(n -> n.state == ItemState.UNCHECKED)) {
+		if (purchase_list.stream().noneMatch(n -> n.state == ItemState.UNCHECKED))
+		{
 			return true;
 		}
 
 		Player local = LocalPlayer.get();
 
-		if(WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(local))
+		if (WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(local))
 		{
 			var banker = NPCs.getNearest("Banker");
 
@@ -38,23 +40,27 @@ public class CheckItems
 						{
 							item.state = ItemState.OBTAINED;
 						}
-						else if(item.equip && Inventory.contains(item.item_id) && !Equipment.contains(item.item_id)) {
+						else if (item.equip && Inventory.contains(item.item_id) && !Equipment.contains(item.item_id))
+						{
 							Inventory.getFirst(item.item_id).interact(item.interaction);
 						}
 					}
 					Time.sleep(Rand.nextInt(400, 800));
 				}
 
-				if(purchase_list.stream().allMatch(n -> n.state == ItemState.OBTAINED)) {
+				if (purchase_list.stream().allMatch(n -> n.state == ItemState.OBTAINED))
+				{
 					return true;
 				}
 
 				if (!Bank.isOpen())
 				{
-					if(banker == null) {
+					if (banker == null)
+					{
 						Movement.walkTo(WorldLocation.GRAND_EXCHANGE.getWorldArea().getRandom());
 					}
-					else {
+					else
+					{
 						banker.interact("Bank");
 					}
 				}
@@ -70,7 +76,7 @@ public class CheckItems
 							}
 							else
 							{
-								if(item.purchase_quanity == 0)
+								if (item.purchase_quanity == 0)
 								{
 									item.purchase_quanity = item.quantity - Bank.getCount(item.item_id);
 								}
@@ -81,7 +87,8 @@ public class CheckItems
 				}
 			}
 		}
-		else {
+		else
+		{
 			if (purchase_list.stream().anyMatch(n -> n.state == ItemState.UNCHECKED))
 			{
 				for (var item : purchase_list)
@@ -92,7 +99,8 @@ public class CheckItems
 						{
 							item.state = ItemState.OBTAINED;
 						}
-						else {
+						else
+						{
 
 							item.state = ItemState.CHECK_BANK;
 						}

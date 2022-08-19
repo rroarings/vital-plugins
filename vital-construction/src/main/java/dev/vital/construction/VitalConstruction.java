@@ -38,15 +38,13 @@ import org.pf4j.Extension;
 public class VitalConstruction extends LoopedPlugin
 {
 	private static final WorldArea mahogany_homes = new WorldArea(2989, 3364, 2, 2, 0);
-
-	@Inject
-	private VitalConstructionConfig config;
-
 	public int current_task = -1;
 	public int tick_delay = 0;
 	public int tick_count = 0;
 	public boolean has_tasak = false;
 	public boolean tick_delay_begin = false;
+	@Inject
+	private VitalConstructionConfig config;
 
 	@Override
 	protected int loop()
@@ -139,9 +137,11 @@ public class VitalConstruction extends LoopedPlugin
 				}
 			}
 		}
-		else {
+		else
+		{
 
-			if(current_task == 0) {
+			if (current_task == 0)
+			{
 
 				//if(WorldLocation.ARDOUGNE_STALLS.contains(ItemID.ARDOUGNE_TELEPORT)) {
 
@@ -159,7 +159,7 @@ public class VitalConstruction extends LoopedPlugin
 	{
 		tick_count++;
 
-		if(!tick_delay_begin)
+		if (!tick_delay_begin)
 		{
 			tick_delay = tick_count + Rand.nextInt(config.tickMinDelay(), config.tickMaxDelay());
 		}
@@ -169,55 +169,68 @@ public class VitalConstruction extends LoopedPlugin
 	public void onChatMessage(ChatMessage event)
 	{
 		final String message = event.getMessage();
-		if(message.contains("Go see Noella")) { //ardougne
+		if (message.contains("Go see Noella"))
+		{ //ardougne
 
 			current_task = 0;
 		}
-		else if(message.contains("Go see Bob")) { //varrock
+		else if (message.contains("Go see Bob"))
+		{ //varrock
 
 			current_task = 1;
 		}
-		else if(message.contains("Go see Jeff")) { //varrock 3240, 3450
+		else if (message.contains("Go see Jeff"))
+		{ //varrock 3240, 3450
 
 			current_task = 2;
 		}
-		else if(message.contains("Go see Barbara")) { //Hosidius xeric glade south 1749, 3534
+		else if (message.contains("Go see Barbara"))
+		{ //Hosidius xeric glade south 1749, 3534
 
 			current_task = 3;
 		}
-		else if(message.contains("Go see Mariah")) { //Hosidius xeric glade north 1765, 3621
+		else if (message.contains("Go see Mariah"))
+		{ //Hosidius xeric glade north 1765, 3621
 
 			current_task = 4;
 		}
-		else if(message.contains("Go see Sarah")) { //varrock 3235, 3385
+		else if (message.contains("Go see Sarah"))
+		{ //varrock 3235, 3385
 
 			current_task = 5;
 		}
-		else if(message.contains("Go see Larry")) { //Falador 3235, 3385
+		else if (message.contains("Go see Larry"))
+		{ //Falador 3235, 3385
 
 			current_task = 6;
 		}
-		else if(message.contains("Go see Leela")) { //Hosidius 1785, 3589
+		else if (message.contains("Go see Leela"))
+		{ //Hosidius 1785, 3589
 
 			current_task = 7;
 		}
-		else if(message.contains("Go see Tau")) { //Hosidius 3048, 3347
+		else if (message.contains("Go see Tau"))
+		{ //Hosidius 3048, 3347
 
 			current_task = 8;
 		}
-		else if(message.contains("Go see Ross")) { //Ardougne 2612, 2612
+		else if (message.contains("Go see Ross"))
+		{ //Ardougne 2612, 2612
 
 			current_task = 9;
 		}
-		else if(message.contains("Go see Norman")) { //Falador 3038, 3344
+		else if (message.contains("Go see Norman"))
+		{ //Falador 3038, 3344
 
 			current_task = 10;
 		}
-		else if(message.contains("Go see Jess")) { //Falador 2621, 3293
+		else if (message.contains("Go see Jess"))
+		{ //Falador 2621, 3293
 
 			current_task = 11;
 		}
 	}
+
 	@Provides
 	VitalConstructionConfig getConfig(ConfigManager configManager)
 	{

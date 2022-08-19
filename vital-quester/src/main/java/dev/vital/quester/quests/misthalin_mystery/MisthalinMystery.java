@@ -41,6 +41,10 @@ public class MisthalinMystery implements ScriptTask
         tasks.add(new GetEmeraldKey(config));
         tasks.add(new OpenDoor4(config));
         tasks.add(new PickupNote3(config));
+        tasks.add(new OpenDoor5(config));
+        tasks.add(new ClickJewels(config));
+        tasks.add(new GetSapphireKey(config));
+        tasks.add(new FuckMirrors(config));
     }
 
     @Override

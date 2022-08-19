@@ -33,7 +33,7 @@ public class PickupNote3 implements ScriptTask
             return 0;
         }
         else{
-            Tools.interactWith(29645, "Take", note_point, Tools.EntityType.TILE_OBJECT);
+            Tools.interactWith(29648, "Take", note_point, Tools.EntityType.TILE_OBJECT);
         }
         return -5;
     });

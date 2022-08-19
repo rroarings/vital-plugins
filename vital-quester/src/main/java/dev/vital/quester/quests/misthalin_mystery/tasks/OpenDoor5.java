@@ -40,48 +40,26 @@ public class OpenDoor5 implements ScriptTask
     });
 
     WalkTask walk = new WalkTask(new WorldPoint(1643, 4833, 0));
+    WalkTask walk2 = new WalkTask(new WorldPoint(1632, 4837, 0));
 
     BasicTask cut_fireplace = new BasicTask(() -> {
 
-        var jewel_menu = Widgets.get(555, 2);
-        if(jewel_menu != null) {
-
-            var step = Vars.getBit(4060);
-            if(step == 0) {
-                Mouse.click(Widgets.get(555, 19).getClickPoint().getAwtPoint(), true);
-            }
-            else if(step == 1) {
-                Mouse.click(Widgets.get(555, 3).getClickPoint().getAwtPoint(), true);
-            }
-            else if(step == 2) {
-                Mouse.click(Widgets.get(555, 11).getClickPoint().getAwtPoint(), true);
-            }
-            else if(step == 3) {
-                Mouse.click(Widgets.get(555, 23).getClickPoint().getAwtPoint(), true);
-            }
-            else if(step == 4) {
-                Mouse.click(Widgets.get(555, 7).getClickPoint().getAwtPoint(), true);
-            }
-            else if(step == 5) {
-                Mouse.click(Widgets.get(555, 15).getClickPoint().getAwtPoint(), true);
-            }
-            return -3;
-        }
-
         var fireplace = TileObjects.getNearest("Fireplace");
-        if (fireplace.hasAction("Search")) {
-            fireplace.interact("Search");
-        } else {
+        if (!fireplace.hasAction("Search")) {
             Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest("Fireplace"));
+            return 0;
         }
 
-        return 0;
+        return -5;
     });
 
     @Override
     public int execute() {
 
-        if (!open_door.taskCompleted()) {
+        if (!walk2.taskCompleted()) {
+            return walk2.execute();
+        }
+        else if (!open_door.taskCompleted()) {
             return open_door.execute();
         }
         else if (!walk.taskCompleted()) {

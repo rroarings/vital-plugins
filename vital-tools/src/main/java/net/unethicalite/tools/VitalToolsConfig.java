@@ -1,4 +1,5 @@
 package net.unethicalite.tools;
+
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -12,7 +13,10 @@ public interface VitalToolsConfig extends Config
 			description = "",
 			position = 0
 	)
-	default boolean autoEat() { return false; }
+	default boolean autoEat()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "autoEatPerc",
@@ -20,7 +24,10 @@ public interface VitalToolsConfig extends Config
 			description = "",
 			position = 5
 	)
-	default int autoEatPerc() { return 50; }
+	default int autoEatPerc()
+	{
+		return 50;
+	}
 
 	@ConfigItem(
 			keyName = "autoRelog",
@@ -28,7 +35,10 @@ public interface VitalToolsConfig extends Config
 			description = "",
 			position = 10
 	)
-	default boolean autoRelog() { return false; }
+	default boolean autoRelog()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "loginDelay",
@@ -36,7 +46,10 @@ public interface VitalToolsConfig extends Config
 			description = "Seconds",
 			position = 11
 	)
-	default int loginDelay() { return 3000; }
+	default int loginDelay()
+	{
+		return 3000;
+	}
 
 	@ConfigItem(
 			keyName = "username",

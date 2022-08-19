@@ -23,38 +23,42 @@ import java.util.concurrent.TimeUnit;
 @PluginDescriptor(name = "vital-tools", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalTools extends LoopedPlugin {
-
-	@Inject
-	private Client client;
+public class VitalTools extends LoopedPlugin
+{
 
 	@Inject
 	ScheduledExecutorService scheduledExecutorService;
-
+	boolean has_logged_in = false;
+	@Inject
+	private Client client;
 	@Inject
 	private VitalToolsConfig config;
 
-	boolean has_logged_in = false;
-
 	@Override
-	public void startUp() {
+	public void startUp()
+	{
 
 	}
 
 	@Override
-	public void shutDown() {
+	public void shutDown()
+	{
 
 	}
 
 	@Override
-	protected int loop() {
+	protected int loop()
+	{
 
-		if(Game.isLoggedIn()) {
+		if (Game.isLoggedIn())
+		{
 
-			if (config.autoEat() && Combat.getHealthPercent() < config.autoEatPerc()) {
+			if (config.autoEat() && Combat.getHealthPercent() < config.autoEatPerc())
+			{
 
 				var item = Inventory.getFirst(x -> x.hasAction("Eat"));
-				if (item != null) {
+				if (item != null)
+				{
 
 					item.interact("Eat");
 				}
@@ -65,9 +69,11 @@ public class VitalTools extends LoopedPlugin {
 	}
 
 	@Subscribe
-	public void onGameTick(GameTick event) {
+	public void onGameTick(GameTick event)
+	{
 
-		if(!has_logged_in && Game.isLoggedIn()) {
+		if (!has_logged_in && Game.isLoggedIn())
+		{
 
 			has_logged_in = true;
 		}
@@ -75,7 +81,7 @@ public class VitalTools extends LoopedPlugin {
 
 	void go()
 	{
-		if(!Game.isLoggedIn())
+		if (!Game.isLoggedIn())
 		{
 			Keyboard.sendEnter();
 			Keyboard.sendEnter();
@@ -83,25 +89,31 @@ public class VitalTools extends LoopedPlugin {
 	}
 
 	@Subscribe
-	private void onLoginStateChanged(LoginStateChanged e) {
+	private void onLoginStateChanged(LoginStateChanged e)
+	{
 
-		if (config.autoRelog() && has_logged_in) {
+		if (config.autoRelog() && has_logged_in)
+		{
 
-			switch (e.getIndex()) {
+			switch (e.getIndex())
+			{
 
-				case 0: {
+				case 0:
+				{
 
 					Keyboard.sendEnter();
 
 					break;
 				}
-				case 24: {
+				case 24:
+				{
 
 					scheduledExecutorService.schedule(() -> Mouse.click(380, 300, true), 2, TimeUnit.SECONDS);
 
 					break;
 				}
-				case 2: {
+				case 2:
+				{
 
 					client.setUsername(config.username());
 					client.setPassword(config.password());
@@ -109,7 +121,8 @@ public class VitalTools extends LoopedPlugin {
 
 					break;
 				}
-				default: {
+				default:
+				{
 
 					break;
 				}
@@ -118,7 +131,8 @@ public class VitalTools extends LoopedPlugin {
 	}
 
 	@Provides
-	VitalToolsConfig getConfig(ConfigManager configManager) {
+	VitalToolsConfig getConfig(ConfigManager configManager)
+	{
 
 		return configManager.getConfig(VitalToolsConfig.class);
 	}

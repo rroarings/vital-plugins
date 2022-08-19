@@ -16,42 +16,43 @@ import java.util.List;
 
 public class RuneMysteries implements ScriptTask
 {
-    VitalQuesterConfig config;
+	static List<ScriptTask> tasks = new ArrayList<>();
+	VitalQuesterConfig config;
 
-    static List<ScriptTask> tasks = new ArrayList<>();
+	public RuneMysteries(VitalQuesterConfig config)
+	{
+		this.config = config;
 
-    public RuneMysteries(VitalQuesterConfig config) {
-        this.config = config;
+		tasks.clear();
 
-        tasks.clear();
+		tasks.add(new StartQuest(config));
+		tasks.add(new AcceptPackage(config));
+		tasks.add(new DeliverPackage(config));
+		tasks.add(new DeliverNotes(config));
+	}
 
-        tasks.add(new StartQuest(config));
-        tasks.add(new AcceptPackage(config));
-        tasks.add(new DeliverPackage(config));
-        tasks.add(new DeliverNotes(config));
-    }
+	@Override
+	public boolean validate()
+	{
+		return (config.currentQuest().equals(QuestList.RUNE_MYSTERIES) || config.automaticOptimal()) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return (config.currentQuest().equals(QuestList.RUNE_MYSTERIES) || config.automaticOptimal()) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		for (ScriptTask task : tasks)
+		{
+			if (task.validate())
+			{
+				int sleep = task.execute();
+				if (task.blocking())
+				{
+					return sleep;
+				}
+			}
+		}
 
-        for (ScriptTask task : tasks)
-        {
-            if (task.validate())
-            {
-                int sleep = task.execute();
-                if (task.blocking())
-                {
-                    return sleep;
-                }
-            }
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

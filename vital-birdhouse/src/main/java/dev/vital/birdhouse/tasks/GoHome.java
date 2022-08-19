@@ -10,20 +10,29 @@ import net.unethicalite.api.game.Game;
 import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 
-public class GoHome implements ScriptTask {
+public class GoHome implements ScriptTask
+{
 
 	VitalBirdhouseConfig config;
 
-	public GoHome(VitalBirdhouseConfig config) { this.config = config; }
+	public GoHome(VitalBirdhouseConfig config)
+	{
+		this.config = config;
+	}
 
 	@Override
-	public boolean validate() { return VitalBirdhouse.step.equals(Steps.GO_HOME) && config.returnToGE(); }
+	public boolean validate()
+	{
+		return VitalBirdhouse.step.equals(Steps.GO_HOME) && config.returnToGE();
+	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(!Inventory.isEmpty() && config.returnToGE() && Tools.goToBank(WorldLocation.GRAND_EXCHANGE.getWorldArea(),
-				"Banker", "Bank", true)) {
+		if (!Inventory.isEmpty() && config.returnToGE() && Tools.goToBank(WorldLocation.GRAND_EXCHANGE.getWorldArea(),
+				"Banker", "Bank", true))
+		{
 
 			Bank.depositInventory();
 
@@ -36,10 +45,12 @@ public class GoHome implements ScriptTask {
 			VitalBirdhouse.step = Steps.GETS_MATS;
 			GetMats.bank_items.forEach(x -> x.obtained = false);
 
-			if(config.autoLogOut()) {
+			if (config.autoLogOut())
+			{
 				Game.logout();
 			}
-			else {
+			else
+			{
 				VitalBirdhouse.plugin_enabled = false;
 			}
 		}

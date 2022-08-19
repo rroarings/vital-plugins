@@ -2,7 +2,14 @@ package dev.vital.birdhouse;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.birdhouse.tasks.*;
+import dev.vital.birdhouse.tasks.FossilIsland;
+import dev.vital.birdhouse.tasks.GetMats;
+import dev.vital.birdhouse.tasks.GoHome;
+import dev.vital.birdhouse.tasks.Meadow;
+import dev.vital.birdhouse.tasks.Meadow2;
+import dev.vital.birdhouse.tasks.ScriptTask;
+import dev.vital.birdhouse.tasks.Valley;
+import dev.vital.birdhouse.tasks.Valley2;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ItemID;
 import net.runelite.api.events.ConfigButtonClicked;
@@ -19,25 +26,25 @@ import java.util.List;
 @PluginDescriptor(name = "vital-birdhouse", enabledByDefault = false)
 @Extension
 @Slf4j
-public class VitalBirdhouse extends LoopedPlugin {
+public class VitalBirdhouse extends LoopedPlugin
+{
 
+	public static Steps step = Steps.GETS_MATS;
+	public static boolean plugin_enabled = false;
+	static List<ScriptTask> tasks = new ArrayList<>();
 	@Inject
 	private VitalBirdhouseConfig config;
 
-	static List<ScriptTask> tasks = new ArrayList<>();
-
-	public static Steps step = Steps.GETS_MATS;
-
-	public static boolean plugin_enabled = false;
-
 	@Override
-	public void shutDown() {
+	public void shutDown()
+	{
 
 		plugin_enabled = false;
 	}
 
 	@Override
-	public void startUp() {
+	public void startUp()
+	{
 
 		tasks.clear();
 
@@ -51,27 +58,35 @@ public class VitalBirdhouse extends LoopedPlugin {
 
 		GetMats.bank_items.clear();
 
-		if(config.returnToGE()) { GetMats.bank_items.add(new BItems(config.returnTeleport(), 1, false, Bank.WithdrawMode.DEFAULT)); }
-		GetMats.bank_items.add(new BItems(ItemID.DIGSITE_PENDANT_1, 1, false,Bank.WithdrawMode.DEFAULT));
-		GetMats.bank_items.add(new BItems(ItemID.HAMMER, 1, false,Bank.WithdrawMode.DEFAULT));
-		GetMats.bank_items.add(new BItems(ItemID.CHISEL, 1, false,Bank.WithdrawMode.DEFAULT));
+		if (config.returnToGE())
+		{
+			GetMats.bank_items.add(new BItems(config.returnTeleport(), 1, false, Bank.WithdrawMode.DEFAULT));
+		}
+		GetMats.bank_items.add(new BItems(ItemID.DIGSITE_PENDANT_1, 1, false, Bank.WithdrawMode.DEFAULT));
+		GetMats.bank_items.add(new BItems(ItemID.HAMMER, 1, false, Bank.WithdrawMode.DEFAULT));
+		GetMats.bank_items.add(new BItems(ItemID.CHISEL, 1, false, Bank.WithdrawMode.DEFAULT));
 		GetMats.bank_items.add(new BItems(config.seedID(), 40, true, Bank.WithdrawMode.DEFAULT));
-		GetMats.bank_items.add(new BItems(config.logID(), 4, false,Bank.WithdrawMode.DEFAULT));
+		GetMats.bank_items.add(new BItems(config.logID(), 4, false, Bank.WithdrawMode.DEFAULT));
 
 		step = Steps.GETS_MATS;
 	}
 
 	@Override
-	protected int loop() {
+	protected int loop()
+	{
 
-		if(plugin_enabled) {
+		if (plugin_enabled)
+		{
 
-			for (ScriptTask task : tasks){
+			for (ScriptTask task : tasks)
+			{
 
-				if (task.validate()) {
+				if (task.validate())
+				{
 
 					int sleep = task.execute();
-					if (task.blocking()) {
+					if (task.blocking())
+					{
 
 						return sleep;
 					}
@@ -83,21 +98,23 @@ public class VitalBirdhouse extends LoopedPlugin {
 	}
 
 	@Subscribe
-	public void onConfigButtonClicked(ConfigButtonClicked e) {
+	public void onConfigButtonClicked(ConfigButtonClicked e)
+	{
 
-		if (!e.getGroup().equals("vitalbirdhouse")) {
+		if (!e.getGroup().equals("vitalbirdhouse"))
+		{
 			return;
 		}
 
-		switch (e.getKey()) {
-			case "startStopPlugin":
-				plugin_enabled = !plugin_enabled;
-				break;
+		if ("startStopPlugin".equals(e.getKey()))
+		{
+			plugin_enabled = !plugin_enabled;
 		}
 	}
 
 	@Provides
-	VitalBirdhouseConfig getConfig(ConfigManager configManager) {
+	VitalBirdhouseConfig getConfig(ConfigManager configManager)
+	{
 
 		return configManager.getConfig(VitalBirdhouseConfig.class);
 	}

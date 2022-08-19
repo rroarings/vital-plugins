@@ -8,26 +8,26 @@ import net.runelite.api.coords.WorldPoint;
 
 public class GetRum implements ScriptTask
 {
-    private final WorldPoint rum_point = new WorldPoint(3010, 3208, 0);
+	private final WorldPoint rum_point = new WorldPoint(3010, 3208, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	ObjectItemTask get_rum = new ObjectItemTask(2071, ItemID.KARAMJAN_RUM, 1, false, "Search", rum_point);
 
-    public GetRum(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetRum(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    ObjectItemTask get_rum = new ObjectItemTask(2071, ItemID.KARAMJAN_RUM, 1, false, "Search", rum_point);
+	@Override
+	public boolean validate()
+	{
+		return !get_rum.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !get_rum.taskCompleted();
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
-
-        return get_rum.execute();
-    }
+		return get_rum.execute();
+	}
 }

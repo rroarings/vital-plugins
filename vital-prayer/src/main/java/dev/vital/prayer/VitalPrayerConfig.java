@@ -14,9 +14,12 @@ public interface VitalPrayerConfig extends Config
 			description = "",
 			position = 0
 	)
-	default String description() { return "This plugin will unnote and use bones on the altar in the wilderness, if any other player is " +
-			"present it will attempt to hop to a f2p world and then run to a safe spot before switching back" +
-			" to a members world."; }
+	default String description()
+	{
+		return "This plugin will unnote and use bones on the altar in the wilderness, if any other player is " +
+				"present it will attempt to hop to a f2p world and then run to a safe spot before switching back" +
+				" to a members world.";
+	}
 
 	@ConfigItem(
 			keyName = "boneID",
@@ -24,15 +27,21 @@ public interface VitalPrayerConfig extends Config
 			description = "ex: 535 = Dragon Bones",
 			position = 5
 	)
-	default int boneID() { return 535; }
+	default int boneID()
+	{
+		return 535;
+	}
 
 	@ConfigItem(
 			keyName = "notedBoneID",
 			name = "Noted Bone ID",
-			description =  "ex: 536 = Noted Dragon Bones",
+			description = "ex: 536 = Noted Dragon Bones",
 			position = 10
 	)
-	default int notedBoneID() { return 536; }
+	default int notedBoneID()
+	{
+		return 536;
+	}
 
 	@ConfigItem(
 			keyName = "startStopPlugin",
@@ -40,5 +49,8 @@ public interface VitalPrayerConfig extends Config
 			description = "",
 			position = 15
 	)
-	default Button startStopPlugin() { return new Button(); }
+	default Button startStopPlugin()
+	{
+		return new Button();
+	}
 }

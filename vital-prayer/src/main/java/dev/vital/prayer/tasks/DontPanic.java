@@ -12,21 +12,25 @@ public class DontPanic implements ScriptTask
 
 	VitalPrayerConfig config;
 
-	public DontPanic(VitalPrayerConfig config) {
+	public DontPanic(VitalPrayerConfig config)
+	{
 
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		return !Worlds.inMembersWorld();
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(Movement.walkTo(safe_location) && LocalPlayer.get().getWorldLocation().equals(safe_location)) {
+		if (Movement.walkTo(safe_location) && LocalPlayer.get().getWorldLocation().equals(safe_location))
+		{
 
 			Worlds.hopTo(Worlds.getRandom(x -> x.isMembers() && x.isNormal()), true);
 		}

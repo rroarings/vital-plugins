@@ -8,41 +8,44 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class OpenMagic implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
 
-    public OpenMagic(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public OpenMagic(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("Open up the magic interface");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("Open up the magic interface");
+			}
+		}
+		return false;
+	}
 
-    CameraTask camera_task = new CameraTask(Rand.nextInt(0, 4));
+	@Override
+	public int execute()
+	{
+		if (!camera_task.taskCompleted())
+		{
+			camera_task.moveRight();
+			return -2;
+		}
 
-    @Override
-    public int execute()
-    {
-        if(!camera_task.taskCompleted()) {
-            camera_task.moveRight();
-            return -2;
-        }
+		var widget = Widgets.get(164, 57);
+		if (widget != null)
+		{
+			widget.interact("Magic");
+		}
 
-        var widget = Widgets.get(164,57);
-        if(widget != null) {
-            widget.interact("Magic");
-        }
-
-        return -2;
-    }
+		return -2;
+	}
 }

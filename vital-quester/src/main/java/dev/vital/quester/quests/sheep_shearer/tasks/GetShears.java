@@ -9,24 +9,25 @@ import net.unethicalite.api.items.Inventory;
 
 public class GetShears implements ScriptTask
 {
-    private final WorldPoint farmer_fred_point = new WorldPoint(3190, 3273, 0);
+	private final WorldPoint farmer_fred_point = new WorldPoint(3190, 3273, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public GetShears(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetShears(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !Inventory.contains(ItemID.SHEARS) && Inventory.getCount(false, ItemID.WOOL) < 20 && !Inventory.contains(ItemID.BALL_OF_WOOL);
-    }
+	@Override
+	public boolean validate()
+	{
+		return !Inventory.contains(ItemID.SHEARS) && Inventory.getCount(false, ItemID.WOOL) < 20 && !Inventory.contains(ItemID.BALL_OF_WOOL);
+	}
 
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        return Tools.interactWith("Shears", "Take", farmer_fred_point, Tools.EntityType.TILE_ITEM);
-    }
+		return Tools.interactWith("Shears", "Take", farmer_fred_point, Tools.EntityType.TILE_ITEM);
+	}
 }

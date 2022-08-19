@@ -9,31 +9,32 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class TalkToFatherLawrence implements ScriptTask
 {
-    private final WorldPoint father_lawrence_point = new WorldPoint(3254, 3479, 0);
+	private final WorldPoint father_lawrence_point = new WorldPoint(3254, 3479, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_father_lawrence = new DialogTask("Father Lawrence", father_lawrence_point,
+			(String) null);
 
-    public TalkToFatherLawrence(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public TalkToFatherLawrence(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 30;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 30;
+	}
 
-    DialogTask talk_to_father_lawrence = new DialogTask("Father Lawrence", father_lawrence_point,
-            (String)null);
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_father_lawrence.taskCompleted())
+		{
+			return talk_to_father_lawrence.execute();
+		}
 
-        if (!talk_to_father_lawrence.taskCompleted()) {
-            return talk_to_father_lawrence.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

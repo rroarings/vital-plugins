@@ -12,98 +12,117 @@ import net.unethicalite.api.widgets.Widgets;
 
 import java.util.List;
 
-public class DepositTask {
+public class DepositTask
+{
 
-    static class DepositItems {
-        public int id;
-        public int amount;
-        public boolean stack;
-        public boolean worked;
-        DepositItems(int id, int amount, boolean stack) {
-            this.id = id;
-            this.amount = amount;
-            this.stack = stack;
-            this.worked = false;
-        }
-        DepositItems() {
-            this.id = 0;
-            this.amount = 0;
-            this.stack = false;
-            this.worked = false;
-        }
-    }
+	public boolean deposit_all;
+	boolean task_completed;
+	List<DepositItems> items;
+	public DepositTask(List<DepositItems> items)
+	{
+		this.task_completed = false;
+		this.deposit_all = items == null;
+		this.items = items;
+	}
 
+	private boolean handleBankTips()
+	{
 
-    boolean task_completed;
-    public boolean deposit_all;
-    List<DepositItems> items;
+		var close_bank = Widgets.get(664, 29, 0);
+		if (close_bank != null && close_bank.hasAction("Close"))
+		{
+			close_bank.interact("Close");
+			return true;
+		}
 
-    public DepositTask(List<DepositItems> items) {
-        this.task_completed = false;
-        this.deposit_all = items == null;
-        this.items = items;
-    }
+		return false;
+	}
 
-    private boolean handleBankTips() {
+	public int execute()
+	{
 
-        var close_bank = Widgets.get(664, 29, 0);
-        if (close_bank != null && close_bank.hasAction("Close")) {
-            close_bank.interact("Close");
-            return true;
-        }
+		if (this.items != null && this.items.stream().allMatch(x -> x.worked))
+		{
+			return 0;
+		}
 
-        return false;
-    }
+		if (Bank.isOpen())
+		{
 
-    public int execute() {
+			if (handleBankTips())
+			{
+				return -1;
+			}
 
-        if(this.items != null && this.items.stream().allMatch(x -> x.worked)) {
-            return 0;
-        }
+			if (this.deposit_all)
+			{
+				Bank.depositInventory();
+				return -1;
+			}
 
-        if(Bank.isOpen()) {
+			for (var item : this.items)
+			{
+				if (Inventory.contains(item.id) && Inventory.getCount(item.stack, item.id) == item.amount)
+				{
+					Bank.deposit(item.id, item.amount);
+				}
+				Time.sleepTick();
+				item.worked = true;
+			}
 
-            if(handleBankTips()) {
-                return -1;
-            }
+			return -2;
+		}
 
-            if(this.deposit_all) {
-                Bank.depositInventory();
-                return -1;
-            }
+		var nearest_bank = BankLocation.getNearest();
+		if (nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation()))
+		{
+			var bank_booth = TileObjects.getNearest("Bank booth");
+			var banker = NPCs.getNearest("Banker");
+			if (bank_booth != null)
+			{
+				bank_booth.interact("Bank");
+			}
+			else if (banker != null)
+			{
+				banker.interact("Bank");
+			}
 
-            for(var item : this.items) {
-                if(Inventory.contains(item.id) && Inventory.getCount(item.stack, item.id) == item.amount) {
-                    Bank.deposit(item.id, item.amount);
-                }
-                Time.sleepTick();
-                item.worked = true;
-            }
+			return -5;
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(nearest_bank);
+		}
 
-            return -2;
-        }
+		return -1;
+	}
 
-        var nearest_bank = BankLocation.getNearest();
-        if(nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation())) {
-            var bank_booth = TileObjects.getNearest("Bank booth");
-            var banker = NPCs.getNearest("Banker");
-            if(bank_booth != null) {
-                bank_booth.interact("Bank");
-            }
-            else if(banker != null) {
-                banker.interact("Bank");
-            }
+	public boolean taskCompleted()
+	{
+		return this.task_completed;
+	}
 
-            return -5;
-        }
-        else if(!Movement.isWalking()) {
-            Movement.walkTo(nearest_bank);
-        }
+	static class DepositItems
+	{
+		public int id;
+		public int amount;
+		public boolean stack;
+		public boolean worked;
 
-        return -1;
-    }
+		DepositItems(int id, int amount, boolean stack)
+		{
+			this.id = id;
+			this.amount = amount;
+			this.stack = stack;
+			this.worked = false;
+		}
 
-    public boolean taskCompleted() {
-        return this.task_completed;
-    }
+		DepositItems()
+		{
+			this.id = 0;
+			this.amount = 0;
+			this.stack = false;
+			this.worked = false;
+		}
+	}
 }

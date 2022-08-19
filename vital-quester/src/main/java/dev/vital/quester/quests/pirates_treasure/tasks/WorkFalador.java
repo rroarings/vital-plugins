@@ -12,76 +12,85 @@ import net.unethicalite.api.movement.Movement;
 
 public class WorkFalador implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask dig = new BasicTask(() ->
+	{
+		if (!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0)))
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(2999, 3383, 0);
+			}
+		}
+		else
+		{
+			Inventory.getFirst(ItemID.SPADE).interact("Dig");
+			return 0;
+		}
+		return -1;
+	});
+	BasicTask dig2 = new BasicTask(() ->
+	{
+		if (!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0)))
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(2999, 3383, 0);
+			}
+		}
+		else
+		{
+			Inventory.getFirst(ItemID.SPADE).interact("Dig");
+			return 0;
+		}
 
-    public WorkFalador(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		return -1;
+	});
+	BasicTask wait = new BasicTask(() ->
+	{
+		if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3010, 3383, 0)))
+		{
+			Time.sleepTicks(6);
+			return 0;
+		}
+		else
+		{
+			Movement.walkTo(3010, 3383, 0);
+		}
 
-    @Override
-    public boolean validate()
-    {
-        return Inventory.contains(ItemID.PIRATE_MESSAGE);
-    }
+		return -1;
+	});
 
-    BasicTask dig = new BasicTask(() ->
-    {
-        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
-            if (!Movement.isWalking()) {
-                Movement.walkTo(2999, 3383, 0);
-            }
-        }
-        else {
-            Inventory.getFirst(ItemID.SPADE).interact("Dig");
-            return 0;
-        }
-        return -1;
-    });
+	public WorkFalador(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    BasicTask dig2 = new BasicTask(() ->
-    {
-        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(2999, 3383, 0))) {
-            if (!Movement.isWalking()) {
-                Movement.walkTo(2999, 3383, 0);
-            }
-        }
-        else {
-            Inventory.getFirst(ItemID.SPADE).interact("Dig");
-            return 0;
-        }
+	@Override
+	public boolean validate()
+	{
+		return Inventory.contains(ItemID.PIRATE_MESSAGE);
+	}
 
-        return -1;
-    });
+	@Override
+	public int execute()
+	{
 
-    BasicTask wait = new BasicTask(() ->
-    {
-        if (LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3010, 3383, 0))) {
-            Time.sleepTicks(6);
-            return 0;
-        }
-        else {
-            Movement.walkTo(3010, 3383, 0);
-        }
+		if (!dig.taskCompleted())
+		{
+			dig.execute();
+		}
+		else if (!wait.taskCompleted())
+		{
 
-        return -1;
-    });
-
-    @Override
-    public int execute() {
-
-        if(!dig.taskCompleted()) {
-            dig.execute();
-        }
-        else if(!wait.taskCompleted()) {
-
-            wait.execute();
-        }
-        else if(!dig2.taskCompleted()) {
-            dig2.execute();
-        }
+			wait.execute();
+		}
+		else if (!dig2.taskCompleted())
+		{
+			dig2.execute();
+		}
 
 
-        return -1;
-    }
+		return -1;
+	}
 }

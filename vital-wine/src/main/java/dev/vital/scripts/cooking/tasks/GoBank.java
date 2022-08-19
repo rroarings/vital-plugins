@@ -32,28 +32,36 @@ public class GoBank implements ScriptTask
 
 	VitalWineConfig config;
 
-	public GoBank(VitalWineConfig config) {
+	public GoBank(VitalWineConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		return Inventory.contains(ItemID.JUG_OF_WINE) || Inventory.contains(ItemID.JUG_OF_BAD_WINE);
 	}
 
-	void enterPin(String pin) {
+	void enterPin(String pin)
+	{
 
-		for(var display_widget : display_number_widgets) {
+		for (var display_widget : display_number_widgets)
+		{
 
-			if (Widgets.get(display_widget).getText().contains("?")) {
+			if (Widgets.get(display_widget).getText().contains("?"))
+			{
 
-				for (var bank_number_widget : bank_number_widgets) {
+				for (var bank_number_widget : bank_number_widgets)
+				{
 
-					for (var digit : pin.toCharArray()){
+					for (var digit : pin.toCharArray())
+					{
 
 						var number_widget = Widgets.get(bank_number_widget).getChild(1);
-						if (number_widget.getText().contains(String.valueOf(digit))) {
+						if (number_widget.getText().contains(String.valueOf(digit)))
+						{
 
 							var p = number_widget.getClickPoint();
 							Mouse.click(p.getX(), p.getY(), true);
@@ -66,34 +74,41 @@ public class GoBank implements ScriptTask
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || local.isMoving()) {
+		if (local.isAnimating() || local.isMoving())
+		{
 
 			return -1;
 		}
 
 		var widget = Widgets.get(WidgetInfo.BANK_PIN_TOP_LEFT_TEXT);
 
-		if(COOKING_GUILD_0.contains(local)) {
+		if (COOKING_GUILD_0.contains(local))
+		{
 
 			TileObjects.getFirstAt(COOKING_GUILD_DOOR, x -> x.hasAction("Open")).interact("Open");
 		}
-		else if(!VARROCK_WEST_BANK_AREA.contains(local)){
+		else if (!VARROCK_WEST_BANK_AREA.contains(local))
+		{
 
 			Movement.walkTo(VARROCK_WEST_BANK_AREA.getCenter());
 		}
-		else if(!Bank.isOpen() && widget == null) {
+		else if (!Bank.isOpen() && widget == null)
+		{
 
 			TileObjects.getNearest("Bank booth").interact("Bank");
 		}
-		else if(widget != null) {
+		else if (widget != null)
+		{
 
 			enterPin(config.bankPin());
 		}
-		else {
+		else
+		{
 			Bank.depositInventory();
 		}
 

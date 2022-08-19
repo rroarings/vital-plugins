@@ -12,38 +12,41 @@ import net.unethicalite.api.movement.Movement;
 
 public class ShearSheep implements ScriptTask
 {
-    private final WorldPoint sheep_point = new WorldPoint(3199, 3268, 0);
+	private final WorldPoint sheep_point = new WorldPoint(3199, 3268, 0);
 
-    private final WorldArea sheep_point2 = new WorldArea(3192, 3256, 23, 18, 0);
+	private final WorldArea sheep_point2 = new WorldArea(3192, 3256, 23, 18, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	NPCItemTask sheer_sheap = new NPCItemTask(2693, ItemID.WOOL, 20, false, "Shear", sheep_point);
 
-    public ShearSheep(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public ShearSheep(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    NPCItemTask sheer_sheap = new NPCItemTask(2693, ItemID.WOOL, 20, false, "Shear", sheep_point);
+	@Override
+	public boolean validate()
+	{
+		return !sheer_sheap.taskCompleted() && Inventory.getCount(false, ItemID.WOOL) < 20 && !Inventory.contains(ItemID.BALL_OF_WOOL);
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !sheer_sheap.taskCompleted() && Inventory.getCount(false, ItemID.WOOL) < 20 && !Inventory.contains(ItemID.BALL_OF_WOOL);
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!sheer_sheap.taskCompleted())
+		{
 
-        if(!sheer_sheap.taskCompleted()) {
+			if (sheep_point2.contains(LocalPlayer.get()))
+			{
+				return sheer_sheap.execute();
+			}
+			else if (!Movement.isWalking())
+			{
+				Movement.walkTo(sheep_point);
+			}
+		}
 
-            if(sheep_point2.contains(LocalPlayer.get())) {
-                return sheer_sheap.execute();
-            }
-            else if(!Movement.isWalking()) {
-                Movement.walkTo(sheep_point);
-            }
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

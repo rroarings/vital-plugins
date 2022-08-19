@@ -11,39 +11,43 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class OpenQuestDoor implements ScriptTask
 {
-    VitalQuesterConfig config;
-    WorldPoint quest_door = new WorldPoint(3086, 3126, 0);
+	VitalQuesterConfig config;
+	WorldPoint quest_door = new WorldPoint(3086, 3126, 0);
 
-    public OpenQuestDoor(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public OpenQuestDoor(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("Follow the path to the next guide. When") || widget_child.getText().contains("When navigating the world");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("Follow the path to the next guide. When") || widget_child.getText().contains("When navigating the world");
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public int execute()
-    {
-        var door = TileObjects.getFirstAt(quest_door, "Door");
-        if(door != null && Reachable.isInteractable(door) && LocalPlayer.get().getWorldLocation().distanceTo2D(door.getWorldLocation()) < 5) {
-            door.interact("Open");
-            return -5;
-        }
-       else if(!Movement.isWalking()){
-           Movement.walkTo(quest_door);
-        }
-       
-        return -1;
-    }
+	@Override
+	public int execute()
+	{
+		var door = TileObjects.getFirstAt(quest_door, "Door");
+		if (door != null && Reachable.isInteractable(door) && LocalPlayer.get().getWorldLocation().distanceTo2D(door.getWorldLocation()) < 5)
+		{
+			door.interact("Open");
+			return -5;
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(quest_door);
+		}
+
+		return -1;
+	}
 }

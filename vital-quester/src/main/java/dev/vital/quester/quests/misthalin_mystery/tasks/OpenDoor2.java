@@ -15,56 +15,67 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class OpenDoor2 implements ScriptTask
 {
-    WorldPoint knife_point = new WorldPoint(1637, 4829, 0);
-    VitalQuesterConfig config;
+	WorldPoint knife_point = new WorldPoint(1637, 4829, 0);
+	VitalQuesterConfig config;
+	BasicTask open_door = new BasicTask(() ->
+	{
+		if (Tools.interactWith(30116, "Open", knife_point, Tools.EntityType.TILE_OBJECT) == -5)
+		{
+			return 0;
+		}
 
-    public OpenDoor2(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		return -5;
+	});
+	BasicTask get_ruby_key = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.RUBY_KEY_21053))
+		{
+			return 0;
+		}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 45;
-    }
+		var painting = TileObjects.getNearest(29650);
+		if (painting.hasAction("Search"))
+		{
+			painting.interact("Search");
+		}
+		else
+		{
+			if (Reachable.isInteractable(painting))
+			{
+				Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest(29650));
+			}
+			else
+			{
+				Movement.walkTo(painting);
+			}
+		}
+		return -5;
+	});
 
-    BasicTask open_door = new BasicTask(() -> {
-        if(Tools.interactWith(30116, "Open", knife_point, Tools.EntityType.TILE_OBJECT) == -5) {
-            return 0;
-        }
+	public OpenDoor2(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        return -5;
-    });
-    BasicTask get_ruby_key = new BasicTask(() -> {
-        if(Inventory.contains(ItemID.RUBY_KEY_21053)) {
-            return 0;
-        }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 45;
+	}
 
-        var painting = TileObjects.getNearest(29650);
-        if(painting.hasAction("Search")) {
-            painting.interact("Search");
-        }
-        else{
-            if(Reachable.isInteractable(painting)) {
-                Inventory.getFirst(ItemID.KNIFE).useOn(TileObjects.getNearest(29650));
-            }
-            else {
-                Movement.walkTo(painting);
-            }
-        }
-        return -5;
-    });
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        if (!get_ruby_key.taskCompleted()) {
-            return get_ruby_key.execute();
-        }
-        else  if (!open_door.taskCompleted()) {
-            return open_door.execute();
-        }
+		if (!get_ruby_key.taskCompleted())
+		{
+			return get_ruby_key.execute();
+		}
+		else if (!open_door.taskCompleted())
+		{
+			return open_door.execute();
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 }

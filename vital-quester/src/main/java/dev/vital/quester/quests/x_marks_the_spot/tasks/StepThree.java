@@ -10,33 +10,36 @@ import net.unethicalite.api.movement.Movement;
 
 public class StepThree implements ScriptTask
 {
-    private final WorldPoint dig_three_point = new WorldPoint(3109, 3264, 0);
+	private final WorldPoint dig_three_point = new WorldPoint(3109, 3264, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public StepThree(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public StepThree(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Inventory.contains(ItemID.MYSTERIOUS_ORB_23069);
-    }
+	@Override
+	public boolean validate()
+	{
+		return Inventory.contains(ItemID.MYSTERIOUS_ORB_23069);
+	}
 
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        if(!LocalPlayer.get().getWorldLocation().equals(dig_three_point)) {
-            if(!Movement.isWalking()) {
-                Movement.walkTo(dig_three_point);
-            }
-            return -1;
-        }
+		if (!LocalPlayer.get().getWorldLocation().equals(dig_three_point))
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(dig_three_point);
+			}
+			return -1;
+		}
 
-        Inventory.getFirst(ItemID.SPADE).interact("Dig");
+		Inventory.getFirst(ItemID.SPADE).interact("Dig");
 
-        return -1;
-    }
+		return -1;
+	}
 }

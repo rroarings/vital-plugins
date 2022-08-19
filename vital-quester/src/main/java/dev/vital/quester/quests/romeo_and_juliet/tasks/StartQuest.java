@@ -9,31 +9,32 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class StartQuest implements ScriptTask
 {
-    private final WorldPoint romeo_point = new WorldPoint(3215, 3418, 0);
+	private final WorldPoint romeo_point = new WorldPoint(3215, 3418, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_romeo = new DialogTask("Romeo", romeo_point,
+			"Yes, I have", "Yes.", "Ok, thanks.");
 
-    public StartQuest(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public StartQuest(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 0;
+	}
 
-    DialogTask talk_to_romeo = new DialogTask("Romeo",  romeo_point,
-            "Yes, I have", "Yes.", "Ok, thanks.");
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_romeo.taskCompleted())
+		{
+			return talk_to_romeo.execute();
+		}
 
-        if (!talk_to_romeo.taskCompleted()) {
-            return talk_to_romeo.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

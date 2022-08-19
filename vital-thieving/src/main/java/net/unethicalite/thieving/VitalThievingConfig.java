@@ -13,7 +13,10 @@ public interface VitalThievingConfig extends Config
 			description = "Ardougne knights uses wines & dodgy necklaces from bank",
 			position = 0
 	)
-	default ThievingType thievingType() { return ThievingType.STALL_TEA; }
+	default ThievingType thievingType()
+	{
+		return ThievingType.STALL_TEA;
+	}
 
 	@ConfigItem(
 			keyName = "dropItems",
@@ -21,7 +24,10 @@ public interface VitalThievingConfig extends Config
 			description = "",
 			position = 1
 	)
-	default boolean dropItems() { return true; }
+	default boolean dropItems()
+	{
+		return true;
+	}
 
 	/*@ConfigItem(
 			keyName = "foodID",
@@ -37,5 +43,8 @@ public interface VitalThievingConfig extends Config
 			description = "Thieving level to stop at",
 			position = 3
 	)
-	default int thievingLevel() { return 99; }
+	default int thievingLevel()
+	{
+		return 99;
+	}
 }

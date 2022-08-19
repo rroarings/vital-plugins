@@ -8,37 +8,39 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class FinishTutorial implements ScriptTask
 {
-    private final WorldPoint magic_instructor_point = new WorldPoint(3140, 3087, 0);
+	private final WorldPoint magic_instructor_point = new WorldPoint(3140, 3087, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_magic_instructor = new DialogTask("Magic Instructor", magic_instructor_point, "Yes, send me to the mainland", "No, I'm not planning to do that.", "Yes.");
 
-    public FinishTutorial(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public FinishTutorial(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("You're nearly finished with the tutorial");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("You're nearly finished with the tutorial");
+			}
+		}
+		return false;
+	}
 
-    DialogTask talk_to_magic_instructor = new DialogTask("Magic Instructor", magic_instructor_point, "Yes, send me to the mainland", "No, I'm not planning to do that.", "Yes.");
+	@Override
+	public int execute()
+	{
+		if (!talk_to_magic_instructor.taskCompleted())
+		{
+			return talk_to_magic_instructor.execute();
+		}
 
-    @Override
-    public int execute()
-    {
-        if(!talk_to_magic_instructor.taskCompleted()) {
-            return talk_to_magic_instructor.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

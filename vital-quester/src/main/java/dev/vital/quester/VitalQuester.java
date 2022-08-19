@@ -2,7 +2,12 @@ package dev.vital.quester;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.quester.handlers.*;
+import dev.vital.quester.handlers.HandleCombatStyle;
+import dev.vital.quester.handlers.HandleDeath;
+import dev.vital.quester.handlers.HandleGenie;
+import dev.vital.quester.handlers.HandleGrave;
+import dev.vital.quester.handlers.HandleLamp;
+import dev.vital.quester.handlers.HandleQuestComplete;
 import dev.vital.quester.quests.cooks_assistant.CooksAssistant;
 import dev.vital.quester.quests.misthalin_mystery.MisthalinMystery;
 import dev.vital.quester.quests.pirates_treasure.PiratesTreasure;
@@ -36,27 +41,22 @@ import java.util.List;
 @Extension
 public class VitalQuester extends LoopedPlugin
 {
-    public static String version = "0.2.6";
-
-    @Inject
+	public static String version = "0.2.6";
+	static boolean plugin_enabled = false;
+	static List<ScriptTask> tasks = new ArrayList<>();
+	@Inject
 	public VitalQuesterConfig config;
-
 	@Inject
 	private EventBus eventBus;
-
 	@Inject
 	private ClientToolbar clientToolbar;
-
 	@Inject
 	private ConfigManager configManager;
-
 	private VitalPanel vitalPanel;
 	private NavigationButton navButton;
 
-	static boolean plugin_enabled = false;
-	static List<ScriptTask> tasks = new ArrayList<>();
-
-	public VitalQuester() {
+	public VitalQuester()
+	{
 	}
 
 	@Override
@@ -107,12 +107,14 @@ public class VitalQuester extends LoopedPlugin
 	{
 		var logged_in = Game.isLoggedIn();
 
-		if(!logged_in && plugin_enabled) {
+		if (!logged_in && plugin_enabled)
+		{
 			plugin_enabled = false;
 		}
-		if(logged_in && config.startStopPlugin())
+		if (logged_in && config.startStopPlugin())
 		{
-			if(Dialog.canContinue()) {
+			if (Dialog.canContinue())
+			{
 				Dialog.continueSpace();
 				return -1;
 			}
@@ -141,8 +143,10 @@ public class VitalQuester extends LoopedPlugin
 	}
 
 	@Subscribe
-	private void onGameTick(GameTick event) {
-		if(Game.isLoggedIn()) {
+	private void onGameTick(GameTick event)
+	{
+		if (Game.isLoggedIn())
+		{
 			Tools.isAnimating(1);
 		}
 	}
@@ -150,7 +154,8 @@ public class VitalQuester extends LoopedPlugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged e)
 	{
-		if (!e.getGroup().equals("vitalquesterconfig") && !e.getKey().equals("currentQuest")) {
+		if (!e.getGroup().equals("vitalquesterconfig") && !e.getKey().equals("currentQuest"))
+		{
 			return;
 		}
 

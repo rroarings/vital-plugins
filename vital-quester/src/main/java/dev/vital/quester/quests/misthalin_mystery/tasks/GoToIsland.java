@@ -12,41 +12,45 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class GoToIsland implements ScriptTask
 {
-    private final WorldPoint boat_point = new WorldPoint(3237, 3150, 0);
-    private final WorldPoint bucket_point = new WorldPoint(1619, 4816, 0);
+	private final WorldPoint boat_point = new WorldPoint(3237, 3150, 0);
+	private final WorldPoint bucket_point = new WorldPoint(1619, 4816, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask talk_to_abigale = new BasicTask(() ->
+	{
+		if (LocalPlayer.get().getWorldLocation().getRegionID() != 6475)
+		{
 
-    public GoToIsland(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+			Tools.interactWith(30108, "Board", boat_point, Tools.EntityType.TILE_OBJECT);
+		}
+		else
+		{
+			Movement.walkTo(bucket_point);
+		}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 10;
-    }
+		return -5;
+	});
 
-    BasicTask talk_to_abigale = new BasicTask(() -> {
-        if(LocalPlayer.get().getWorldLocation().getRegionID() != 6475) {
+	public GoToIsland(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-            Tools.interactWith(30108,"Board", boat_point, Tools.EntityType.TILE_OBJECT);
-        }
-        else {
-            Movement.walkTo(bucket_point);
-        }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 10;
+	}
 
-        return -5;
-    });
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_abigale.taskCompleted())
+		{
+			return talk_to_abigale.execute();
+		}
 
-        if (!talk_to_abigale.taskCompleted()) {
-            return talk_to_abigale.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

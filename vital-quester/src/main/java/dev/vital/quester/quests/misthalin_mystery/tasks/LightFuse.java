@@ -12,39 +12,43 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class LightFuse implements ScriptTask
 {
-    WorldPoint shelves_point = new WorldPoint(1646, 4827, 0);
-    VitalQuesterConfig config;
+	WorldPoint shelves_point = new WorldPoint(1646, 4827, 0);
+	VitalQuesterConfig config;
+	BasicTask light_candles = new BasicTask(() ->
+	{
 
-    public LightFuse(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		var barrel = TileObjects.getNearest("Barrel");
+		if (barrel != null)
+		{
+			Inventory.getFirst(ItemID.TINDERBOX).useOn(barrel);
+			return 0;
+		}
+		else
+		{
+			return -5;
+		}
+	});
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 55;
-    }
+	public LightFuse(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    BasicTask light_candles = new BasicTask(() -> {
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 55;
+	}
 
-        var barrel = TileObjects.getNearest("Barrel");
-        if(barrel != null) {
-            Inventory.getFirst(ItemID.TINDERBOX).useOn(barrel);
-            return 0;
-        }
-        else{
-            return -5;
-        }
-    });
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!light_candles.taskCompleted())
+		{
+			return light_candles.execute();
+		}
 
-        if (!light_candles.taskCompleted()) {
-            return light_candles.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

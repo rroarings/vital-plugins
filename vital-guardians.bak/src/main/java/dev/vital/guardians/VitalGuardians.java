@@ -42,41 +42,49 @@ import java.util.regex.Pattern;
 @Slf4j
 public class VitalGuardians extends LoopedPlugin
 {
-	@Inject
-	private VitalGuardiansConfig config;
 	private static final WorldArea INSIDE_GUARDIANS = new WorldArea(3586, 9484, 70, 70, 0);
 	private static final WorldArea OUTSIDE_GUARDIANS = new WorldArea(3611, 9471, 9, 12, 0);
 	private static final String REWARD_POINT_REGEX = "Elemental attunement level:[^>]+>(\\d+).*Catalytic attunement level:[^>]+>(\\d+)";
 	private static final Pattern REWARD_POINT_PATTERN = Pattern.compile(REWARD_POINT_REGEX);
-
 	public int tick_delay = 0;
 	public int tick_count = 0;
 	public boolean game_started = false;
 	public boolean tick_delay_begin = false;
 	public boolean has_enough_mats = false;
 	public boolean should_deposit = false;
+	@Inject
+	private VitalGuardiansConfig config;
 
 	@Override
 	protected int loop()
 	{
-		if(Movement.isWalking() || LocalPlayer.get().isAnimating() || !Game.isLoggedIn()) {
+		if (Movement.isWalking() || LocalPlayer.get().isAnimating() || !Game.isLoggedIn())
+		{
 
 			return Rand.nextInt(1000, 2000);
 		}
 
-		if(tick_delay_begin) {
+		if (tick_delay_begin)
+		{
 
-			if(tick_count < tick_delay)
+			if (tick_count < tick_delay)
 			{
 				return 1;
 			}
-			else {
+			else
+			{
 
 				var min = config.minimumDelay();
 				var max = config.maximumDelay();
 
-				if(min > 600) { min = 600; }
-				if(max > 600) { max = 600; }
+				if (min > 600)
+				{
+					min = 600;
+				}
+				if (max > 600)
+				{
+					max = 600;
+				}
 
 				tick_delay_begin = false;
 
@@ -84,16 +92,18 @@ public class VitalGuardians extends LoopedPlugin
 			}
 		}
 
-		if(!game_started) {
+		if (!game_started)
+		{
 
 		}
-		else if(INSIDE_GUARDIANS.contains(LocalPlayer.get())) {
+		else if (INSIDE_GUARDIANS.contains(LocalPlayer.get()))
+		{
 
-			if(!has_enough_mats)
+			if (!has_enough_mats)
 			{
 				if (Inventory.getCount(ItemID.GUARDIAN_FRAGMENTS) < 150)
 				{
-					if(!LocalPlayer.get().isAnimating())
+					if (!LocalPlayer.get().isAnimating())
 					{
 						TileObjects.getNearest(43717).interact("Mine");
 
@@ -104,33 +114,39 @@ public class VitalGuardians extends LoopedPlugin
 					has_enough_mats = true;
 				}
 			}
-			else if(Inventory.contains(ItemID.ELEMENTAL_GUARDIAN_STONE))
+			else if (Inventory.contains(ItemID.ELEMENTAL_GUARDIAN_STONE))
 			{
 				NPCs.getNearest("The Great Guardian").interact("Power-up");
 				should_deposit = true;
 				return Rand.nextInt(2800, 3000);
 			}
-			else if(should_deposit) {
+			else if (should_deposit)
+			{
 				TileObjects.getNearest(43696).interact("Deposit-runes");
 				should_deposit = false;
 				has_enough_mats = false;
 			}
-			else {
+			else
+			{
 
-				if(Inventory.getCount(ItemID.GUARDIAN_ESSENCE) < Inventory.getFreeSlots())
+				if (Inventory.getCount(ItemID.GUARDIAN_ESSENCE) < Inventory.getFreeSlots())
 				{
 					TileObjects.getNearest(43754).interact("Work-at");
 					return Rand.nextInt(15000, 17000);
 				}
-				else {
+				else
+				{
 
 					var rc = Skills.getLevel(Skill.RUNECRAFT);
 
-					for(var uh : TileObjects.getAll(43705, 43701, 43710, 43702, 43703, 43711, 43704, 43708, 43712, 43707, 43706, 43709, 43702)) {
+					for (var uh : TileObjects.getAll(43705, 43701, 43710, 43702, 43703, 43711, 43704, 43708, 43712, 43707, 43706, 43709, 43702))
+					{
 
-						if(((DynamicObject)uh).getAnimationID() != 9362) {
+						if (((DynamicObject) uh).getAnimationID() != 9362)
+						{
 
-							if(!uh.getName().contains("Blood") && !uh.getName().contains("Death")) {
+							if (!uh.getName().contains("Blood") && !uh.getName().contains("Death"))
+							{
 
 								uh.interact("Enter");
 							}
@@ -141,14 +157,16 @@ public class VitalGuardians extends LoopedPlugin
 				}
 			}
 		}
-		else {
+		else
+		{
 
-			if(Inventory.contains(ItemID.GUARDIAN_ESSENCE))
+			if (Inventory.contains(ItemID.GUARDIAN_ESSENCE))
 			{
 				TileObjects.getNearest("Altar").interact("Craft-rune");
 				return Rand.nextInt(1000, 1200);
 			}
-			else {
+			else
+			{
 
 				TileObjects.getNearest("Portal").interact("Use");
 				return Rand.nextInt(2500, 3500);
@@ -157,43 +175,53 @@ public class VitalGuardians extends LoopedPlugin
 
 		return Rand.nextInt(1000, 1200);
 	}
+
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage)
 	{
-		if(chatMessage.getType() != ChatMessageType.SPAM && chatMessage.getType() != ChatMessageType.GAMEMESSAGE) return;
+		if (chatMessage.getType() != ChatMessageType.SPAM && chatMessage.getType() != ChatMessageType.GAMEMESSAGE)
+			return;
 
 		String msg = chatMessage.getMessage();
-		if(msg.contains("The rift becomes active!")) {
+		if (msg.contains("The rift becomes active!"))
+		{
 			game_started = true;
 		}
-		else if(msg.contains("The rift will become active in 30 seconds.")) {
+		else if (msg.contains("The rift will become active in 30 seconds."))
+		{
 
 		}
-		else if(msg.contains("The rift will become active in 10 seconds.")) {
+		else if (msg.contains("The rift will become active in 10 seconds."))
+		{
 
 		}
-		else if(msg.contains("The rift will become active in 5 seconds.")) {
+		else if (msg.contains("The rift will become active in 5 seconds."))
+		{
 
 		}
-		else if(msg.contains("The Portal Guardians will keep their rifts open for another 30 seconds.")){
+		else if (msg.contains("The Portal Guardians will keep their rifts open for another 30 seconds."))
+		{
 
 		}
-		else if(msg.contains("You found some loot:")){
+		else if (msg.contains("You found some loot:"))
+		{
 
 		}
 
 		Matcher rewardPointMatcher = REWARD_POINT_PATTERN.matcher(msg);
-		if(rewardPointMatcher.find()) {
+		if (rewardPointMatcher.find())
+		{
 			//elementalRewardPoints = Integer.parseInt(rewardPointMatcher.group(1));
 			//catalyticRewardPoints = Integer.parseInt(rewardPointMatcher.group(2));
 		}
 	}
+
 	@Subscribe
 	private void onGameTick(GameTick event)
 	{
 		tick_count++;
 
-		if(!tick_delay_begin)
+		if (!tick_delay_begin)
 		{
 			tick_delay = tick_count + Rand.nextInt(config.tickMinDelay(), config.tickMaxDelay());
 		}

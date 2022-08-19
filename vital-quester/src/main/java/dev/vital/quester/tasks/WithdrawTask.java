@@ -12,91 +12,108 @@ import net.unethicalite.api.widgets.Widgets;
 
 import java.util.List;
 
-public class WithdrawTask {
+public class WithdrawTask
+{
 
-    static class WithdrawItems {
-        public int id;
-        public int amount;
-        public boolean stack;
-        public Bank.WithdrawMode mode;
-        public boolean worked;
-        WithdrawItems(int id, int amount, boolean stack, Bank.WithdrawMode mode) {
-            this.id = id;
-            this.amount = amount;
-            this.stack = stack;
-            this.mode = mode;
-            this.worked = false;
-        }
-    }
+	boolean task_completed;
+	List<WithdrawItems> items;
+	public WithdrawTask(List<WithdrawItems> items)
+	{
+		this.task_completed = false;
+		this.items = items;
+	}
 
-    boolean task_completed;
-    List<WithdrawItems> items;
+	private boolean handleBankTips()
+	{
 
-    public WithdrawTask(List<WithdrawItems> items) {
-        this.task_completed = false;
-        this.items = items;
-    }
+		var close_bank = Widgets.get(664, 29, 0);
+		if (close_bank != null && close_bank.hasAction("Close"))
+		{
+			close_bank.interact("Close");
+			return true;
+		}
 
-    private boolean handleBankTips() {
+		return false;
+	}
 
-        var close_bank = Widgets.get(664, 29, 0);
-        if (close_bank != null && close_bank.hasAction("Close")) {
-            close_bank.interact("Close");
-            return true;
-        }
+	public int execute()
+	{
 
-        return false;
-    }
+		if (this.items.stream().allMatch(x -> x.worked))
+		{
+			Bank.close();
+			Time.sleepTicks(2);
+			return 0;
+		}
 
-    public int execute() {
+		if (Bank.isOpen())
+		{
 
-        if(this.items.stream().allMatch(x -> x.worked)) {
-            Bank.close();
-            Time.sleepTicks(2);
-            return 0;
-        }
+			if (handleBankTips())
+			{
+				return -1;
+			}
 
-        if(Bank.isOpen()) {
+			for (var item : this.items)
+			{
 
-            if(handleBankTips()) {
-                return -1;
-            }
+				var needed_amount = Math.abs(Inventory.getCount(item.stack, item.id) - item.amount);
+				if (Inventory.getCount(item.stack, item.id) < item.amount && Bank.contains(item.id) && Bank.getCount(item.stack, item.id) >= needed_amount)
+				{
+					Bank.withdraw(item.id, needed_amount, item.mode);
+					Time.sleepTick();
+				}
 
-            for(var item : this.items) {
+				item.worked = true;
+			}
 
-                var needed_amount = Math.abs(Inventory.getCount(item.stack, item.id) - item.amount);
-                if(Inventory.getCount(item.stack, item.id) < item.amount && Bank.contains(item.id) && Bank.getCount(item.stack, item.id) >= needed_amount) {
-                    Bank.withdraw(item.id, needed_amount, item.mode);
-                    Time.sleepTick();
-                }
+			return -2;
+		}
 
-                item.worked = true;
-            }
+		var nearest_bank = BankLocation.getNearest();
+		if (nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation()))
+		{
+			var bank_booth = TileObjects.getNearest("Bank booth");
+			var banker = NPCs.getNearest("Banker");
+			if (bank_booth != null)
+			{
+				bank_booth.interact("Bank");
+			}
+			else if (banker != null)
+			{
+				banker.interact("Bank");
+			}
 
-            return -2;
-        }
+			return -5;
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(nearest_bank);
+		}
 
-        var nearest_bank = BankLocation.getNearest();
-        if(nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation())) {
-            var bank_booth = TileObjects.getNearest("Bank booth");
-            var banker = NPCs.getNearest("Banker");
-            if(bank_booth != null) {
-                bank_booth.interact("Bank");
-            }
-            else if(banker != null) {
-                banker.interact("Bank");
-            }
+		return -1;
+	}
 
-            return -5;
-        }
-        else if(!Movement.isWalking()) {
-            Movement.walkTo(nearest_bank);
-        }
+	public boolean taskCompleted()
+	{
+		return this.task_completed;
+	}
 
-        return -1;
-    }
+	static class WithdrawItems
+	{
+		public int id;
+		public int amount;
+		public boolean stack;
+		public Bank.WithdrawMode mode;
+		public boolean worked;
 
-    public boolean taskCompleted() {
-        return this.task_completed;
-    }
+		WithdrawItems(int id, int amount, boolean stack, Bank.WithdrawMode mode)
+		{
+			this.id = id;
+			this.amount = amount;
+			this.stack = stack;
+			this.mode = mode;
+			this.worked = false;
+		}
+	}
 }

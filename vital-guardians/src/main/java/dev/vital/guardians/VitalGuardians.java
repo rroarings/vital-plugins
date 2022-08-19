@@ -3,7 +3,13 @@ package dev.vital.guardians;
 import com.google.inject.Inject;
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.*;
+import net.runelite.api.ChatMessageType;
+import net.runelite.api.DynamicObject;
+import net.runelite.api.GameObject;
+import net.runelite.api.ItemID;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
+import net.runelite.api.Skill;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.ConfigButtonClicked;
@@ -31,6 +37,8 @@ import java.util.concurrent.ScheduledExecutorService;
 @Slf4j
 public class VitalGuardians extends Script
 {
+	private static final WorldArea INSIDE_GUARDIANS = new WorldArea(3586, 9484, 70, 70, 0);
+	private static final WorldArea OUTSIDE_GUARDIANS = new WorldArea(3611, 9471, 9, 12, 0);
 	private final int BODY_GUARDIAN = 43709;
 	private final int MIND_GUARDIAN = 43705;
 	private final int DEATH_GUARDIAN = 43707;
@@ -43,33 +51,29 @@ public class VitalGuardians extends Script
 	private final int BLOOD_GUARDIAN = 43708;
 	private final int FIRE_GUARDIAN = 43704;
 	private final int NATURE_GUARDIAN = 43711;
-
-	private ScheduledExecutorService executor;
-
-	@Inject
-	private VitalGuardiansConfig config;
-
-	private static final WorldArea INSIDE_GUARDIANS = new WorldArea(3586, 9484, 70, 70, 0);
-	private static final WorldArea OUTSIDE_GUARDIANS = new WorldArea(3611, 9471, 9, 12, 0);
-
 	public boolean game_started = false;
 	public boolean has_enough_mats = false;
 	public boolean should_deposit = false;
+	private ScheduledExecutorService executor;
+	@Inject
+	private VitalGuardiansConfig config;
 
 	@Override
 	protected int loop()
 	{
-		if(!Game.isLoggedIn() || Movement.isWalking()) {
+		if (!Game.isLoggedIn() || Movement.isWalking())
+		{
 
 			return Rand.nextInt(1000, 2000);
 		}
 
-		if(!game_started) {
+		if (!game_started)
+		{
 
-			if(OUTSIDE_GUARDIANS.contains(LocalPlayer.get()))
+			if (OUTSIDE_GUARDIANS.contains(LocalPlayer.get()))
 			{
 				var barrier = TileObjects.getNearest(43700);
-				if(barrier != null)
+				if (barrier != null)
 				{
 					var fuck = ((GameObject) barrier).getRenderable();
 
@@ -81,7 +85,7 @@ public class VitalGuardians extends Script
 					}
 				}
 			}
-			else if(!INSIDE_GUARDIANS.contains(LocalPlayer.get()))
+			else if (!INSIDE_GUARDIANS.contains(LocalPlayer.get()))
 			{
 				var portal = TileObjects.getNearest("Portal");
 				var altar = TileObjects.getNearest("Altar");
@@ -89,31 +93,33 @@ public class VitalGuardians extends Script
 				{
 					portal.interact("Use");
 				}
-				else {
+				else
+				{
 
 					Game.logout();
 				}
 			}
 			return 1000;
 		}
-		else if(INSIDE_GUARDIANS.contains(LocalPlayer.get())) {
+		else if (INSIDE_GUARDIANS.contains(LocalPlayer.get()))
+		{
 
-			if(!Inventory.contains(ItemID.GUARDIAN_FRAGMENTS) && !Inventory.contains(ItemID.GUARDIAN_ESSENCE))
+			if (!Inventory.contains(ItemID.GUARDIAN_FRAGMENTS) && !Inventory.contains(ItemID.GUARDIAN_ESSENCE))
 			{
 				has_enough_mats = false;
 			}
 
-			if(Inventory.contains(ItemID.ELEMENTAL_GUARDIAN_STONE) || Inventory.contains(ItemID.CATALYTIC_GUARDIAN_STONE))
+			if (Inventory.contains(ItemID.ELEMENTAL_GUARDIAN_STONE) || Inventory.contains(ItemID.CATALYTIC_GUARDIAN_STONE))
 			{
 				NPCs.getNearest("The Great Guardian").interact("Power-up");
 				should_deposit = true;
 				return Rand.nextInt(2800, 3000);
 			}
-			else if(!has_enough_mats)
+			else if (!has_enough_mats)
 			{
 				if (Inventory.getCount(true, ItemID.GUARDIAN_FRAGMENTS) < config.guardianFragments())
 				{
-					if(!LocalPlayer.get().isAnimating())
+					if (!LocalPlayer.get().isAnimating())
 					{
 						TileObjects.getNearest(43717).interact("Mine");
 					}
@@ -123,131 +129,165 @@ public class VitalGuardians extends Script
 					has_enough_mats = true;
 				}
 			}
-			else if(should_deposit) {
+			else if (should_deposit)
+			{
 				TileObjects.getNearest(43696).interact("Deposit-runes");
 				should_deposit = false;
 				return Rand.nextInt(4300, 5200);
 			}
-			else {
+			else
+			{
 
-				if(!Inventory.isFull())
+				if (!Inventory.isFull())
 				{
-					if(Inventory.contains(ItemID.GUARDIAN_FRAGMENTS))
+					if (Inventory.contains(ItemID.GUARDIAN_FRAGMENTS))
 					{
-						if(!Inventory.contains(ItemID.GUARDIAN_ESSENCE))
+						if (!Inventory.contains(ItemID.GUARDIAN_ESSENCE))
 						{
-							if(Inventory.getCount(true, ItemID.GUARDIAN_FRAGMENTS) <= config.minGuardianFragments()) {
+							if (Inventory.getCount(true, ItemID.GUARDIAN_FRAGMENTS) <= config.minGuardianFragments())
+							{
 								has_enough_mats = false;
 								should_deposit = false;
 							}
-							else {
+							else
+							{
 								TileObjects.getNearest(43754).interact("Work-at");
 							}
 						}
-						else {
+						else
+						{
 
 							has_enough_mats = true;
 						}
 					}
 				}
-				else if(Inventory.isFull()) {
+				else if (Inventory.isFull())
+				{
 
-					if(!Inventory.contains(ItemID.GUARDIAN_ESSENCE)) {
+					if (!Inventory.contains(ItemID.GUARDIAN_ESSENCE))
+					{
 
 						return 100;
 					}
 
-					for(var guardian : TileObjects.getAll(43705, 43701, 43710, 43702, 43703, 43711, 43704, 43708, 43712,
-							43707, 43706, 43709, 43702)) {
+					for (var guardian : TileObjects.getAll(43705, 43701, 43710, 43702, 43703, 43711, 43704, 43708, 43712,
+							43707, 43706, 43709, 43702))
+					{
 
-						var fuck = ((GameObject)guardian).getRenderable();
+						var fuck = ((GameObject) guardian).getRenderable();
 
-						DynamicObject object = (DynamicObject)fuck;
-						if(object.getAnimationID() == 9363) {
+						DynamicObject object = (DynamicObject) fuck;
+						if (object.getAnimationID() == 9363)
+						{
 
 							var rc_level = Skills.getLevel(Skill.RUNECRAFT);
 							boolean should_skip = true;
-							switch(guardian.getId()){
+							switch (guardian.getId())
+							{
 
-								case BLOOD_GUARDIAN: {
-									if(rc_level >= RunecraftAction.BLOOD_RUNE.getLevel()) {
+								case BLOOD_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.BLOOD_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case EARTH_GUARDIAN: {
-									if(rc_level >= RunecraftAction.EARTH_RUNE.getLevel()) {
+								case EARTH_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.EARTH_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case LAW_GUARDIAN: {
-									if(rc_level >= RunecraftAction.LAW_RUNE.getLevel()) {
+								case LAW_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.LAW_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case NATURE_GUARDIAN: {
-									if(rc_level >= RunecraftAction.NATURE_RUNE.getLevel()) {
+								case NATURE_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.NATURE_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case AIR_GUARDIAN: {
-									if(rc_level >= RunecraftAction.AIR_RUNE.getLevel()) {
+								case AIR_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.AIR_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case MIND_GUARDIAN: {
-									if(rc_level >= RunecraftAction.MIND_RUNE.getLevel()) {
+								case MIND_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.MIND_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case FIRE_GUARDIAN: {
-									if(rc_level >= RunecraftAction.FIRE_RUNE.getLevel()) {
+								case FIRE_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.FIRE_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case DEATH_GUARDIAN: {
-									if(rc_level >= RunecraftAction.DEATH_RUNE.getLevel() && Quests.getState(Quest.MOURNINGS_END_PART_II) == QuestState.FINISHED) {
+								case DEATH_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.DEATH_RUNE.getLevel() && Quests.getState(Quest.MOURNINGS_END_PART_II) == QuestState.FINISHED)
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case WATER_GUARDIAN: {
-									if(rc_level >= RunecraftAction.WATER_RUNE.getLevel()) {
+								case WATER_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.WATER_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case BODY_GUARDIAN: {
-									if(rc_level >= RunecraftAction.BODY_RUNE.getLevel()) {
+								case BODY_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.BODY_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case COSMIC_GUARDIAN: {
-									if(rc_level >= RunecraftAction.COSMIC_RUNE.getLevel()) {
+								case COSMIC_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.COSMIC_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
 									break;
 								}
-								case CHAOS_GUARDIAN: {
-									if(rc_level >= RunecraftAction.CHAOS_RUNE.getLevel()) {
+								case CHAOS_GUARDIAN:
+								{
+									if (rc_level >= RunecraftAction.CHAOS_RUNE.getLevel())
+									{
 										should_skip = false;
 										guardian.interact("Enter");
 									}
@@ -255,7 +295,7 @@ public class VitalGuardians extends Script
 								}
 							}
 
-							if(!should_skip)
+							if (!should_skip)
 							{
 								break;
 							}
@@ -264,13 +304,15 @@ public class VitalGuardians extends Script
 				}
 			}
 		}
-		else {
+		else
+		{
 
-			if(Inventory.contains(ItemID.GUARDIAN_ESSENCE))
+			if (Inventory.contains(ItemID.GUARDIAN_ESSENCE))
 			{
 				TileObjects.getNearest("Altar").interact("Craft-rune");
 			}
-			else {
+			else
+			{
 
 				TileObjects.getNearest("Portal").interact("Use");
 			}
@@ -280,25 +322,31 @@ public class VitalGuardians extends Script
 
 		return Rand.nextInt(1000, 1200);
 	}
+
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage)
 	{
-		if(chatMessage.getType() != ChatMessageType.SPAM && chatMessage.getType() != ChatMessageType.GAMEMESSAGE) return;
+		if (chatMessage.getType() != ChatMessageType.SPAM && chatMessage.getType() != ChatMessageType.GAMEMESSAGE)
+			return;
 
 		String msg = chatMessage.getMessage();
-		if(msg.contains("The rift becomes active!")) {
+		if (msg.contains("The rift becomes active!"))
+		{
 			has_enough_mats = false;
 			game_started = true;
 		}
-		else if(msg.contains("The Portal Guardians close their rifts.")) {
+		else if (msg.contains("The Portal Guardians close their rifts."))
+		{
 			has_enough_mats = false;
 			game_started = false;
 		}
-		else if(msg.contains("The Great Guardian was defeated!")) {
+		else if (msg.contains("The Great Guardian was defeated!"))
+		{
 			has_enough_mats = false;
 			game_started = false;
 		}
-		else if(msg.contains("The Great Guardian successfully closed the rift!")) {
+		else if (msg.contains("The Great Guardian successfully closed the rift!"))
+		{
 			has_enough_mats = false;
 			game_started = false;
 		}
@@ -312,16 +360,15 @@ public class VitalGuardians extends Script
 			return;
 		}
 
-		switch (e.getKey())
+		if ("riftManualStart".equals(e.getKey()))
 		{
-			case "riftManualStart":
-				game_started = true;
-				has_enough_mats = false;
-				break;
+			game_started = true;
+			has_enough_mats = false;
 		}
 	}
+
 	@Override
-	public void onStart(String...asss)
+	public void onStart(String... asss)
 	{
 		getBlockingEventManager().remove(ResizableEvent.class);
 		has_enough_mats = game_started = false;

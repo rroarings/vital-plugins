@@ -7,42 +7,49 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 
-public class ItemTask {
+public class ItemTask
+{
 
-    boolean task_completed;
-    int id;
-    int quantity;
-    boolean stack;
-    WorldPoint point;
+	boolean task_completed;
+	int id;
+	int quantity;
+	boolean stack;
+	WorldPoint point;
 
-    public ItemTask(int id, int quantity, boolean stack, WorldPoint point) {
-        this.task_completed = false;
-        this.id = id;
-        this.quantity = quantity;
-        this.stack = stack;
-        this.point = point;
-    }
+	public ItemTask(int id, int quantity, boolean stack, WorldPoint point)
+	{
+		this.task_completed = false;
+		this.id = id;
+		this.quantity = quantity;
+		this.stack = stack;
+		this.point = point;
+	}
 
-    public int execute() {
+	public int execute()
+	{
 
-        if(Inventory.getCount(this.stack, this.id) == this.quantity) {
-            task_completed = true;
-            return -1;
-        }
+		if (Inventory.getCount(this.stack, this.id) == this.quantity)
+		{
+			task_completed = true;
+			return -1;
+		}
 
-        var item = TileItems.getNearest(id);
-        if(item != null && Reachable.isInteractable(item) && LocalPlayer.get().getWorldLocation().distanceTo2D(item.getWorldLocation()) < 4) {
-            item.interact("Take");
-            return -5;
-        }
-        else if(!Movement.isWalking()){
-            Movement.walkTo(point);
-        }
+		var item = TileItems.getNearest(id);
+		if (item != null && Reachable.isInteractable(item) && LocalPlayer.get().getWorldLocation().distanceTo2D(item.getWorldLocation()) < 4)
+		{
+			item.interact("Take");
+			return -5;
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(point);
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 
-    public boolean taskCompleted() {
-        return this.task_completed;
-    }
+	public boolean taskCompleted()
+	{
+		return this.task_completed;
+	}
 }

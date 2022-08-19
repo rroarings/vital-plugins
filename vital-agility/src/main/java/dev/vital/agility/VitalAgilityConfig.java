@@ -41,7 +41,10 @@ public interface VitalAgilityConfig extends Config
 			position = 61,
 			section = "needleAndThreadConfig"
 	)
-	default int minimumDelay() { return 1000; }
+	default int minimumDelay()
+	{
+		return 1000;
+	}
 
 	@ConfigItem(
 			keyName = "maximumDelay",
@@ -49,7 +52,10 @@ public interface VitalAgilityConfig extends Config
 			description = "Maximum amount of milliseconds to wait after casting.",
 			position = 62
 	)
-	default int maximumDelay() { return 2000; }
+	default int maximumDelay()
+	{
+		return 2000;
+	}
 
 	//@ConfigItem(
 	//		keyName = "potions",

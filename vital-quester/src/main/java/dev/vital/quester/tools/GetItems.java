@@ -14,16 +14,18 @@ import java.util.List;
 
 public class GetItems
 {
-	public static boolean get(List<ItemList> purchase_list) {
+	public static boolean get(List<ItemList> purchase_list)
+	{
 
 		var uh = purchase_list.stream().allMatch(n -> n.state == ItemState.OBTAINED);
-		if(uh) {
+		if (uh)
+		{
 			return true;
 		}
 
 		Player local = LocalPlayer.get();
 
-		if(WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(local))
+		if (WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(local))
 		{
 			var banker = NPCs.getNearest("Banker");
 
@@ -39,19 +41,23 @@ public class GetItems
 					{
 						if (item.state == ItemState.PRESENT)
 						{
-							if(Inventory.contains(item.item_id) && Inventory.getCount(item.stack, item.item_id) == item.quantity) {
+							if (Inventory.contains(item.item_id) && Inventory.getCount(item.stack, item.item_id) == item.quantity)
+							{
 								item.state = ItemState.OBTAINED;
 							}
 							else if (Bank.contains(item.item_id) && Bank.getCount(item.stack, item.item_id) >= item.quantity)
 							{
-								if(!item.equip && !Inventory.contains(item.item_id) || Inventory.getCount(item.stack, item.item_id) != item.quantity) {
+								if (!item.equip && !Inventory.contains(item.item_id) || Inventory.getCount(item.stack, item.item_id) != item.quantity)
+								{
 									Bank.withdraw(item.item_id, item.quantity - Inventory.getCount(item.stack, item.item_id), item.mode);
 								}
-								else if(item.equip && !Equipment.contains(item.item_id)){
+								else if (item.equip && !Equipment.contains(item.item_id))
+								{
 
 									Inventory.getFirst(item.item_id).interact(item.interaction);
 								}
-								else {
+								else
+								{
 
 									item.state = ItemState.OBTAINED;
 								}

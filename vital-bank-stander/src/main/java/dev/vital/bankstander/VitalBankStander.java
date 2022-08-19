@@ -35,17 +35,19 @@ import java.util.stream.Collectors;
 @Slf4j
 public class VitalBankStander extends LoopedPlugin
 {
-	@Inject
-	private VitalBankStanderConfig config;
-	private List<Integer> itemIds = new ArrayList<>();
+	private final List<Integer> itemIds = new ArrayList<>();
 	public int tick_delay = 0;
 	public int tick_count = 0;
 	public boolean should_bank = false;
 	public boolean tick_delay_begin = false;
-public boolean animatingg = false;
+	public boolean animatingg = false;
 	public int eventt = -1;
+	public int gg = 0;
+	@Inject
+	private VitalBankStanderConfig config;
 
-	public List<Integer> stringToIntList(String string) {
+	public List<Integer> stringToIntList(String string)
+	{
 		return (string == null || string.trim().equals("")) ? List.of(0) :
 				Arrays.stream(string.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList());
 	}
@@ -53,24 +55,33 @@ public boolean animatingg = false;
 	@Override
 	protected int loop()
 	{
-		if(Movement.isWalking() || LocalPlayer.get().isAnimating() || !Game.isLoggedIn() || !WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(LocalPlayer.get())) {
+		if (Movement.isWalking() || LocalPlayer.get().isAnimating() || !Game.isLoggedIn() || !WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(LocalPlayer.get()))
+		{
 
 			return -1;
 		}
 
-		if(tick_delay_begin) {
+		if (tick_delay_begin)
+		{
 
-			if(tick_count < tick_delay)
+			if (tick_count < tick_delay)
 			{
 				return 1;
 			}
-			else {
+			else
+			{
 
 				var min = config.minimumDelay();
 				var max = config.maximumDelay();
 
-				if(min > 600) { min = 600; }
-				if(max > 600) { max = 600; }
+				if (min > 600)
+				{
+					min = 600;
+				}
+				if (max > 600)
+				{
+					max = 600;
+				}
 
 				tick_delay_begin = false;
 
@@ -78,9 +89,10 @@ public boolean animatingg = false;
 			}
 		}
 
-		if(config.glass()) {
+		if (config.glass())
+		{
 
-			if(eventt == -1)
+			if (eventt == -1)
 			{
 				if (Inventory.getCount(ItemID.MOLTEN_GLASS) != 27)
 				{
@@ -91,7 +103,8 @@ public boolean animatingg = false;
 							Bank.withdraw(Predicates.ids(ItemID.MOLTEN_GLASS), 27, Bank.WithdrawMode.ITEM);
 							return -1;
 						}
-						else {
+						else
+						{
 
 							Bank.depositAllExcept(ItemID.GLASSBLOWING_PIPE);
 						}
@@ -105,7 +118,7 @@ public boolean animatingg = false;
 				{
 					if (Bank.isOpen())
 					{
-						if(Bank.contains(ItemID.GLASSBLOWING_PIPE))
+						if (Bank.contains(ItemID.GLASSBLOWING_PIPE))
 						{
 							Bank.withdraw(ItemID.GLASSBLOWING_PIPE, 1, Bank.WithdrawMode.ITEM);
 						}
@@ -128,47 +141,57 @@ public boolean animatingg = false;
 				}
 				return Rand.nextInt(300, 600);
 			}
-			if(eventt == 0) {
+			if (eventt == 0)
+			{
 
 				Inventory.getFirst(ItemID.GLASSBLOWING_PIPE).useOn(Inventory.getFirst(ItemID.MOLTEN_GLASS));
 				eventt = 1;
 				return Rand.nextInt(300, 600);
 			}
-			else if(eventt == 1 && Dialog.isOpen())
+			else if (eventt == 1 && Dialog.isOpen())
 			{
 				var level = Skills.getLevel(Skill.CRAFTING);
-				if(level >=1 && level < 4) {
+				if (level >= 1 && level < 4)
+				{
 					Keyboard.type(1);
 				}
-				else if(level >= 4 && level < 12) {
+				else if (level >= 4 && level < 12)
+				{
 					Keyboard.type(2);
 				}
-				else if(level >= 12 && level < 33) {
+				else if (level >= 12 && level < 33)
+				{
 					Keyboard.type(3);
 				}
-				else if(level >= 33 && level < 42) {
+				else if (level >= 33 && level < 42)
+				{
 					Keyboard.type(4);
 				}
-				else if(level >= 42 && level < 46) {
+				else if (level >= 42 && level < 46)
+				{
 					Keyboard.type(5);
 				}
-				else if(level >= 46 && level < 49) {
+				else if (level >= 46 && level < 49)
+				{
 					Keyboard.type(6);
 				}
-				else if(level >= 49 && level < 87) {
+				else if (level >= 49 && level < 87)
+				{
 					Keyboard.type(7);
 				}
-				else if(level >= 87) {
+				else if (level >= 87)
+				{
 					Keyboard.type(8);
 				}
-				tick_delay_begin= true;
+				tick_delay_begin = true;
 				eventt = -1;
 				return Rand.nextInt(2500, 3000);
 			}
 		}
-		else if(config.needleAndThread()) {
+		else if (config.needleAndThread())
+		{
 
-			if(eventt == -1)
+			if (eventt == -1)
 			{
 				if (!Inventory.contains(ItemID.NEEDLE) || !Inventory.contains(ItemID.THREAD))
 				{
@@ -246,23 +269,25 @@ public boolean animatingg = false;
 					}
 				}
 			}
-			if(eventt == 0) {
+			if (eventt == 0)
+			{
 
 				Inventory.getFirst(ItemID.NEEDLE).useOn(Inventory.getFirst(config.firstMaterial()));
 				eventt = 1;
 				return Rand.nextInt(1000, 1400);
 			}
-			else if(eventt == 1)
+			else if (eventt == 1)
 			{
 				Keyboard.sendSpace();
-				tick_delay_begin= true;
+				tick_delay_begin = true;
 				eventt = -1;
 				return Rand.nextInt(2500, 3000);
 			}
 		}
-		if(config.bowAndString()) {
+		if (config.bowAndString())
+		{
 
-			if(eventt == -1)
+			if (eventt == -1)
 			{
 				if (!Inventory.contains(ItemID.BOW_STRING) || Inventory.getCount(ItemID.BOW_STRING) != 14)
 				{
@@ -272,7 +297,8 @@ public boolean animatingg = false;
 						{
 							Bank.withdraw(Predicates.ids(ItemID.BOW_STRING), 14, Bank.WithdrawMode.ITEM);
 						}
-						else {
+						else
+						{
 
 							Bank.depositInventory();
 						}
@@ -290,7 +316,7 @@ public boolean animatingg = false;
 						{
 							Bank.depositAll(config.unfinishedBowID());
 						}
-						else if(Bank.getCount(true, config.unfinishedBowID()) >= 14)
+						else if (Bank.getCount(true, config.unfinishedBowID()) >= 14)
 						{
 							Bank.withdraw(config.unfinishedBowID(), 14, Bank.WithdrawMode.ITEM);
 						}
@@ -313,23 +339,25 @@ public boolean animatingg = false;
 					}
 				}
 			}
-			if(eventt == 0) {
+			if (eventt == 0)
+			{
 
 				Inventory.getFirst(ItemID.BOW_STRING).useOn(Inventory.getFirst(config.unfinishedBowID()));
 				eventt = 1;
 				return Rand.nextInt(1000, 1400);
 			}
-			else if(eventt == 1)
+			else if (eventt == 1)
 			{
 				Keyboard.sendSpace();
-				tick_delay_begin= true;
+				tick_delay_begin = true;
 				eventt = -1;
 				return Rand.nextInt(2500, 3000);
 			}
 		}
-		else if(config.jugs()) {
+		else if (config.jugs())
+		{
 
-			if(eventt == -1)
+			if (eventt == -1)
 			{
 				if (!Inventory.contains(ItemID.JUG_OF_WATER) || Inventory.getCount(ItemID.JUG_OF_WATER) != 14)
 				{
@@ -340,7 +368,8 @@ public boolean animatingg = false;
 							Bank.withdraw(Predicates.ids(ItemID.JUG_OF_WATER), 14, Bank.WithdrawMode.ITEM);
 							Time.sleepTicks(1);
 						}
-						else {
+						else
+						{
 
 							Bank.depositInventory();
 						}
@@ -358,7 +387,7 @@ public boolean animatingg = false;
 						{
 							Bank.depositAll(config.secondaryMat());
 						}
-						else if(Bank.getCount(true, config.secondaryMat()) >= 14)
+						else if (Bank.getCount(true, config.secondaryMat()) >= 14)
 						{
 							Bank.withdraw(config.secondaryMat(), 14, Bank.WithdrawMode.ITEM);
 						}
@@ -382,16 +411,17 @@ public boolean animatingg = false;
 				}
 				return Rand.nextInt(300, 600);
 			}
-			if(eventt == 0) {
+			if (eventt == 0)
+			{
 
 				Inventory.getFirst(ItemID.JUG_OF_WATER).useOn(Inventory.getFirst(config.secondaryMat()));
 				eventt = 1;
 				return Rand.nextInt(300, 600);
 			}
-			else if(eventt == 1 && Dialog.isOpen())
+			else if (eventt == 1 && Dialog.isOpen())
 			{
 				Keyboard.sendSpace();
-				tick_delay_begin= true;
+				tick_delay_begin = true;
 				eventt = -1;
 				return Rand.nextInt(2500, 3000);
 			}
@@ -399,13 +429,13 @@ public boolean animatingg = false;
 		//else if(config.potions)
 		return Rand.nextInt(800, 1200);
 	}
-	public int gg = 0;
+
 	@Subscribe
 	private void onGameTick(GameTick event)
 	{
 		tick_count++;
 
-		if(!tick_delay_begin)
+		if (!tick_delay_begin)
 		{
 			tick_delay = tick_count + Rand.nextInt(config.tickMinDelay(), config.tickMaxDelay());
 		}

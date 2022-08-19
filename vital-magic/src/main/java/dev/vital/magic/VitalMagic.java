@@ -29,13 +29,16 @@ public class VitalMagic extends LoopedPlugin
 	@Inject
 	private VitalMagicConfig config;
 
-	Spell getSpell(Spell... spells) {
+	Spell getSpell(Spell... spells)
+	{
 
 		Spell wanted_spell = null;
 
-		for (var spell : spells){
+		for (var spell : spells)
+		{
 
-			if (spell.canCast()) {
+			if (spell.canCast())
+			{
 
 				wanted_spell = spell;
 				break;
@@ -48,7 +51,8 @@ public class VitalMagic extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-		if(!Game.isLoggedIn() || Bank.isOpen() || Dialog.isOpen() || Dialog.isViewingOptions() || Dialog.canContinue() || Shop.isOpen()) {
+		if (!Game.isLoggedIn() || Bank.isOpen() || Dialog.isOpen() || Dialog.isViewingOptions() || Dialog.canContinue() || Shop.isOpen())
+		{
 
 			return -5;
 		}
@@ -77,32 +81,36 @@ public class VitalMagic extends LoopedPlugin
 			}
 		}*/
 
-		if(config.alchemyEnabled() && config.alchemyItem() != 0 && Inventory.contains(config.alchemyItem()))
+		if (config.alchemyEnabled() && config.alchemyItem() != 0 && Inventory.contains(config.alchemyItem()))
 		{
 			if (Movement.isWalking() && !config.alchemyWhileMoving())
 			{
 				return -1;
 			}
 
-			if(SpellBook.Standard.HIGH_LEVEL_ALCHEMY.canCast() && Skills.getLevel(Skill.MAGIC) >= 55) {
+			if (SpellBook.Standard.HIGH_LEVEL_ALCHEMY.canCast() && Skills.getLevel(Skill.MAGIC) >= 55)
+			{
 
 				Magic.cast(SpellBook.Standard.HIGH_LEVEL_ALCHEMY, Inventory.getFirst(config.alchemyItem()));
 			}
-			else if(SpellBook.Standard.LOW_LEVEL_ALCHEMY.canCast() && Skills.getLevel(Skill.MAGIC) < 55) {
+			else if (SpellBook.Standard.LOW_LEVEL_ALCHEMY.canCast() && Skills.getLevel(Skill.MAGIC) < 55)
+			{
 
 				Magic.cast(SpellBook.Standard.LOW_LEVEL_ALCHEMY, Inventory.getFirst(config.alchemyItem()));
 			}
 		}
 
-		if(config.teleportAlch()) {
+		if (config.teleportAlch())
+		{
 
 			Time.sleep(Rand.nextInt(config.teleDelayMin(), config.teleDelayMax()));
 
 			var spell = getSpell(SpellBook.Standard.TELEPORT_TO_KOUREND,
 					SpellBook.Standard.WATCHTOWER_TELEPORT, SpellBook.Standard.ARDOUGNE_TELEPORT,
 					SpellBook.Standard.CAMELOT_TELEPORT, SpellBook.Standard.FALADOR_TELEPORT,
-					SpellBook.Standard.LUMBRIDGE_TELEPORT,SpellBook.Standard.VARROCK_TELEPORT);
-			if(spell != null) {
+					SpellBook.Standard.LUMBRIDGE_TELEPORT, SpellBook.Standard.VARROCK_TELEPORT);
+			if (spell != null)
+			{
 				spell.cast();
 			}
 		}

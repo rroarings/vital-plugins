@@ -18,29 +18,34 @@ public class Gather implements ScriptTask
 
 	VitalWineConfig config;
 
-	public Gather(VitalWineConfig config) {
+	public Gather(VitalWineConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		Player local = LocalPlayer.get();
 		return local != null && !Inventory.isFull() && COOKING_GUILD_2.contains(local);
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
+		if (local.isAnimating() || Movement.isWalking())
+		{
 
 			return -1;
 		}
 
 		TileItem item = TileItems.getNearest("Grapes", "Jug");
-		if(item != null) {
+		if (item != null)
+		{
 
 			waitfucker++;
 
@@ -49,7 +54,8 @@ public class Gather implements ScriptTask
 			return -5;
 		}
 
-		if(waitfucker == 2 && Inventory.getFreeSlots() > 1) {
+		if (waitfucker == 2 && Inventory.getFreeSlots() > 1)
+		{
 
 			Time.sleep(Rand.nextInt(60000, 62500));
 

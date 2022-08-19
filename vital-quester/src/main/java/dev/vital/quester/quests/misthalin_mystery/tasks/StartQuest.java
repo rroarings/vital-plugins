@@ -9,31 +9,32 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class StartQuest implements ScriptTask
 {
-    private final WorldPoint abigale_point = new WorldPoint(3237, 3150, 0);
+	private final WorldPoint abigale_point = new WorldPoint(3237, 3150, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_abigale = new DialogTask("Abigale", abigale_point,
+			"Yes.");
 
-    public StartQuest(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public StartQuest(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) < 10;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) < 10;
+	}
 
-    DialogTask talk_to_abigale = new DialogTask("Abigale",  abigale_point,
-            "Yes.");
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_abigale.taskCompleted())
+		{
+			return talk_to_abigale.execute();
+		}
 
-        if (!talk_to_abigale.taskCompleted()) {
-            return talk_to_abigale.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

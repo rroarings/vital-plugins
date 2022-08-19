@@ -2,7 +2,14 @@ package dev.vital.scripts.cooking;
 
 import com.google.inject.Inject;
 import com.google.inject.Provides;
-import dev.vital.scripts.cooking.tasks.*;
+import dev.vital.scripts.cooking.tasks.CookingGuild;
+import dev.vital.scripts.cooking.tasks.FillJugs;
+import dev.vital.scripts.cooking.tasks.Gather;
+import dev.vital.scripts.cooking.tasks.GoBank;
+import dev.vital.scripts.cooking.tasks.GoDownstairs;
+import dev.vital.scripts.cooking.tasks.GoUpstairs;
+import dev.vital.scripts.cooking.tasks.MakeWine;
+import dev.vital.scripts.cooking.tasks.ScriptTask;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -26,9 +33,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class VitalWine extends Script
 {
+	List<ScriptTask> tasks = new ArrayList<>();
 	@Inject
 	private VitalWineConfig config;
-	List<ScriptTask> tasks = new ArrayList<>();
+	@Inject
+	private ScheduledExecutorService executor;
+	@Inject
+	private Client client;
 
 	@Override
 	public void onStart(String... args)
@@ -66,12 +77,6 @@ public class VitalWine extends Script
 		return -1;
 	}
 
-	@Inject
-	private ScheduledExecutorService executor;
-
-	@Inject
-	private Client client;
-
 	@Provides
 	public VitalWineConfig getConfig(ConfigManager configManager)
 	{
@@ -91,11 +96,9 @@ public class VitalWine extends Script
 	@Subscribe
 	private void onLoginStateChanged(LoginStateChanged e)
 	{
-		switch (e.getIndex())
+		if (e.getIndex() == 2)
 		{
-			case 2:
-				login();
-				break;
+			login();
 		}
 	}
 

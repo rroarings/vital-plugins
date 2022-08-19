@@ -7,44 +7,46 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class OpenSettings implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	CameraTask camera_task = new CameraTask(4);
 
-    public OpenSettings(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public OpenSettings(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("Please click on the flashing spanner icon found at the bottom right of your screen.");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("Please click on the flashing spanner icon found at the bottom right of your screen.");
+			}
+		}
+		return false;
+	}
 
-    CameraTask camera_task = new CameraTask(4);
-
-    @Override
-    public int execute()
-    {
-        if(!camera_task.taskCompleted()) {
-            camera_task.moveLeft();
-            return -2;
-        }
-
+	@Override
+	public int execute()
+	{
+		if (!camera_task.taskCompleted())
+		{
+			camera_task.moveLeft();
+			return -2;
+		}
 
 
-        var widget = Widgets.get(164,40);
-        if(widget != null) {
+		var widget = Widgets.get(164, 40);
+		if (widget != null)
+		{
 
-            widget.interact("Settings");
-        }
+			widget.interact("Settings");
+		}
 
-        return -2;
-    }
+		return -2;
+	}
 }

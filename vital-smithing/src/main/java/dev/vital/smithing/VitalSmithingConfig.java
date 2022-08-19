@@ -13,7 +13,10 @@ public interface VitalSmithingConfig extends Config
 			description = "The ID of the bars you want to smith.",
 			position = 0
 	)
-	default int barID() { return 2353; }
+	default int barID()
+	{
+		return 2353;
+	}
 
 
 }

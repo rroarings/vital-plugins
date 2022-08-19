@@ -8,30 +8,31 @@ import net.unethicalite.api.game.Vars;
 
 public class TalkToSedridor implements ScriptTask
 {
-    private final WorldPoint sedridor_spot = new WorldPoint(3105, 9571, 0);
+	private final WorldPoint sedridor_spot = new WorldPoint(3105, 9571, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_mage = new DialogTask("Archmage Sedridor", sedridor_spot, "Can you teleport me to the Rune Essence Mine?");
 
-    public TalkToSedridor(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public TalkToSedridor(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(2313) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(2313) == 0;
+	}
 
-    DialogTask talk_to_mage = new DialogTask("Archmage Sedridor",  sedridor_spot, "Can you teleport me to the Rune Essence Mine?");
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_mage.taskCompleted())
+		{
+			return talk_to_mage.execute();
+		}
 
-        if(!talk_to_mage.taskCompleted()) {
-            return talk_to_mage.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

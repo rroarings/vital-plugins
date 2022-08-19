@@ -10,33 +10,36 @@ import net.unethicalite.api.movement.Movement;
 
 public class StepTwo implements ScriptTask
 {
-    private final WorldPoint dig_two_point = new WorldPoint(3203, 3212, 0);
+	private final WorldPoint dig_two_point = new WorldPoint(3203, 3212, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public StepTwo(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public StepTwo(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Inventory.contains(ItemID.TREASURE_SCROLL_23068);
-    }
+	@Override
+	public boolean validate()
+	{
+		return Inventory.contains(ItemID.TREASURE_SCROLL_23068);
+	}
 
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        if(!LocalPlayer.get().getWorldLocation().equals(dig_two_point)) {
-            if(!Movement.isWalking()) {
-                Movement.walkTo(dig_two_point);
-            }
-            return -1;
-        }
+		if (!LocalPlayer.get().getWorldLocation().equals(dig_two_point))
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(dig_two_point);
+			}
+			return -1;
+		}
 
-        Inventory.getFirst(ItemID.SPADE).interact("Dig");
+		Inventory.getFirst(ItemID.SPADE).interact("Dig");
 
-        return -1;
-    }
+		return -1;
+	}
 }

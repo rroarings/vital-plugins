@@ -7,26 +7,26 @@ import net.runelite.api.coords.WorldPoint;
 
 public class GetJob implements ScriptTask
 {
-    private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
+	private final WorldPoint luthas_location = new WorldPoint(2938, 3152, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask get_job = new DialogTask("Luthas", luthas_location, "Could you offer me employment on your plantation?");
 
-    public GetJob(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetJob(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    DialogTask get_job = new DialogTask("Luthas",  luthas_location, "Could you offer me employment on your plantation?");
+	@Override
+	public boolean validate()
+	{
+		return !get_job.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !get_job.taskCompleted();
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
-
-        return get_job.execute();
-    }
+		return get_job.execute();
+	}
 }

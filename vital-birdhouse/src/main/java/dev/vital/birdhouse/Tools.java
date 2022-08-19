@@ -17,43 +17,53 @@ import java.util.List;
 
 public class Tools
 {
-	public static void waitForInvChange(int timeout) {
+	public static void waitForInvChange(int timeout)
+	{
 
 		int free_space = Inventory.getFreeSlots();
 		Time.sleepUntil(() -> free_space != Inventory.getFreeSlots(), timeout);
 	}
 
-	public static void waitForOpenDialog(int timeout) {
+	public static void waitForOpenDialog(int timeout)
+	{
 
 		Time.sleepUntil(Dialog::isOpen, timeout);
 	}
-	public static boolean buildBirdhouse(WorldPoint p, int log_id, int seed_id) {
+
+	public static boolean buildBirdhouse(WorldPoint p, int log_id, int seed_id)
+	{
 
 		var space = TileObjects.getFirstAt(p, x -> x.getName().equals("Space"));
 		var birdhouse_empty = TileObjects.getFirstAt(p, x -> x.getName().contains("irdhouse (empty)"));
 		var birdhouse = TileObjects.getFirstAt(p, x -> x.getName().contains("irdhouse"));
-		if (space != null) {
+		if (space != null)
+		{
 
 			var birdhouse_item = Inventory.getFirst(ItemID.BIRD_HOUSE, ItemID.OAK_BIRD_HOUSE,
 					ItemID.WILLOW_BIRD_HOUSE,
 					ItemID.YEW_BIRD_HOUSE, ItemID.MAGIC_BIRD_HOUSE, ItemID.MAPLE_BIRD_HOUSE,
 					ItemID.TEAK_BIRD_HOUSE, ItemID.MAHOGANY_BIRD_HOUSE, ItemID.REDWOOD_BIRD_HOUSE);
-			if (birdhouse_item != null) {
+			if (birdhouse_item != null)
+			{
 
 				birdhouse_item.useOn(space);
 
 				waitForInvChange(1800);
 			}
-			else {
-				if (Dialog.isOpen() || Dialog.isViewingOptions()) {
+			else
+			{
+				if (Dialog.isOpen() || Dialog.isViewingOptions())
+				{
 
 					Keyboard.sendSpace();
 
 					waitForInvChange(1800);
 				}
-				else {
+				else
+				{
 
-					if(Inventory.contains(log_id, ItemID.CLOCKWORK)) {
+					if (Inventory.contains(log_id, ItemID.CLOCKWORK))
+					{
 
 						Inventory.getFirst(log_id).useOn(Inventory.getFirst(ItemID.CLOCKWORK));
 
@@ -62,7 +72,8 @@ public class Tools
 				}
 			}
 		}
-		else if (birdhouse_empty != null) {
+		else if (birdhouse_empty != null)
+		{
 
 			Inventory.getFirst(seed_id).useOn(birdhouse_empty);
 
@@ -70,7 +81,8 @@ public class Tools
 
 			return true;
 		}
-		else if (birdhouse != null) {
+		else if (birdhouse != null)
+		{
 
 			birdhouse.interact("Empty");
 
@@ -95,26 +107,33 @@ public class Tools
 		return false;
 	}
 
-	static public boolean goToBank(WorldArea area, String entity, String action, boolean is_npc) {
+	static public boolean goToBank(WorldArea area, String entity, String action, boolean is_npc)
+	{
 
-		if (Bank.isOpen()) {
+		if (Bank.isOpen())
+		{
 
 			return true;
 		}
 
-		if (Tools.goTo(area)) {
+		if (Tools.goTo(area))
+		{
 
-			if (is_npc) {
+			if (is_npc)
+			{
 
 				var npc = NPCs.getNearest(entity);
-				if(npc != null) {
+				if (npc != null)
+				{
 					npc.interact(action);
 				}
 			}
-			else {
+			else
+			{
 
 				var object = TileObjects.getNearest(entity);
-				if(object != null) {
+				if (object != null)
+				{
 					object.interact(action);
 				}
 			}
@@ -123,19 +142,24 @@ public class Tools
 		return false;
 	}
 
-	public static boolean hasItems(List<BItems> items) {
+	public static boolean hasItems(List<BItems> items)
+	{
 
-		for(var item : items) {
+		for (var item : items)
+		{
 
-			if(item.id == ItemID.DIGSITE_PENDANT_1) {
+			if (item.id == ItemID.DIGSITE_PENDANT_1)
+			{
 
-				if(Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
-						ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null) {
+				if (Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+						ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null)
+				{
 
 					item.obtained = true;
 				}
 			}
-			else if(Inventory.contains(item.id) && Inventory.getCount(item.stacks, item.id) >= item.amount) {
+			else if (Inventory.contains(item.id) && Inventory.getCount(item.stacks, item.id) >= item.amount)
+			{
 
 				item.obtained = true;
 			}
@@ -144,10 +168,12 @@ public class Tools
 		return items.stream().allMatch(x -> x.obtained);
 	}
 
-	static boolean withdrawDigsitePendant() {
+	static boolean withdrawDigsitePendant()
+	{
 
-		if(Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
-				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null) {
+		if (Inventory.getFirst(ItemID.DIGSITE_PENDANT_1, ItemID.DIGSITE_PENDANT_2,
+				ItemID.DIGSITE_PENDANT_3, ItemID.DIGSITE_PENDANT_4, ItemID.DIGSITE_PENDANT_5) != null)
+		{
 
 			return true;
 		}
@@ -157,8 +183,9 @@ public class Tools
 
 		int free_slots = Inventory.getFreeSlots();
 
-		if(pendant != null) {
-			Bank.withdraw(pendant.getId(),1, Bank.WithdrawMode.DEFAULT);
+		if (pendant != null)
+		{
+			Bank.withdraw(pendant.getId(), 1, Bank.WithdrawMode.DEFAULT);
 
 			Time.sleepUntil(() -> free_slots != Inventory.getFreeSlots(), 1800);
 
@@ -168,18 +195,23 @@ public class Tools
 		return false;
 	}
 
-	public static boolean withdrawBankItems(List<BItems> items) {
+	public static boolean withdrawBankItems(List<BItems> items)
+	{
 
-		if(!Bank.isOpen()) {
+		if (!Bank.isOpen())
+		{
 
 			return false;
 		}
 
-		for(var item : items) {
+		for (var item : items)
+		{
 
-			if(item.id == ItemID.DIGSITE_PENDANT_1) {
+			if (item.id == ItemID.DIGSITE_PENDANT_1)
+			{
 
-				if(withdrawDigsitePendant()) {
+				if (withdrawDigsitePendant())
+				{
 					item.obtained = true;
 					continue;
 				}
@@ -190,11 +222,13 @@ public class Tools
 			int free_slots = Inventory.getFreeSlots();
 			int count = Inventory.getCount(item.stacks, item.id);
 
-			if(count == item.amount) {
+			if (count == item.amount)
+			{
 
 				item.obtained = true;
 			}
-			else if(Bank.contains(item.id) && Bank.getCount(true, item.id) >= item.amount - count) {
+			else if (Bank.contains(item.id) && Bank.getCount(true, item.id) >= item.amount - count)
+			{
 
 				Bank.withdraw(item.id, item.amount - count, Bank.WithdrawMode.DEFAULT);
 
@@ -203,7 +237,8 @@ public class Tools
 
 				item.obtained = Inventory.getCount(item.stacks, item.id) >= item.amount;
 			}
-			else {
+			else
+			{
 
 				System.out.println("Not enought materials in the bank! " + item.id);
 			}

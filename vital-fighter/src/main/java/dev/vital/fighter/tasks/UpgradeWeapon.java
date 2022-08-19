@@ -30,41 +30,100 @@ public class UpgradeWeapon implements ScriptTask
 
 	private static int wanted_upgrade_id = -1;
 
-	public int GetWeapon(int attack_level) {
+	public int GetWeapon(int attack_level)
+	{
 
-		switch(attack_level) {
+		switch (attack_level)
+		{
 
-			case 1: case 2: case 3: case 4:
+			case 1:
+			case 2:
+			case 3:
+			case 4:
 				return ItemID.IRON_SCIMITAR;
-			case 5: case 6: case 7: case 8: case 9:
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+			case 9:
 				return ItemID.STEEL_SCIMITAR;
-			case 10: case 11: case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
+			case 10:
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+			case 15:
+			case 16:
+			case 17:
+			case 18:
+			case 19:
 				return ItemID.BLACK_SCIMITAR;
-			case 20: case 21: case 22: case 23: case 24: case 25: case 26: case 27: case 28: case 29:
+			case 20:
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
 				return ItemID.MITHRIL_SCIMITAR;
-			case 30: case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39:
+			case 30:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 35:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
 				return ItemID.ADAMANT_SCIMITAR;
-			case 40: case 41: case 42: case 43: case 44: case 45: case 46: case 47: case 48: case 49:
+			case 40:
+			case 41:
+			case 42:
+			case 43:
+			case 44:
+			case 45:
+			case 46:
+			case 47:
+			case 48:
+			case 49:
 				return ItemID.RUNE_SCIMITAR;
-			case 60: case 61: case 62: case 63: case 64: case 65: case 66: case 67: case 68: case 69:
-				if(Quest.MONKEY_MADNESS_I.getState() == QuestState.FINISHED) {
+			case 60:
+			case 61:
+			case 62:
+			case 63:
+			case 64:
+			case 65:
+			case 66:
+			case 67:
+			case 68:
+			case 69:
+				if (Quest.MONKEY_MADNESS_I.getState() == QuestState.FINISHED)
+				{
 					return ItemID.DRAGON_SCIMITAR;
 				}
-				else {
+				else
+				{
 					return ItemID.RUNE_SCIMITAR;
 				}
-			default: return ItemID.BRONZE_SCIMITAR;
+			default:
+				return ItemID.BRONZE_SCIMITAR;
 		}
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		var attack_level = Skills.getLevel(Skill.ATTACK);
 		wanted_upgrade_id = GetWeapon(attack_level);
 
 		var weapon_id = Equipment.fromSlot(EquipmentInventorySlot.WEAPON).getId();
-		if(wanted_upgrade_id == weapon_id) {
+		if (wanted_upgrade_id == weapon_id)
+		{
 
 			return true;
 		}
@@ -73,40 +132,49 @@ public class UpgradeWeapon implements ScriptTask
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
+		if (local.isAnimating() || Movement.isWalking())
+		{
 
 			return 1000;
 		}
 
-		if(!GRAND_EXCHANGE_AREA.contains(local)) {
+		if (!GRAND_EXCHANGE_AREA.contains(local))
+		{
 
 			System.out.printf("Moving to Grand Exchange");
 			Movement.walkTo(GRAND_EXCHANGE_AREA);
 		}
-		else if(!Inventory.contains(wanted_upgrade_id)) {
+		else if (!Inventory.contains(wanted_upgrade_id))
+		{
 
-			if(!Bank.isOpen()) {
+			if (!Bank.isOpen())
+			{
 
 				System.out.printf("Opening bank");
 				NPCs.getNearest(NpcID.BANKER_1634).interact("Bank");
 			}
-			else {
+			else
+			{
 
 				System.out.printf("Withdrawing item {}", wanted_upgrade_id);
 				Bank.withdraw(wanted_upgrade_id, 1, Bank.WithdrawMode.DEFAULT);
 			}
 		}
-		else {
+		else
+		{
 
-			if(Bank.isOpen()) {
+			if (Bank.isOpen())
+			{
 
 				Bank.close();
 			}
-			else {
+			else
+			{
 
 				System.out.printf("Equipping item {}", wanted_upgrade_id);
 

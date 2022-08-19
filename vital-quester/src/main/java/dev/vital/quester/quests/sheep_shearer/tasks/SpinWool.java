@@ -11,44 +11,48 @@ import net.unethicalite.api.widgets.Production;
 
 public class SpinWool implements ScriptTask
 {
-    private final WorldPoint spinning_wheel_point = new WorldPoint(3209, 3213, 1);
+	private final WorldPoint spinning_wheel_point = new WorldPoint(3209, 3213, 1);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask spin_wool = new BasicTask(() ->
+	{
+		if (!Tools.isAnimating(5))
+		{
+			if (!Production.isOpen())
+			{
+				return Tools.interactWith("Spinning wheel", "Spin", spinning_wheel_point, Tools.EntityType.TILE_OBJECT);
+			}
 
-    public SpinWool(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+			Production.chooseOption(1);
+		}
 
-    BasicTask spin_wool = new BasicTask(() ->
-    {
-        if(!Tools.isAnimating(5)) {
-            if (!Production.isOpen()) {
-                return Tools.interactWith("Spinning wheel", "Spin", spinning_wheel_point, Tools.EntityType.TILE_OBJECT);
-            }
+		if (Inventory.getCount(false, ItemID.BALL_OF_WOOL) == 20)
+		{
+			return 0;
+		}
+		return -1;
+	});
 
-            Production.chooseOption(1);
-        }
+	public SpinWool(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        if(Inventory.getCount(false, ItemID.BALL_OF_WOOL) == 20) {
-            return 0;
-        }
-        return -1;
-    });
+	@Override
+	public boolean validate()
+	{
+		return !spin_wool.taskCompleted() && Inventory.getCount(false, ItemID.BALL_OF_WOOL) < 20;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !spin_wool.taskCompleted() && Inventory.getCount(false, ItemID.BALL_OF_WOOL) < 20;
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!spin_wool.taskCompleted())
+		{
+			return spin_wool.execute();
+		}
 
-        if(!spin_wool.taskCompleted()) {
-            return spin_wool.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

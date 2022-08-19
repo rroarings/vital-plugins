@@ -12,38 +12,42 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class PickupNote1 implements ScriptTask
 {
-    WorldPoint note_point = new WorldPoint(1635, 4838, 0);
-    VitalQuesterConfig config;
+	WorldPoint note_point = new WorldPoint(1635, 4838, 0);
+	VitalQuesterConfig config;
+	BasicTask pickup_note = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.NOTES_21056))
+		{
+			Inventory.getFirst(ItemID.NOTES_21056).interact("Read");
+			return 0;
+		}
+		else
+		{
+			Tools.interactWith(2266, "Take", note_point, Tools.EntityType.TILE_OBJECT);
+			return -5;
+		}
+	});
 
-    public PickupNote1(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public PickupNote1(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 35;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 35;
+	}
 
-    BasicTask pickup_note = new BasicTask(() -> {
-        if(Inventory.contains(ItemID.NOTES_21056)) {
-            Inventory.getFirst(ItemID.NOTES_21056).interact("Read");
-            return 0;
-        }
-        else{
-            Tools.interactWith(2266, "Take", note_point, Tools.EntityType.TILE_OBJECT);
-            return -5;
-        }
-    });
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!pickup_note.taskCompleted())
+		{
+			return pickup_note.execute();
+		}
 
-        if (!pickup_note.taskCompleted()) {
-            return pickup_note.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

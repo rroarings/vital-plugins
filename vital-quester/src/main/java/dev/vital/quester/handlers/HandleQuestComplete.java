@@ -9,25 +9,27 @@ import static net.runelite.api.widgets.WidgetInfo.QUEST_COMPLETED;
 
 public class HandleQuestComplete implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public HandleQuestComplete(VitalQuesterConfig config) {
-        this.config = config;
-    }
+	public HandleQuestComplete(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var quest_completed_x = Widgets.get(QUEST_COMPLETED);
-        return quest_completed_x != null;
-    }
+	@Override
+	public boolean validate()
+	{
+		var quest_completed_x = Widgets.get(QUEST_COMPLETED);
+		return quest_completed_x != null;
+	}
 
-    @Override
-    public int execute() {
+	@Override
+	public int execute()
+	{
 
-        Time.sleepTicks(3);
-        Widgets.get(153, 16).interact("Close");
+		Time.sleepTicks(3);
+		Widgets.get(153, 16).interact("Close");
 
-        return -1;
-    }
+		return -1;
+	}
 }

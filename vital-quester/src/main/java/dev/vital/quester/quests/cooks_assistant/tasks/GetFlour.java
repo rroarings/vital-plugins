@@ -13,87 +13,97 @@ import net.unethicalite.api.items.Inventory;
 
 public class GetFlour implements ScriptTask
 {
-    private final WorldPoint pot_point = new WorldPoint(3209, 3213, 0);
-    private final WorldPoint grain_point = new WorldPoint(3162, 3291, 0);
-    private final WorldPoint hopper_point = new WorldPoint(3165, 3307, 2);
-    private final WorldPoint flour_bin_point = new WorldPoint(3165, 3306, 0);
+	private final WorldPoint pot_point = new WorldPoint(3209, 3213, 0);
+	private final WorldPoint grain_point = new WorldPoint(3162, 3291, 0);
+	private final WorldPoint hopper_point = new WorldPoint(3165, 3307, 2);
+	private final WorldPoint flour_bin_point = new WorldPoint(3165, 3306, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	ItemTask get_pot = new ItemTask(ItemID.POT, 1, false, pot_point);
+	ObjectItemTask get_wheat = new ObjectItemTask(15507, ItemID.GRAIN, 1, false, "Pick", grain_point);
+	int initiali_grain_count = -1;
+	BasicTask use_hopper = new BasicTask(() ->
+	{
+		int count = Inventory.getCount(false, ItemID.GRAIN);
+		if (initiali_grain_count == -1 && count > 0)
+		{
+			initiali_grain_count = count;
+		}
 
-    public GetFlour(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		if (initiali_grain_count != -1)
+		{
 
-    @Override
-    public boolean validate()
-    {
-        return !Inventory.contains(ItemID.POT_OF_FLOUR);
-    }
+			if (initiali_grain_count != Inventory.getCount(false, ItemID.GRAIN))
+			{
+				return 0;
+			}
+			else
+			{
+				return Tools.interactWith(24961, "Fill", hopper_point, Tools.EntityType.TILE_OBJECT);
+			}
+		}
 
-    ItemTask get_pot = new ItemTask(ItemID.POT, 1, false, pot_point);
-    ObjectItemTask get_wheat = new ObjectItemTask(15507, ItemID.GRAIN, 1, false, "Pick", grain_point);
+		return -1;
+	});
+	BasicTask use_controls = new BasicTask(() ->
+	{
+		if (Vars.getBit(4920) < 1)
+		{
+			return Tools.interactWith(24964, "Operate", hopper_point, Tools.EntityType.TILE_OBJECT);
+		}
+		else
+		{
+			return 0;
+		}
+	});
+	BasicTask get_flour = new BasicTask(() ->
+	{
+		if (Vars.getBit(4920) > 0)
+		{
+			return Tools.interactWith("Flour bin", "Empty", flour_bin_point, Tools.EntityType.TILE_OBJECT);
+		}
+		else
+		{
+			return 0;
+		}
+	});
 
-    int initiali_grain_count = -1;
-    BasicTask use_hopper = new BasicTask(() ->
-    {
-        int count = Inventory.getCount(false, ItemID.GRAIN);
-        if(initiali_grain_count == -1 && count > 0) {
-            initiali_grain_count = count;
-        }
+	public GetFlour(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        if(initiali_grain_count != -1) {
+	@Override
+	public boolean validate()
+	{
+		return !Inventory.contains(ItemID.POT_OF_FLOUR);
+	}
 
-            if (initiali_grain_count != Inventory.getCount(false, ItemID.GRAIN)) {
-                return 0;
-            }
-            else {
-                return Tools.interactWith(24961, "Fill", hopper_point, Tools.EntityType.TILE_OBJECT);
-            }
-        }
+	@Override
+	public int execute()
+	{
 
-        return -1;
-    });
+		if (!get_pot.taskCompleted())
+		{
+			return get_pot.execute();
+		}
+		else if (!get_wheat.taskCompleted())
+		{
+			return get_wheat.execute();
+		}
+		else if (!use_hopper.taskCompleted())
+		{
+			return use_hopper.execute();
+		}
+		else if (!use_controls.taskCompleted())
+		{
+			return use_controls.execute();
+		}
+		else if (!get_flour.taskCompleted())
+		{
+			return get_flour.execute();
+		}
 
-    BasicTask use_controls = new BasicTask(() ->
-    {
-        if(Vars.getBit(4920) < 1) {
-            return Tools.interactWith(24964, "Operate", hopper_point, Tools.EntityType.TILE_OBJECT);
-        }
-        else {
-            return 0;
-        }
-    });
-
-    BasicTask get_flour = new BasicTask(() ->
-    {
-        if(Vars.getBit(4920) > 0) {
-            return Tools.interactWith("Flour bin", "Empty", flour_bin_point, Tools.EntityType.TILE_OBJECT);
-        }
-        else {
-            return 0;
-        }
-    });
-    @Override
-    public int execute()
-    {
-
-        if(!get_pot.taskCompleted()) {
-            return get_pot.execute();
-        }
-        else if(!get_wheat.taskCompleted()) {
-            return get_wheat.execute();
-        }
-        else if(!use_hopper.taskCompleted()) {
-            return use_hopper.execute();
-        }
-        else if(!use_controls.taskCompleted()) {
-            return use_controls.execute();
-        }
-        else if(!get_flour.taskCompleted()) {
-            return get_flour.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

@@ -8,52 +8,68 @@ import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 
-public class GearUp implements ScriptTask {
+public class GearUp implements ScriptTask
+{
 
 	private static final WorldArea PORT_PISC_BANK = new WorldArea(1800, 3787, 4, 10, 0);
 
 	@Override
-	public boolean validate() { return !Inventory.contains(ItemID.SANDWORMS) || !Inventory.contains(ItemID.FISHING_ROD) || Inventory.isFull(); }
+	public boolean validate()
+	{
+		return !Inventory.contains(ItemID.SANDWORMS) || !Inventory.contains(ItemID.FISHING_ROD) || Inventory.isFull();
+	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(!Bank.isOpen()) {
+		if (!Bank.isOpen())
+		{
 
 			var booth = TileObjects.getNearest("Bank booth");
-			if (booth != null) {
+			if (booth != null)
+			{
 
 				booth.interact("Bank");
 			}
-			else {
+			else
+			{
 
 				Movement.walkTo(PORT_PISC_BANK.getCenter());
 			}
 		}
-		else  {
+		else
+		{
 
-			if(!Inventory.contains(ItemID.FISHING_ROD)) {
+			if (!Inventory.contains(ItemID.FISHING_ROD))
+			{
 
-				if(Bank.contains(ItemID.FISHING_ROD)) {
+				if (Bank.contains(ItemID.FISHING_ROD))
+				{
 
 					Bank.withdraw(ItemID.FISHING_ROD, 1, Bank.WithdrawMode.ITEM);
 				}
-				else {
+				else
+				{
 					Game.logout();
 				}
 			}
-			else if(!Inventory.contains(ItemID.SANDWORMS)) {
+			else if (!Inventory.contains(ItemID.SANDWORMS))
+			{
 
-				if(Bank.contains(ItemID.SANDWORMS)) {
+				if (Bank.contains(ItemID.SANDWORMS))
+				{
 
 					Bank.withdraw(ItemID.SANDWORMS, 9999, Bank.WithdrawMode.ITEM);
 				}
-				else {
+				else
+				{
 
 					Game.logout();
 				}
 			}
-			else {
+			else
+			{
 
 				Bank.depositAllExcept(ItemID.SANDWORMS, ItemID.FISHING_ROD);
 			}

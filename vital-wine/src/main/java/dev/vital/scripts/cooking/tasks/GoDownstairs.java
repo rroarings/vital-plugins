@@ -15,23 +15,27 @@ public class GoDownstairs implements ScriptTask
 
 	VitalWineConfig config;
 
-	public GoDownstairs(VitalWineConfig config) {
+	public GoDownstairs(VitalWineConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		Player local = LocalPlayer.get();
 		return local != null && Inventory.isFull() && (COOKING_GUILD_1.contains(local) || COOKING_GUILD_2.contains(local));
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
+		if (local.isAnimating() || Movement.isWalking())
+		{
 
 			return -1;
 		}

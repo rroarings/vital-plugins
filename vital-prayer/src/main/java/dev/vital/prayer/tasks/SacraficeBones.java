@@ -23,17 +23,23 @@ public class SacraficeBones implements ScriptTask
 
 	VitalPrayerConfig config;
 
-	public SacraficeBones(VitalPrayerConfig config) {
+	public SacraficeBones(VitalPrayerConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() { return Worlds.inMembersWorld() && Inventory.contains(config.boneID()); }
+	public boolean validate()
+	{
+		return Worlds.inMembersWorld() && Inventory.contains(config.boneID());
+	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(Dialog.canLevelUpContinue()) {
+		if (Dialog.canLevelUpContinue())
+		{
 
 			Dialog.continueSpace();
 
@@ -41,11 +47,14 @@ public class SacraficeBones implements ScriptTask
 		}
 
 		var altar = TileObjects.getNearest(411);
-		if(altar != null) {
+		if (altar != null)
+		{
 
-			if(Reachable.isInteractable(altar)) {
+			if (Reachable.isInteractable(altar))
+			{
 
-				if (VitalPrayer.is_animating > 3) {
+				if (VitalPrayer.is_animating > 3)
+				{
 
 					ObjectPackets.useItemOnTileObject(Inventory.getFirst(config.boneID()), altar);
 					VitalPrayer.is_animating = 0;
@@ -53,15 +62,18 @@ public class SacraficeBones implements ScriptTask
 			}
 			else
 			{
-				if (!Movement.isWalking()) {
+				if (!Movement.isWalking())
+				{
 
 					Movement.walkTo(pray_location);
 				}
 			}
 		}
-		else {
+		else
+		{
 
-			if (!Movement.isWalking()) {
+			if (!Movement.isWalking())
+			{
 
 				Movement.walkTo(pray_location);
 			}

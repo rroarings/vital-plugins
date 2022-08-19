@@ -4,32 +4,39 @@ import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.movement.Movement;
 
-public class WalkTask {
+public class WalkTask
+{
 
-    boolean task_completed;
-    WorldPoint point;
+	boolean task_completed;
+	WorldPoint point;
 
-    public WalkTask(WorldPoint point) {
-        this.task_completed = false;
-        this.point = point;
-    }
+	public WalkTask(WorldPoint point)
+	{
+		this.task_completed = false;
+		this.point = point;
+	}
 
-    public int execute() {
+	public int execute()
+	{
 
-        if(!LocalPlayer.get().getWorldLocation().equals(this.point)) {
-            if(!Movement.isWalking()) {
-                Movement.walkTo(this.point);
-            }
-        }
-        else {
-            this.task_completed = true;
-        }
+		if (!LocalPlayer.get().getWorldLocation().equals(this.point))
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(this.point);
+			}
+		}
+		else
+		{
+			this.task_completed = true;
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 
-    public boolean taskCompleted() {
-        return this.task_completed;
-    }
+	public boolean taskCompleted()
+	{
+		return this.task_completed;
+	}
 }
 

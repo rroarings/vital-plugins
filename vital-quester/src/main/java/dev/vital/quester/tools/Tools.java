@@ -27,20 +27,20 @@ import static java.lang.Math.abs;
 
 public class Tools
 {
-	public enum EntityType {
-		NPC,
-		TILE_OBJECT,
-		TILE_ITEM
-	}
+	static int animation_tick = 0;
 
-	public static boolean localHas(int... ids) {
+	public static boolean localHas(int... ids)
+	{
 
 		return Inventory.contains(ids) || Equipment.contains(ids);
 	}
-	public static boolean localHas(Predicate<Item> item) {
+
+	public static boolean localHas(Predicate<Item> item)
+	{
 
 		return Inventory.contains(item) || Equipment.contains(item);
 	}
+
 	public static String getDialogueHeader()
 	{
 		Widget widget = Widgets.get(WidgetID.DIALOG_OPTION_GROUP_ID, 1);
@@ -71,16 +71,21 @@ public class Tools
 		return -1;
 	}*/
 
-	public static int talkTo(String name, WorldPoint point, List<String> dialog) {
+	public static int talkTo(String name, WorldPoint point, List<String> dialog)
+	{
 
-		if (Dialog.canContinue()) {
+		if (Dialog.canContinue())
+		{
 			Dialog.continueSpace();
 			return -1;
 		}
 
-		if (!dialog.isEmpty() && !dialog.contains(null) && Dialog.isViewingOptions()) {
-			for (var option : dialog) {
-				if (Dialog.chooseOption(option)) {
+		if (!dialog.isEmpty() && !dialog.contains(null) && Dialog.isViewingOptions())
+		{
+			for (var option : dialog)
+			{
+				if (Dialog.chooseOption(option))
+				{
 					dialog.remove(option);
 					return -2;
 				}
@@ -88,83 +93,107 @@ public class Tools
 		}
 
 		var entity = NPCs.getNearest(x -> x.getName().equals(name));
-		if (entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10) {
+		if (entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 10)
+		{
 
 			entity.interact("Talk-to");
 			return -5;
-		} else if (!Movement.isWalking()) {
+		}
+		else if (!Movement.isWalking())
+		{
 			Movement.walkTo(point);
 		}
 
 		return -1;
 	}
-	public static int interactWith(String name, String action, WorldPoint point, EntityType type) {
+
+	public static int interactWith(String name, String action, WorldPoint point, EntityType type)
+	{
 
 		SceneEntity entity;
-		switch(type) {
-			case NPC:{
+		switch (type)
+		{
+			case NPC:
+			{
 				entity = NPCs.getNearest(x -> x.hasAction(action) && x.getName().equals(name));
 				break;
 			}
-			case TILE_ITEM:{
+			case TILE_ITEM:
+			{
 				entity = TileItems.getNearest(x -> x.hasAction(action) && x.getName().equals(name));
 				break;
 			}
-			case TILE_OBJECT:{
+			case TILE_OBJECT:
+			{
 				entity = TileObjects.getNearest(x -> x.hasAction(action) && x.getName().equals(name));
 				break;
 			}
-			default:{
+			default:
+			{
 				entity = null;
 			}
 		}
 
-		if(entity != null && Reachable.isInteractable(entity) && entity.getWorldLocation().distanceTo2D(LocalPlayer.get().getWorldLocation()) <  5) {
+		if (entity != null && Reachable.isInteractable(entity) && entity.getWorldLocation().distanceTo2D(LocalPlayer.get().getWorldLocation()) < 5)
+		{
 
 			entity.interact(action);
 			return -5;
 		}
-		else if(!Movement.isWalking()) {
+		else if (!Movement.isWalking())
+		{
 			Movement.walkTo(point);
 		}
 
 		return -1;
 	}
-	public static int interactWith(int id, String action, WorldPoint point, EntityType type) {
+
+	public static int interactWith(int id, String action, WorldPoint point, EntityType type)
+	{
 
 		SceneEntity entity;
-		switch(type) {
-			case NPC:{
+		switch (type)
+		{
+			case NPC:
+			{
 				entity = NPCs.getNearest(x -> x.hasAction(action) && x.getId() == id);
 				break;
 			}
-			case TILE_ITEM:{
+			case TILE_ITEM:
+			{
 				entity = TileItems.getNearest(x -> x.hasAction(action) && x.getId() == id);
 				break;
 			}
-			case TILE_OBJECT:{
+			case TILE_OBJECT:
+			{
 				entity = TileObjects.getNearest(x -> x.hasAction(action) && x.getId() == id);
 				break;
 			}
-			default:{
+			default:
+			{
 				entity = null;
 			}
 		}
 
-		if(entity != null && Reachable.isInteractable(entity)) {
+		if (entity != null && Reachable.isInteractable(entity))
+		{
 
 			entity.interact(action);
 			return -5;
 		}
-		else if(!Movement.isWalking()) {
+		else if (!Movement.isWalking())
+		{
 			Movement.walkTo(point);
 		}
 
 		return -1;
 	}
-	public static boolean startQuest(String quest) {
 
-		if (Dialog.isViewingOptions() && getDialogueHeader().contains(quest)) {
+	public static boolean startQuest(String quest)
+	{
+
+		if (Dialog.isViewingOptions() && getDialogueHeader().contains(quest))
+		{
 
 			return Dialog.chooseOption("Yes.");
 		}
@@ -172,9 +201,11 @@ public class Tools
 		return false;
 	}
 
-	public static boolean selectOptions(String... options) {
+	public static boolean selectOptions(String... options)
+	{
 
-		if(Dialog.isViewingOptions() && Tools.getDialogueHeader().contains("Select an Option")) {
+		if (Dialog.isViewingOptions() && Tools.getDialogueHeader().contains("Select an Option"))
+		{
 
 			return Dialog.chooseOption(options);
 		}
@@ -182,38 +213,46 @@ public class Tools
 		return false;
 	}
 
-	static int animation_tick = 0;
-	public static boolean isAnimating(int delta) {
+	public static boolean isAnimating(int delta)
+	{
 
 		var local_player = LocalPlayer.get();
 		int tick_count = Static.getClient().getTickCount();
-		if(local_player.isAnimating() || local_player.getPoseAnimation() == 824) {
+		if (local_player.isAnimating() || local_player.getPoseAnimation() == 824)
+		{
 			animation_tick = tick_count;
 		}
 
 		return (tick_count - animation_tick) <= delta;
 	}
 
-	public static int sellTo(String name, WorldPoint point, int id, int amount, boolean stack) {
+	public static int sellTo(String name, WorldPoint point, int id, int amount, boolean stack)
+	{
 
 		int current_amount = Inventory.getCount(stack, id);
-		if(current_amount == amount) {
+		if (current_amount == amount)
+		{
 			return 0;
 		}
 
-		if(Shop.isOpen()) {
+		if (Shop.isOpen())
+		{
 
 			int amount_needed = abs(amount - current_amount);
-			if(amount_needed >= 50) {
+			if (amount_needed >= 50)
+			{
 				Shop.sellFifty(id);
 			}
-			else if(amount_needed >= 10) {
+			else if (amount_needed >= 10)
+			{
 				Shop.sellTen(id);
 			}
-			else if(amount_needed >= 5) {
+			else if (amount_needed >= 5)
+			{
 				Shop.sellFifty(id);
 			}
-			else if(amount_needed >= 1) {
+			else if (amount_needed >= 1)
+			{
 				Shop.sellOne(id);
 			}
 
@@ -221,37 +260,46 @@ public class Tools
 		}
 
 		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
-		if(shop != null && Reachable.isInteractable(shop)) {
+		if (shop != null && Reachable.isInteractable(shop))
+		{
 			shop.interact("Trade");
 			return -4;
 		}
-		else if(!Movement.isWalking()) {
+		else if (!Movement.isWalking())
+		{
 			Movement.walkTo(point);
 		}
 
 		return -1;
 	}
 
-	public static int purchaseFrom(String name, WorldPoint point, int id, int amount, boolean stack) {
+	public static int purchaseFrom(String name, WorldPoint point, int id, int amount, boolean stack)
+	{
 
 		int current_amount = Inventory.getCount(stack, id);
-		if(current_amount == amount) {
+		if (current_amount == amount)
+		{
 			return 0;
 		}
 
-		if(Shop.isOpen()) {
+		if (Shop.isOpen())
+		{
 
 			int amount_needed = amount - current_amount;
-			if(amount_needed >= 50) {
+			if (amount_needed >= 50)
+			{
 				Shop.buyFifty(id);
 			}
-			else if(amount_needed >= 10) {
+			else if (amount_needed >= 10)
+			{
 				Shop.buyTen(id);
 			}
-			else if(amount_needed >= 5) {
+			else if (amount_needed >= 5)
+			{
 				Shop.buyFifty(id);
 			}
-			else if(amount_needed >= 1) {
+			else if (amount_needed >= 1)
+			{
 				Shop.buyOne(id);
 			}
 
@@ -259,18 +307,28 @@ public class Tools
 		}
 
 		var shop = NPCs.getNearest(x -> x.hasAction("Trade") && x.getName().equals(name));
-		if(shop != null && Reachable.isInteractable(shop)) {
+		if (shop != null && Reachable.isInteractable(shop))
+		{
 			shop.interact("Trade");
 			return -4;
 		}
-		else if(!Movement.isWalking()) {
+		else if (!Movement.isWalking())
+		{
 			Movement.walkTo(point);
 		}
 
 		return -1;
 	}
 
-	public static int getQuestProgress(QuestVarPlayer quest) {
+	public static int getQuestProgress(QuestVarPlayer quest)
+	{
 		return Vars.getVarp(quest.getId());
+	}
+
+	public enum EntityType
+	{
+		NPC,
+		TILE_OBJECT,
+		TILE_ITEM
 	}
 }

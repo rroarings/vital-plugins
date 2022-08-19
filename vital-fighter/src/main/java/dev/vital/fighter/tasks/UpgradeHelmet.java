@@ -35,13 +35,15 @@ public class UpgradeHelmet implements ScriptTask
 
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		var defence_level = Skills.getLevel(Skill.DEFENCE);
 
 		var weapon_id = Equipment.fromSlot(EquipmentInventorySlot.HEAD).getId();
 
-		if(defence_level < 5 && weapon_id != ItemID.IRON_FULL_HELM) {
+		if (defence_level < 5 && weapon_id != ItemID.IRON_FULL_HELM)
+		{
 
 			wanted_helm = ItemID.IRON_FULL_HELM;
 			wanted_chest = ItemID.IRON_PLATEBODY;
@@ -50,7 +52,8 @@ public class UpgradeHelmet implements ScriptTask
 
 			return true;
 		}
-		else if(defence_level >= 5 && defence_level < 10 && weapon_id != ItemID.STEEL_FULL_HELM) {
+		else if (defence_level >= 5 && defence_level < 10 && weapon_id != ItemID.STEEL_FULL_HELM)
+		{
 
 			wanted_helm = ItemID.STEEL_FULL_HELM;
 			wanted_chest = ItemID.STEEL_PLATEBODY;
@@ -59,7 +62,8 @@ public class UpgradeHelmet implements ScriptTask
 
 			return true;
 		}
-		else if(defence_level >= 10 && defence_level < 20 && weapon_id != ItemID.BLACK_FULL_HELM) {
+		else if (defence_level >= 10 && defence_level < 20 && weapon_id != ItemID.BLACK_FULL_HELM)
+		{
 
 			wanted_helm = ItemID.BLACK_FULL_HELM;
 			wanted_chest = ItemID.BLACK_PLATEBODY;
@@ -68,7 +72,8 @@ public class UpgradeHelmet implements ScriptTask
 
 			return true;
 		}
-		else if(defence_level >= 20 && defence_level < 30 && weapon_id != ItemID.MITHRIL_FULL_HELM) {
+		else if (defence_level >= 20 && defence_level < 30 && weapon_id != ItemID.MITHRIL_FULL_HELM)
+		{
 
 			wanted_helm = ItemID.MITHRIL_FULL_HELM;
 			wanted_chest = ItemID.MITHRIL_PLATEBODY;
@@ -77,7 +82,8 @@ public class UpgradeHelmet implements ScriptTask
 
 			return true;
 		}
-		else if(defence_level >= 30 && defence_level < 40 && weapon_id != ItemID.ADAMANT_FULL_HELM) {
+		else if (defence_level >= 30 && defence_level < 40 && weapon_id != ItemID.ADAMANT_FULL_HELM)
+		{
 
 			wanted_helm = ItemID.ADAMANT_FULL_HELM;
 			wanted_chest = ItemID.ADAMANT_PLATEBODY;
@@ -86,7 +92,8 @@ public class UpgradeHelmet implements ScriptTask
 
 			return true;
 		}
-		else if(defence_level >= 40 && defence_level < 60 && weapon_id != ItemID.RUNE_FULL_HELM) {
+		else if (defence_level >= 40 && defence_level < 60 && weapon_id != ItemID.RUNE_FULL_HELM)
+		{
 
 			wanted_helm = ItemID.RUNE_FULL_HELM;
 			wanted_chest = ItemID.RUNE_PLATEBODY;
@@ -100,26 +107,32 @@ public class UpgradeHelmet implements ScriptTask
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		Player local = LocalPlayer.get();
 
-		if (local.isAnimating() || Movement.isWalking()) {
+		if (local.isAnimating() || Movement.isWalking())
+		{
 
 			return 1000;
 		}
 
-		if(!GRAND_EXCHANGE_AREA.contains(local)) {
+		if (!GRAND_EXCHANGE_AREA.contains(local))
+		{
 
 			Movement.walkTo(GRAND_EXCHANGE_AREA);
 		}
-		else if(!Inventory.contains(wanted_helm, wanted_chest, wanted_legs, wanted_shield)) {
+		else if (!Inventory.contains(wanted_helm, wanted_chest, wanted_legs, wanted_shield))
+		{
 
-			if(!Bank.isOpen()) {
+			if (!Bank.isOpen())
+			{
 
 				NPCs.getNearest(NpcID.BANKER_1634).interact("Bank");
 			}
-			else {
+			else
+			{
 
 				Bank.withdraw(wanted_helm, 1, Bank.WithdrawMode.DEFAULT);
 				Bank.withdraw(wanted_chest, 1, Bank.WithdrawMode.DEFAULT);
@@ -127,13 +140,16 @@ public class UpgradeHelmet implements ScriptTask
 				Bank.withdraw(wanted_shield, 1, Bank.WithdrawMode.DEFAULT);
 			}
 		}
-		else {
+		else
+		{
 
-			if(Bank.isOpen()) {
+			if (Bank.isOpen())
+			{
 
 				Bank.close();
 			}
-			else {
+			else
+			{
 
 				Inventory.getFirst(wanted_helm).interact("Wear");
 				Inventory.getFirst(wanted_chest).interact("Wear");

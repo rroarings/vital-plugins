@@ -14,7 +14,10 @@ public interface VitalGuardiansConfig extends Config
 			description = "Amount of fragments to mine.",
 			position = 0
 	)
-		default int guardianFragments() { return 100; }
+	default int guardianFragments()
+	{
+		return 100;
+	}
 
 	@ConfigItem(
 			keyName = "minGuardianFragments",
@@ -22,7 +25,10 @@ public interface VitalGuardiansConfig extends Config
 			description = "When to mine for more fragments",
 			position = 1
 	)
-	default int minGuardianFragments() { return 26; }
+	default int minGuardianFragments()
+	{
+		return 26;
+	}
 
 	@ConfigItem(
 			keyName = "riftManualStart",
@@ -30,5 +36,8 @@ public interface VitalGuardiansConfig extends Config
 			description = "Useful for when you enable the plugin while the rift has already started",
 			position = 2
 	)
-	default Button riftManualStart() { return new Button(); }
+	default Button riftManualStart()
+	{
+		return new Button();
+	}
 }

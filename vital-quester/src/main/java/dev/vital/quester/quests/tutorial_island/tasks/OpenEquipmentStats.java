@@ -6,34 +6,37 @@ import net.unethicalite.api.widgets.Widgets;
 
 public class OpenEquipmentStats implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public OpenEquipmentStats(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public OpenEquipmentStats(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        var widget  = Widgets.get(263, 1);
-        if(widget != null) {
-            var widget_child = widget. getChild(0);
-            if(widget_child != null) {
-                return widget_child.getText().contains("This is your worn inventory");
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean validate()
+	{
+		var widget = Widgets.get(263, 1);
+		if (widget != null)
+		{
+			var widget_child = widget.getChild(0);
+			if (widget_child != null)
+			{
+				return widget_child.getText().contains("This is your worn inventory");
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public int execute()
-    {
-        var widget = Widgets.get(387,1);
-        if(widget != null) {
-            widget.interact("View equipment stats");
-        }
+	@Override
+	public int execute()
+	{
+		var widget = Widgets.get(387, 1);
+		if (widget != null)
+		{
+			widget.interact("View equipment stats");
+		}
 
-        return -2;
-    }
+		return -2;
+	}
 }

@@ -23,7 +23,10 @@ public interface VitalBirdhouseConfig extends Config
 			position = 5//,
 			//section = "needleAndThreadConfig"
 	)
-	default boolean autoMats() { return true; }
+	default boolean autoMats()
+	{
+		return true;
+	}
 
 	@ConfigItem(
 			keyName = "returnToGE",
@@ -32,7 +35,10 @@ public interface VitalBirdhouseConfig extends Config
 			position = 10//,
 			//section = "needleAndThreadConfig"
 	)
-	default boolean returnToGE() { return true; }
+	default boolean returnToGE()
+	{
+		return true;
+	}
 
 	@ConfigItem(
 			keyName = "autoLogOut",
@@ -41,7 +47,10 @@ public interface VitalBirdhouseConfig extends Config
 			position = 10//,
 			//section = "needleAndThreadConfig"
 	)
-	default boolean autoLogOut() { return false; }
+	default boolean autoLogOut()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "seedID",
@@ -50,7 +59,10 @@ public interface VitalBirdhouseConfig extends Config
 			position = 15//,
 			//section = "needleAndThreadConfig"
 	)
-	default int seedID() { return 5311; }
+	default int seedID()
+	{
+		return 5311;
+	}
 
 	@ConfigItem(
 			keyName = "logID",
@@ -59,7 +71,10 @@ public interface VitalBirdhouseConfig extends Config
 			position = 20//,
 			//section = "needleAndThreadConfig"
 	)
-	default int logID() { return 6332; }
+	default int logID()
+	{
+		return 6332;
+	}
 
 	@ConfigItem(
 			keyName = "returnTeleport",
@@ -68,7 +83,10 @@ public interface VitalBirdhouseConfig extends Config
 			position = 25
 			//section = "needleAndThreadConfig"
 	)
-	default int returnTeleport() { return 8013; }
+	default int returnTeleport()
+	{
+		return 8013;
+	}
 
 	@ConfigItem(
 			keyName = "startStopPlugin",
@@ -76,5 +94,8 @@ public interface VitalBirdhouseConfig extends Config
 			description = "",
 			position = 30
 	)
-	default Button startStopPlugin() { return new Button(); }
+	default Button startStopPlugin()
+	{
+		return new Button();
+	}
 }

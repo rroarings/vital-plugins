@@ -26,11 +26,9 @@ import java.util.List;
 public class VitalThieving extends LoopedPlugin
 {
 	private static final WorldArea FRUIT_STALLS = new WorldArea(1796, 3606, 5, 5, 0);
-
+	List<ScriptTask> tasks = new ArrayList<>();
 	@Inject
 	private VitalThievingConfig config;
-
-	List<ScriptTask> tasks = new ArrayList<>();
 
 	@Override
 	public void startUp()
@@ -44,7 +42,7 @@ public class VitalThieving extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-		if(Game.isLoggedIn() && config.thievingLevel() > Skills.getLevel(Skill.THIEVING))
+		if (Game.isLoggedIn() && config.thievingLevel() > Skills.getLevel(Skill.THIEVING))
 		{
 			for (ScriptTask task : tasks)
 			{

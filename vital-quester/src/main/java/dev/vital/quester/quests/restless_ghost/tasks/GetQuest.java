@@ -9,31 +9,32 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class GetQuest implements ScriptTask
 {
-    private final WorldPoint father_aereck_point = new WorldPoint(3240, 3206, 0);
+	private final WorldPoint father_aereck_point = new WorldPoint(3240, 3206, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_aereck = new DialogTask("Father Aereck", father_aereck_point,
+			"I'm looking for a quest!", "Yes.");
 
-    public GetQuest(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetQuest(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 0;
+	}
 
-    DialogTask talk_to_aereck = new DialogTask("Father Aereck",  father_aereck_point,
-            "I'm looking for a quest!", "Yes.");
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_aereck.taskCompleted())
+		{
+			return talk_to_aereck.execute();
+		}
 
-        if (!talk_to_aereck.taskCompleted()) {
-           return talk_to_aereck.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

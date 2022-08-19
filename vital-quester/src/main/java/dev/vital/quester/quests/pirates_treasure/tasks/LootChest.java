@@ -12,46 +12,50 @@ import net.unethicalite.api.movement.Movement;
 
 public class LootChest implements ScriptTask
 {
-    private final WorldPoint rum_point = new WorldPoint(3219, 3395, 1);
+	private final WorldPoint rum_point = new WorldPoint(3219, 3395, 1);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask loot_chest = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.PIRATE_MESSAGE))
+		{
+			Inventory.getFirst(ItemID.PIRATE_MESSAGE).interact("Read");
+			return 0;
+		}
 
-    public LootChest(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		if (!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3219, 3395, 1)))
+		{
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(rum_point);
+			}
+		}
+		else
+		{
 
-    BasicTask loot_chest = new BasicTask(() ->
-    {
-        if (Inventory.contains(ItemID.PIRATE_MESSAGE)) {
-            Inventory.getFirst(ItemID.PIRATE_MESSAGE).interact("Read");
-            return 0;
-        }
+			Inventory.getFirst(ItemID.CHEST_KEY).useOn(TileObjects.getNearest("Chest"));
 
-        if(!LocalPlayer.get().getWorldLocation().equals(new WorldPoint(3219,3395, 1))) {
-            if(!Movement.isWalking()) {
-                Movement.walkTo(rum_point);
-            }
-        }
-        else {
+			return -5;
+		}
 
-            Inventory.getFirst(ItemID.CHEST_KEY).useOn(TileObjects.getNearest("Chest"));
+		return -1;
+	});
 
-            return -5;
-        }
+	public LootChest(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        return -1;
-    });
+	@Override
+	public boolean validate()
+	{
+		return !loot_chest.taskCompleted();
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !loot_chest.taskCompleted();
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
-
-        return loot_chest.execute();
-    }
+		return loot_chest.execute();
+	}
 }

@@ -16,54 +16,61 @@ import net.unethicalite.api.movement.pathfinder.model.BankLocation;
 
 public class GetPick implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	BasicTask bank_items = new BasicTask(() ->
+	{
 
-    public GetPick(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		if (Inventory.contains(x -> x.getName().contains("pickaxe")))
+		{
+			Inventory.getFirst(x -> x.getName().contains("pickaxe")).interact("Wield");
+			return -1;
+		}
 
-    BasicTask bank_items = new BasicTask(() -> {
+		if (Bank.isOpen() && Bank.contains(x -> x.getName().contains("pickaxe")))
+		{
+			Bank.withdraw(Bank.getFirst(x -> x.getName().contains("pickaxe")).getId(), 1, Bank.WithdrawMode.DEFAULT);
+			return -1;
+		}
 
-        if(Inventory.contains(x->x.getName().contains("pickaxe"))) {
-            Inventory.getFirst(x->x.getName().contains("pickaxe")).interact("Wield");
-            return -1;
-        }
+		var nearest_bank = BankLocation.getNearest();
+		if (nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation()))
+		{
+			var bank_booth = TileObjects.getNearest("Bank booth");
+			var banker = NPCs.getNearest("Banker");
+			if (bank_booth != null)
+			{
+				bank_booth.interact("Bank");
+			}
+			else if (banker != null)
+			{
+				banker.interact("Bank");
+			}
 
-        if(Bank.isOpen() && Bank.contains(x -> x.getName().contains("pickaxe"))) {
-            Bank.withdraw(Bank.getFirst(x -> x.getName().contains("pickaxe")).getId(),1, Bank.WithdrawMode.DEFAULT);
-            return -1;
-        }
+			return -5;
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(nearest_bank);
+		}
 
-        var nearest_bank = BankLocation.getNearest();
-        if(nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation())) {
-            var bank_booth = TileObjects.getNearest("Bank booth");
-            var banker = NPCs.getNearest("Banker");
-            if(bank_booth != null) {
-                bank_booth.interact("Bank");
-            }
-            else if(banker != null) {
-                banker.interact("Bank");
-            }
+		return -1;
+	});
 
-            return -5;
-        }
-        else if(!Movement.isWalking()) {
-            Movement.walkTo(nearest_bank);
-        }
+	public GetPick(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-        return -1;
-    });
+	@Override
+	public boolean validate()
+	{
+		return !config.useGrandExchange() && Skills.getLevel(Skill.MINING) < 15 && !Tools.localHas(x -> x.getName().contains("pickaxe"));
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !config.useGrandExchange() && Skills.getLevel(Skill.MINING) < 15 && !Tools.localHas(x -> x.getName().contains("pickaxe"));
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
-
-        return bank_items.execute();
-    }
+		return bank_items.execute();
+	}
 }

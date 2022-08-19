@@ -10,28 +10,38 @@ import net.unethicalite.api.entities.Players;
 import net.unethicalite.api.game.Worlds;
 import net.unethicalite.api.movement.Movement;
 
-public class KillCrabs implements ScriptTask {
+public class KillCrabs implements ScriptTask
+{
 
 	VitalSandCrabConfig config;
-
-	public KillCrabs(VitalSandCrabConfig config) { this.config = config; }
-
-	@Override
-	public boolean validate() { return WorldLocation.CRAB_CLAW_ISLE.getWorldArea().contains(LocalPlayer.get()); }
-
 	boolean should_aggro = false;
 	Spot final_spot = null;
 
+	public KillCrabs(VitalSandCrabConfig config)
+	{
+		this.config = config;
+	}
+
 	@Override
-	public int execute() {
+	public boolean validate()
+	{
+		return WorldLocation.CRAB_CLAW_ISLE.getWorldArea().contains(LocalPlayer.get());
+	}
 
-		if(should_aggro) {
+	@Override
+	public int execute()
+	{
 
-			if(!LocalPlayer.get().getWorldLocation().equals(final_spot.reset_spot)) {
+		if (should_aggro)
+		{
+
+			if (!LocalPlayer.get().getWorldLocation().equals(final_spot.reset_spot))
+			{
 
 				Movement.walk(final_spot.reset_spot);
 			}
-			else {
+			else
+			{
 
 				should_aggro = false;
 			}
@@ -39,18 +49,23 @@ public class KillCrabs implements ScriptTask {
 			return -1;
 		}
 
-		if(VitalSandCrab.should_find_new_spot) {
+		if (VitalSandCrab.should_find_new_spot)
+		{
 
-			for (var spot : VitalSandCrab.spots){
+			for (var spot : VitalSandCrab.spots)
+			{
 
 				Spot new_spot = null;
-				for (var player : Players.getAll(x -> !x.equals(LocalPlayer.get()))){
+				for (var player : Players.getAll(x -> !x.equals(LocalPlayer.get())))
+				{
 
-					if (!player.getWorldLocation().equals(spot.spot)) {
+					if (!player.getWorldLocation().equals(spot.spot))
+					{
 
 						new_spot = spot;
 					}
-					else {
+					else
+					{
 
 						new_spot = null;
 					}
@@ -60,28 +75,35 @@ public class KillCrabs implements ScriptTask {
 			}
 		}
 
-		if(final_spot != null) {
+		if (final_spot != null)
+		{
 
 			VitalSandCrab.should_find_new_spot = false;
 		}
-		else if(LocalPlayer.get().getInteracting() == null) {
+		else if (LocalPlayer.get().getInteracting() == null)
+		{
 
-			if (config.hopWorlds()) {
+			if (config.hopWorlds())
+			{
 				var current_world = Worlds.getCurrentWorld();
 				Worlds.hopTo(Worlds.getRandom(x -> x.isMembers() && !x.isSkillTotal() && !x.isAllPkWorld() && !x.isLeague() && !x.isTournament() && !x.isPvpArena()));
 				Time.sleepUntil(() -> current_world != Worlds.getCurrentWorld(), 1000 * 30);
 			}
 		}
 
-		if(!VitalSandCrab.should_find_new_spot) {
+		if (!VitalSandCrab.should_find_new_spot)
+		{
 
-			if(!LocalPlayer.get().getWorldLocation().equals(final_spot.spot)) {
+			if (!LocalPlayer.get().getWorldLocation().equals(final_spot.spot))
+			{
 
 				Movement.walk(final_spot.spot);
 			}
-			else {
+			else
+			{
 
-				if (VitalSandCrab.no_target_ticks >= 10) {
+				if (VitalSandCrab.no_target_ticks >= 10)
+				{
 
 					should_aggro = true;
 				}

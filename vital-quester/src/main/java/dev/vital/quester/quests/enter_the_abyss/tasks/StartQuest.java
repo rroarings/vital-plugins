@@ -8,30 +8,31 @@ import net.unethicalite.api.game.Vars;
 
 public class StartQuest implements ScriptTask
 {
-    private final WorldPoint zammy_mage_point = new WorldPoint(3106, 3559, 0);
+	private final WorldPoint zammy_mage_point = new WorldPoint(3106, 3559, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_mage = new DialogTask("Mage of Zamorak", zammy_mage_point, "Alright, I'll go.");
 
-    public StartQuest(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public StartQuest(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(13731) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(13731) == 0;
+	}
 
-    DialogTask talk_to_mage = new DialogTask("Mage of Zamorak", zammy_mage_point, "Alright, I'll go.");
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_mage.taskCompleted())
+		{
+			return talk_to_mage.execute();
+		}
 
-        if(!talk_to_mage.taskCompleted()) {
-            return talk_to_mage.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

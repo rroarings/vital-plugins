@@ -10,29 +10,35 @@ import org.pf4j.Extension;
 
 @PluginDescriptor(name = "vital-fighter", enabledByDefault = false)
 @Extension
-public class VitalFighter extends Script {
+public class VitalFighter extends Script
+{
 
-	private static final ScriptTask[] TASKS = new ScriptTask[] {
+	private static final ScriptTask[] TASKS = new ScriptTask[]{
 			new UpgradeWeapon(),
 			new UpgradeHelmet()
 	};
 
 	@Override
-	public void onStart(String... args) {
+	public void onStart(String... args)
+	{
 
 		int waterRune = Inventory.query().names("Water rune").stackable(true).results().size();
 	}
 
 	@Override
-	protected int loop() {
+	protected int loop()
+	{
 
-		for (ScriptTask task : TASKS) {
+		for (ScriptTask task : TASKS)
+		{
 
-			if (task.validate()) {
+			if (task.validate())
+			{
 
 				int sleep = task.execute();
 
-				if (task.blocking()) {
+				if (task.blocking())
+				{
 
 					return sleep;
 				}

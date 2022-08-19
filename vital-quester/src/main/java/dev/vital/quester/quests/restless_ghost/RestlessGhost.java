@@ -3,7 +3,12 @@ package dev.vital.quester.quests.restless_ghost;
 import dev.vital.quester.QuestList;
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import dev.vital.quester.quests.restless_ghost.tasks.*;
+import dev.vital.quester.quests.restless_ghost.tasks.EquipAmulet;
+import dev.vital.quester.quests.restless_ghost.tasks.GetAmulet;
+import dev.vital.quester.quests.restless_ghost.tasks.GetQuest;
+import dev.vital.quester.quests.restless_ghost.tasks.GetSkull;
+import dev.vital.quester.quests.restless_ghost.tasks.ReturnSkull;
+import dev.vital.quester.quests.restless_ghost.tasks.TalkToGhost;
 import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.unethicalite.api.quests.Quests;
@@ -13,11 +18,11 @@ import java.util.List;
 
 public class RestlessGhost implements ScriptTask
 {
+	static List<ScriptTask> tasks = new ArrayList<>();
 	VitalQuesterConfig config;
 
-	static List<ScriptTask> tasks = new ArrayList<>();
-
-	public RestlessGhost(VitalQuesterConfig config) {
+	public RestlessGhost(VitalQuesterConfig config)
+	{
 		this.config = config;
 
 		tasks.clear();
@@ -37,7 +42,8 @@ public class RestlessGhost implements ScriptTask
 	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
 		for (ScriptTask task : tasks)
 		{

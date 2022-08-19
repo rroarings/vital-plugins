@@ -13,5 +13,8 @@ public interface VitalCatConfig extends Config
 			description = "ID of the food you want to use.",
 			position = 5
 	)
-	default int foodID() { return 321; }
+	default int foodID()
+	{
+		return 321;
+	}
 }

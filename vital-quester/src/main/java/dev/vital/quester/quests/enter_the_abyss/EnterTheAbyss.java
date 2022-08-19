@@ -17,43 +17,44 @@ import java.util.List;
 
 public class EnterTheAbyss implements ScriptTask
 {
-    VitalQuesterConfig config;
+	static List<ScriptTask> tasks = new ArrayList<>();
+	VitalQuesterConfig config;
 
-    static List<ScriptTask> tasks = new ArrayList<>();
+	public EnterTheAbyss(VitalQuesterConfig config)
+	{
+		this.config = config;
 
-    public EnterTheAbyss(VitalQuesterConfig config) {
-        this.config = config;
+		tasks.clear();
 
-        tasks.clear();
+		tasks.add(new StartQuest(config));
+		tasks.add(new TalkToMage(config));
+		tasks.add(new TalkToCromperty(config));
+		tasks.add(new TalkToSedridor(config));
+		tasks.add(new TalkToAubury(config));
+	}
 
-        tasks.add(new StartQuest(config));
-        tasks.add(new TalkToMage(config));
-        tasks.add(new TalkToCromperty(config));
-        tasks.add(new TalkToSedridor(config));
-        tasks.add(new TalkToAubury(config));
-    }
+	@Override
+	public boolean validate()
+	{
+		return (config.currentQuest().equals(QuestList.RUNE_MYSTERIES) || config.automaticOptimal()) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return (config.currentQuest().equals(QuestList.RUNE_MYSTERIES) || config.automaticOptimal()) && Quests.getState(Quest.RUNE_MYSTERIES) != QuestState.FINISHED;
-    }
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		for (ScriptTask task : tasks)
+		{
+			if (task.validate())
+			{
+				int sleep = task.execute();
+				if (task.blocking())
+				{
+					return sleep;
+				}
+			}
+		}
 
-        for (ScriptTask task : tasks)
-        {
-            if (task.validate())
-            {
-                int sleep = task.execute();
-                if (task.blocking())
-                {
-                    return sleep;
-                }
-            }
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

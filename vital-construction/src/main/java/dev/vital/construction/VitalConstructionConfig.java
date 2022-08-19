@@ -13,7 +13,10 @@ public interface VitalConstructionConfig extends Config
 			description = "Interact X with X",
 			position = 0
 	)
-	default boolean mahoganyHomes() { return false; }
+	default boolean mahoganyHomes()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "minimumDelay",
@@ -21,7 +24,10 @@ public interface VitalConstructionConfig extends Config
 			description = "Minimum amount of milliseconds to wait after casting.",
 			position = 5
 	)
-	default int minimumDelay() { return 0; }
+	default int minimumDelay()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "maximumDelay",
@@ -29,7 +35,10 @@ public interface VitalConstructionConfig extends Config
 			description = "Maximum amount of milliseconds to wait after casting.",
 			position = 6
 	)
-	default int maximumDelay() { return 0; }
+	default int maximumDelay()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "tickMinDelay",
@@ -37,7 +46,10 @@ public interface VitalConstructionConfig extends Config
 			description = "Minimum amount of ticks to wait after casting.",
 			position = 7
 	)
-	default int tickMinDelay() { return 0; }
+	default int tickMinDelay()
+	{
+		return 0;
+	}
 
 	@ConfigItem(
 			keyName = "tickMaxDelay",
@@ -45,5 +57,8 @@ public interface VitalConstructionConfig extends Config
 			description = "Maximum amount of ticks to wait after casting.",
 			position = 8
 	)
-	default int tickMaxDelay() { return 0; }
+	default int tickMaxDelay()
+	{
+		return 0;
+	}
 }

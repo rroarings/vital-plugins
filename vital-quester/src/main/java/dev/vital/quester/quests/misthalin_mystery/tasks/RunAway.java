@@ -10,35 +10,38 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class RunAway implements ScriptTask
 {
-    WorldPoint shelves_point = new WorldPoint(1646, 4827, 0);
-    VitalQuesterConfig config;
+	WorldPoint shelves_point = new WorldPoint(1646, 4827, 0);
+	VitalQuesterConfig config;
+	BasicTask open_door = new BasicTask(() ->
+	{
+		if (Tools.interactWith(30116, "Open", shelves_point, Tools.EntityType.TILE_OBJECT) == -5)
+		{
+			return 0;
+		}
 
-    public RunAway(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+		return -1;
+	});
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 60;
-    }
+	public RunAway(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    BasicTask open_door = new BasicTask(() -> {
-        if(Tools.interactWith(30116, "Open", shelves_point, Tools.EntityType.TILE_OBJECT) == -5) {
-            return 0;
-        }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 60;
+	}
 
-        return -1;
-    });
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!open_door.taskCompleted())
+		{
+			return open_door.execute();
+		}
 
-        if (!open_door.taskCompleted()) {
-            return open_door.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

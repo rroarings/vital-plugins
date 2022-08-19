@@ -23,37 +23,50 @@ public class TeaStall implements ScriptTask
 
 	VitalThievingConfig config;
 
-	public TeaStall(VitalThievingConfig config) { this.config = config; }
+	public TeaStall(VitalThievingConfig config)
+	{
+		this.config = config;
+	}
 
 	@Override
-	public boolean validate() { return config.thievingType().equals(ThievingType.STALL_TEA); }
+	public boolean validate()
+	{
+		return config.thievingType().equals(ThievingType.STALL_TEA);
+	}
 
 	@Override
-	public int execute() {
+	public int execute()
+	{
 
-		if(!Players.getAll(x -> !x.equals(LocalPlayer.get()) && TEA_STALL_AREA.contains(x) && x.getInteracting() != null).isEmpty()) {
+		if (!Players.getAll(x -> !x.equals(LocalPlayer.get()) && TEA_STALL_AREA.contains(x) && x.getInteracting() != null).isEmpty())
+		{
 			Worlds.hopTo(Worlds.getRandom(World::isMembers));
 			return -12;
 		}
 
-		if(Inventory.isFull() && config.dropItems()) {
+		if (Inventory.isFull() && config.dropItems())
+		{
 
-			for (var item : Inventory.getAll(ItemID.CUP_OF_TEA_1978)) {
+			for (var item : Inventory.getAll(ItemID.CUP_OF_TEA_1978))
+			{
 
 				item.interact("Drop");
 
 				Time.sleep(180, 230);
 			}
 		}
-		else {
+		else
+		{
 			var tea_stall = TileObjects.getNearest("Tea stall");
-			if(tea_stall != null && Reachable.isInteractable(tea_stall)) {
+			if (tea_stall != null && Reachable.isInteractable(tea_stall))
+			{
 
 				tea_stall.interact("Steal-from");
 
 				Time.sleep(1500);
 			}
-			else {
+			else
+			{
 
 				Movement.walkTo(TEA_STALL);
 			}

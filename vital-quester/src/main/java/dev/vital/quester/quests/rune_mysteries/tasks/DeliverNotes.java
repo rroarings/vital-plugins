@@ -8,30 +8,30 @@ import net.unethicalite.api.game.Vars;
 
 public class DeliverNotes implements ScriptTask
 {
-    private final WorldPoint sedridor_point = new WorldPoint(3104, 9571, 0);
+	private final WorldPoint sedridor_point = new WorldPoint(3104, 9571, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask deliver_notes = new DialogTask("Archmage Sedridor", sedridor_point, (String) null);
 
-    public DeliverNotes(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public DeliverNotes(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(13726) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(13726) == 0;
+	}
 
-    DialogTask deliver_notes = new DialogTask("Archmage Sedridor", sedridor_point, (String) null);
+	@Override
+	public int execute()
+	{
+		if (!deliver_notes.taskCompleted())
+		{
+			return deliver_notes.execute();
+		}
 
-    @Override
-    public int execute()
-    {
-        if(!deliver_notes.taskCompleted()) {
-            return deliver_notes.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

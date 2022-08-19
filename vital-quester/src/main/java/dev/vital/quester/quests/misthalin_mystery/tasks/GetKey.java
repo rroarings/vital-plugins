@@ -13,51 +13,57 @@ import net.unethicalite.api.quests.QuestVarbits;
 
 public class GetKey implements ScriptTask
 {
-    WorldPoint manor_door = new WorldPoint(1636, 4823, 0);
-    VitalQuesterConfig config;
+	WorldPoint manor_door = new WorldPoint(1636, 4823, 0);
+	VitalQuesterConfig config;
+	BasicTask work_barrel = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.BUCKET_OF_WATER) && !Inventory.contains(ItemID.MANOR_KEY_21052))
+		{
 
-    public GetKey(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+			TileObjects.getNearest("Barrel").interact("Search");
+			return -5;
+		}
+		else if (Inventory.contains(ItemID.MANOR_KEY_21052))
+		{
+			return 0;
+		}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 25;
-    }
+		return -1;
+	});
+	BasicTask go_in_manor = new BasicTask(() ->
+	{
+		if (Inventory.contains(ItemID.MANOR_KEY_21052))
+		{
+			return Tools.interactWith("Large door", "Open", manor_door, Tools.EntityType.TILE_OBJECT);
+		}
 
-    BasicTask work_barrel = new BasicTask(() -> {
-       if(Inventory.contains(ItemID.BUCKET_OF_WATER) && !Inventory.contains(ItemID.MANOR_KEY_21052)) {
+		return -1;
+	});
 
-            TileObjects.getNearest("Barrel").interact("Search");
-            return -5;
-        }
-       else if(Inventory.contains(ItemID.MANOR_KEY_21052)) {
-            return 0;
-       }
+	public GetKey(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-       return -1;
-    });
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(QuestVarbits.QUEST_MISTHALIN_MYSTERY.getId()) == 25;
+	}
 
-    BasicTask go_in_manor = new BasicTask(() -> {
-        if(Inventory.contains(ItemID.MANOR_KEY_21052)) {
-            return Tools.interactWith("Large door","Open", manor_door, Tools.EntityType.TILE_OBJECT);
-        }
+	@Override
+	public int execute()
+	{
 
-        return -1;
-    });
+		if (!work_barrel.taskCompleted())
+		{
+			return work_barrel.execute();
+		}
+		else if (!go_in_manor.taskCompleted())
+		{
+			return go_in_manor.execute();
+		}
 
-    @Override
-    public int execute() {
-
-        if (!work_barrel.taskCompleted()) {
-            return work_barrel.execute();
-        }
-        else if (!go_in_manor.taskCompleted()) {
-            return go_in_manor.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

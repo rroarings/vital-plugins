@@ -10,30 +10,31 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class GetSkull implements ScriptTask
 {
-    private final WorldPoint altar_point = new WorldPoint(3119, 9565, 0);
+	private final WorldPoint altar_point = new WorldPoint(3119, 9565, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	ObjectItemTask get_skull = new ObjectItemTask(2146, ItemID.GHOSTS_SKULL, 1, false, "Search", altar_point);
 
-    public GetSkull(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetSkull(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 3;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_THE_RESTLESS_GHOST.getId()) == 3;
+	}
 
-    ObjectItemTask get_skull = new ObjectItemTask(2146, ItemID.GHOSTS_SKULL, 1, false, "Search", altar_point);
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!get_skull.taskCompleted())
+		{
+			return get_skull.execute();
+		}
 
-        if(!get_skull.taskCompleted()) {
-            return get_skull.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

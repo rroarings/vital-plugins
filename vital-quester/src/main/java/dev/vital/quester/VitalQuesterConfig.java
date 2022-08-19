@@ -18,7 +18,10 @@ public interface VitalQuesterConfig extends Config
 			section = "questSection",
 			hidden = true
 	)
-	default boolean automaticOptimal() { return false; }
+	default boolean automaticOptimal()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "currentQuest",
@@ -27,7 +30,10 @@ public interface VitalQuesterConfig extends Config
 			section = "questSection",
 			hidden = true
 	)
-	default QuestList currentQuest() { return QuestList.COOKS_ASSISTANT; }
+	default QuestList currentQuest()
+	{
+		return QuestList.COOKS_ASSISTANT;
+	}
 
 	@ConfigItem(
 			keyName = "handleGenie",
@@ -36,7 +42,10 @@ public interface VitalQuesterConfig extends Config
 			section = "miscellaneous",
 			hidden = true
 	)
-	default boolean handleGenie() { return false; }
+	default boolean handleGenie()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "handleLamp",
@@ -45,7 +54,10 @@ public interface VitalQuesterConfig extends Config
 			section = "miscellaneous",
 			hidden = true
 	)
-	default boolean handleLamp() { return false; }
+	default boolean handleLamp()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "handleDeath",
@@ -54,7 +66,10 @@ public interface VitalQuesterConfig extends Config
 			section = "miscellaneous",
 			hidden = true
 	)
-	default boolean handleDeath() { return false; }
+	default boolean handleDeath()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "handleGrave",
@@ -63,7 +78,10 @@ public interface VitalQuesterConfig extends Config
 			section = "miscellaneous",
 			hidden = true
 	)
-	default boolean handleGrave() { return false; }
+	default boolean handleGrave()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "useGrandExchange",
@@ -72,7 +90,10 @@ public interface VitalQuesterConfig extends Config
 			section = "miscellaneous",
 			hidden = true
 	)
-	default boolean useGrandExchange() { return false; }
+	default boolean useGrandExchange()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "lampSkill",
@@ -81,7 +102,10 @@ public interface VitalQuesterConfig extends Config
 			section = "miscellaneous",
 			hidden = true
 	)
-	default Skill lampSkill() { return Skill.HITPOINTS; }
+	default Skill lampSkill()
+	{
+		return Skill.HITPOINTS;
+	}
 
 	@ConfigItem(
 			keyName = "startStopPlugin",
@@ -89,7 +113,10 @@ public interface VitalQuesterConfig extends Config
 			description = "",
 			hidden = true
 	)
-	default boolean startStopPlugin() { return false; }
+	default boolean startStopPlugin()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "sheepShearerBankInventory",
@@ -97,7 +124,10 @@ public interface VitalQuesterConfig extends Config
 			description = "",
 			hidden = true
 	)
-	default boolean sheepShearerBankInventory() { return false; }
+	default boolean sheepShearerBankInventory()
+	{
+		return false;
+	}
 
 	@ConfigItem(
 			keyName = "preferedStyle",
@@ -105,7 +135,10 @@ public interface VitalQuesterConfig extends Config
 			description = "",
 			hidden = true
 	)
-	default Combat.AttackStyle preferedStyle() { return Combat.AttackStyle.FIRST; }
+	default Combat.AttackStyle preferedStyle()
+	{
+		return Combat.AttackStyle.FIRST;
+	}
 
 	@ConfigItem(
 			keyName = "sheepShearerExcludedItems",
@@ -113,5 +146,8 @@ public interface VitalQuesterConfig extends Config
 			description = "",
 			hidden = true
 	)
-	default String sheepShearerExcludedItems() { return "Shears,Spade"; }
+	default String sheepShearerExcludedItems()
+	{
+		return "Shears,Spade";
+	}
 }

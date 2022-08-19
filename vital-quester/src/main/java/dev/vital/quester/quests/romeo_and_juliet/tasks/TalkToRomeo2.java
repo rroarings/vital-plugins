@@ -10,31 +10,32 @@ import net.unethicalite.api.quests.QuestVarPlayer;
 
 public class TalkToRomeo2 implements ScriptTask
 {
-    private final WorldPoint romeo_point = new WorldPoint(3215, 3418, 0);
+	private final WorldPoint romeo_point = new WorldPoint(3215, 3418, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_romeo = new DialogTask("Romeo", romeo_point,
+			(String) null);
 
-    public TalkToRomeo2(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public TalkToRomeo2(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 60;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getVarp(QuestVarPlayer.QUEST_ROMEO_AND_JULIET.getId()) == 60;
+	}
 
-    DialogTask talk_to_romeo = new DialogTask("Romeo",  romeo_point,
-            (String)null);
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_romeo.taskCompleted() && LocalPlayer.get().getWorldLocation().getRegionID() != 48174)
+		{
+			return talk_to_romeo.execute();
+		}
 
-        if (!talk_to_romeo.taskCompleted() && LocalPlayer.get().getWorldLocation().getRegionID() != 48174) {
-            return talk_to_romeo.execute();
-        }
-
-        return -1;
-    }
+		return -1;
+	}
 }

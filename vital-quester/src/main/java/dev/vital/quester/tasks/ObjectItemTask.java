@@ -8,64 +8,76 @@ import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
 
-public class ObjectItemTask {
+public class ObjectItemTask
+{
 
-    boolean task_completed;
-    int object_id;
-    int item_id;
-    int quantity;
-    boolean stack;
-    String action;
-    WorldPoint point;
-    WorldPoint exact_point;
+	boolean task_completed;
+	int object_id;
+	int item_id;
+	int quantity;
+	boolean stack;
+	String action;
+	WorldPoint point;
+	WorldPoint exact_point;
 
-    public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point) {
-        this.task_completed = false;
-        this.object_id = object_id;
-        this.item_id = item_id;
-        this.quantity = quantity;
-        this.stack = stack;
-        this.action = action;
-        this.point = point;
-        this.exact_point = null;
-    }
-    public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point, WorldPoint exact_point) {
-        this.task_completed = false;
-        this.object_id = object_id;
-        this.item_id = item_id;
-        this.quantity = quantity;
-        this.stack = stack;
-        this.action = action;
-        this.point = point;
-        this.exact_point = exact_point;
-    }
-    public int execute() {
+	public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point)
+	{
+		this.task_completed = false;
+		this.object_id = object_id;
+		this.item_id = item_id;
+		this.quantity = quantity;
+		this.stack = stack;
+		this.action = action;
+		this.point = point;
+		this.exact_point = null;
+	}
 
-        if(Inventory.getCount(this.stack, this.item_id) == this.quantity) {
-            this.task_completed = true;
-            return -1;
-        }
+	public ObjectItemTask(int object_id, int item_id, int quantity, boolean stack, String action, WorldPoint point, WorldPoint exact_point)
+	{
+		this.task_completed = false;
+		this.object_id = object_id;
+		this.item_id = item_id;
+		this.quantity = quantity;
+		this.stack = stack;
+		this.action = action;
+		this.point = point;
+		this.exact_point = exact_point;
+	}
 
-        SceneEntity entity;
-        if(this.exact_point == null) {
-            entity = TileObjects.getNearest(x -> x.getId() == this.object_id && x.hasAction(this.action));
-        }
-        else {
-            entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);
-        }
+	public int execute()
+	{
 
-        if(entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 5) {
-            entity.interact(this.action);
-            return -5;
-        }
-        else if(!Movement.isWalking()){
-            Movement.walkTo(this.point);
-        }
+		if (Inventory.getCount(this.stack, this.item_id) == this.quantity)
+		{
+			this.task_completed = true;
+			return -1;
+		}
 
-        return -1;
-    }
+		SceneEntity entity;
+		if (this.exact_point == null)
+		{
+			entity = TileObjects.getNearest(x -> x.getId() == this.object_id && x.hasAction(this.action));
+		}
+		else
+		{
+			entity = TileObjects.getFirstAt(this.exact_point, x -> x.hasAction(this.action) && x.getId() == this.object_id);
+		}
 
-    public boolean taskCompleted() {
-        return task_completed;
-    }
+		if (entity != null && Reachable.isInteractable(entity) && LocalPlayer.get().getWorldLocation().distanceTo2D(entity.getWorldLocation()) < 5)
+		{
+			entity.interact(this.action);
+			return -5;
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(this.point);
+		}
+
+		return -1;
+	}
+
+	public boolean taskCompleted()
+	{
+		return task_completed;
+	}
 }

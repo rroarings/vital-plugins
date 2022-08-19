@@ -7,19 +7,32 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.ui.components.ComboBoxListRenderer;
 import net.runelite.client.util.Text;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.text.JTextComponent;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 
 public abstract class PanelContainer extends JPanel
 {
-	@Getter
-	private final String title;
 	protected final VitalQuesterConfig config;
 	protected final ConfigManager configManager;
+	@Getter
+	private final String title;
 
 	public PanelContainer(String title, VitalQuesterConfig config, ConfigManager configManager)
 	{
@@ -39,7 +52,7 @@ public abstract class PanelContainer extends JPanel
 		JButton button = new JButton(current ? disable : enable);
 		button.setSelected(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey, Boolean.class));
 		button.setSize(200, 15);
-		button.setMinimumSize(new Dimension(200,15));
+		button.setMinimumSize(new Dimension(200, 15));
 		button.addActionListener(l -> configManager.setConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey, !Boolean.parseBoolean(configManager.getConfiguration(VitalQuesterConfig.CONFIG_GROUP, configKey))));
 
 		return button;

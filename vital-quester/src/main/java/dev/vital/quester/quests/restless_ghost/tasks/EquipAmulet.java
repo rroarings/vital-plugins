@@ -8,26 +8,27 @@ import net.unethicalite.api.items.Inventory;
 
 public class EquipAmulet implements ScriptTask
 {
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
 
-    public EquipAmulet(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public EquipAmulet(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return Vars.getBit(3732) == 0;
-    }
+	@Override
+	public boolean validate()
+	{
+		return Vars.getBit(3732) == 0;
+	}
 
-    @Override
-    public int execute()
-    {
-        if(Inventory.contains(ItemID.GHOSTSPEAK_AMULET)) {
-            Inventory.getFirst(ItemID.GHOSTSPEAK_AMULET).interact("Wear");
-        }
+	@Override
+	public int execute()
+	{
+		if (Inventory.contains(ItemID.GHOSTSPEAK_AMULET))
+		{
+			Inventory.getFirst(ItemID.GHOSTSPEAK_AMULET).interact("Wear");
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 }

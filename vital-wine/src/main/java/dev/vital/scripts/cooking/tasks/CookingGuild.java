@@ -20,12 +20,14 @@ public class CookingGuild implements ScriptTask
 
 	VitalWineConfig config;
 
-	public CookingGuild(VitalWineConfig config) {
+	public CookingGuild(VitalWineConfig config)
+	{
 		this.config = config;
 	}
 
 	@Override
-	public boolean validate() {
+	public boolean validate()
+	{
 
 		Player local = LocalPlayer.get();
 		return Inventory.isEmpty() && !COOKING_GUILD_0.contains(local) && !COOKING_GUILD_1.contains(local)
@@ -43,11 +45,13 @@ public class CookingGuild implements ScriptTask
 		}
 
 		TileObject door = TileObjects.getFirstAt(COOKING_GUILD_DOOR, x -> x.hasAction("Open"));
-		if (door == null || door.distanceTo(local) > 15 || !Reachable.isInteractable(door)) {
+		if (door == null || door.distanceTo(local) > 15 || !Reachable.isInteractable(door))
+		{
 
 			Movement.walkTo(COOKING_GUILD_DOOR);
 		}
-		else {
+		else
+		{
 
 			door.interact("Open");
 		}

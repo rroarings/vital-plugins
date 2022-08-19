@@ -9,30 +9,31 @@ import net.unethicalite.api.items.Inventory;
 
 public class GetAxe implements ScriptTask
 {
-    private final WorldPoint shop_keeper_point = new WorldPoint(3227, 3244, 0);
+	private final WorldPoint shop_keeper_point = new WorldPoint(3227, 3244, 0);
 
-    VitalQuesterConfig config;
+	VitalQuesterConfig config;
+	DialogTask talk_to_wood_guy = new DialogTask("Woodsman tutor", shop_keeper_point, "Can you teach me");
 
-    public GetAxe(VitalQuesterConfig config)
-    {
-        this.config = config;
-    }
+	public GetAxe(VitalQuesterConfig config)
+	{
+		this.config = config;
+	}
 
-    @Override
-    public boolean validate()
-    {
-        return !Inventory.contains(ItemID.BRONZE_AXE) && !Inventory.contains(ItemID.SPADE);
-    }
+	@Override
+	public boolean validate()
+	{
+		return !Inventory.contains(ItemID.BRONZE_AXE) && !Inventory.contains(ItemID.SPADE);
+	}
 
-    DialogTask talk_to_wood_guy = new DialogTask("Woodsman tutor", shop_keeper_point, "Can you teach me");
+	@Override
+	public int execute()
+	{
 
-    @Override
-    public int execute() {
+		if (!talk_to_wood_guy.taskCompleted())
+		{
+			return talk_to_wood_guy.execute();
+		}
 
-        if (!talk_to_wood_guy.taskCompleted()) {
-            return talk_to_wood_guy.execute();
-        }
-
-        return -2;
-    }
+		return -2;
+	}
 }

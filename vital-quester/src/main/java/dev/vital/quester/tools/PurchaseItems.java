@@ -17,45 +17,54 @@ import java.util.List;
 
 public class PurchaseItems
 {
-	public static boolean purchase(List<ItemList> purchase_list) {
+	public static boolean purchase(List<ItemList> purchase_list)
+	{
 
 		var uh =
-				purchase_list.stream().noneMatch(n -> n.state == ItemState.ABSENT) && purchase_list.stream().noneMatch(n -> n.state == ItemState.UNCHECKED)&& purchase_list.stream().noneMatch(n -> n.state == ItemState.CHECK_BANK);
-		if(uh) {
+				purchase_list.stream().noneMatch(n -> n.state == ItemState.ABSENT) && purchase_list.stream().noneMatch(n -> n.state == ItemState.UNCHECKED) && purchase_list.stream().noneMatch(n -> n.state == ItemState.CHECK_BANK);
+		if (uh)
+		{
 			return true;
 		}
 
 		Player local = LocalPlayer.get();
 
-		if(WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(local))
+		if (WorldLocation.GRAND_EXCHANGE.getWorldArea().contains(local))
 		{
 			var clerk = NPCs.getNearest("Grand Exchange Clerk");
 			var banker = NPCs.getNearest("Banker");
 			if (purchase_list.stream().anyMatch(n -> n.state == ItemState.CHECK_BANK))
 			{
-				if(!Bank.isOpen()) {
+				if (!Bank.isOpen())
+				{
 					banker.interact("Bank");
 				}
-				else {
+				else
+				{
 					for (var item : purchase_list)
 					{
 						if (item.state == ItemState.CHECK_BANK)
 						{
-							if(Bank.contains(item.item_id) && Bank.getCount(item.stack, item.item_id) >= item.quantity && (!Inventory.contains(item.item_id) || Inventory.getCount(item.stack, item.item_id) != item.quantity)) {
+							if (Bank.contains(item.item_id) && Bank.getCount(item.stack, item.item_id) >= item.quantity && (!Inventory.contains(item.item_id) || Inventory.getCount(item.stack, item.item_id) != item.quantity))
+							{
 								Bank.withdraw(item.item_id, item.quantity - Inventory.getCount(item.item_id), item.mode);
 							}
-							else if(!item.equip && Inventory.contains(item.item_id) && Inventory.getCount(item.stack, item.item_id) == item.quantity) {
+							else if (!item.equip && Inventory.contains(item.item_id) && Inventory.getCount(item.stack, item.item_id) == item.quantity)
+							{
 
 								item.state = ItemState.OBTAINED;
 							}
-							else if(item.equip && !Equipment.contains(item.item_id) && Inventory.contains(item.item_id)) {
+							else if (item.equip && !Equipment.contains(item.item_id) && Inventory.contains(item.item_id))
+							{
 								Inventory.getFirst(item.item_id).interact(item.interaction);
 							}
-							else if(item.equip && Equipment.contains(item.item_id)) {
+							else if (item.equip && Equipment.contains(item.item_id))
+							{
 
 								item.state = ItemState.OBTAINED;
 							}
-							else {
+							else
+							{
 								item.state = ItemState.ABSENT;
 							}
 							break;
@@ -65,16 +74,21 @@ public class PurchaseItems
 			}
 			if (purchase_list.stream().anyMatch(n -> n.state == ItemState.ABSENT))
 			{
-				if(Inventory.contains(ItemID.COINS_995) && Inventory.getFreeSlots() < 27) {
-					if(!Bank.isOpen()) {
+				if (Inventory.contains(ItemID.COINS_995) && Inventory.getFreeSlots() < 27)
+				{
+					if (!Bank.isOpen())
+					{
 						banker.interact("Bank");
 					}
-					else {
+					else
+					{
 						Bank.depositAllExcept(ItemID.COINS_995);
 					}
 				}
-				else if(!Inventory.contains(ItemID.COINS_995) || Inventory.getCount(true, ItemID.COINS_995) < 10000) {
-					if(!Bank.isOpen()) {
+				else if (!Inventory.contains(ItemID.COINS_995) || Inventory.getCount(true, ItemID.COINS_995) < 10000)
+				{
+					if (!Bank.isOpen())
+					{
 						banker.interact("Bank");
 					}
 					else
@@ -116,7 +130,8 @@ public class PurchaseItems
 				}
 			}
 		}
-		else {
+		else
+		{
 
 			Movement.walkTo(WorldLocation.GRAND_EXCHANGE.getWorldArea().getRandom());
 		}

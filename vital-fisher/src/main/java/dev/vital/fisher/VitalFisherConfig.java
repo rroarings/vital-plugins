@@ -72,7 +72,7 @@ public interface VitalFisherConfig extends Config
 	)
 	default String itemsToDrop()
 	{
-		return "Trout,Salmon";
+		return "666,999";
 	}
 
 	@ConfigItem(

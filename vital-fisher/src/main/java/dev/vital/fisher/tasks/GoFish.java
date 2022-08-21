@@ -1,46 +1,54 @@
 package dev.vital.fisher.tasks;
 
-import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldPoint;
+import dev.vital.fisher.VitalFisher;
+import dev.vital.fisher.VitalFisherConfig;
+import dev.vital.quester.tools.Tools;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.commons.Rand;
+import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.movement.Movement;
+import net.unethicalite.api.movement.Reachable;
 
 public class GoFish implements ScriptTask
 {
+	VitalFisherConfig config;
+	public GoFish(VitalFisherConfig config)
+	{
+		this.config = config;
+	}
 
 	@Override
 	public boolean validate()
 	{
-
-		return Inventory.contains(ItemID.FISHING_ROD) && Inventory.contains(ItemID.SANDWORMS);
+		return !Inventory.isFull();
 	}
 
 	@Override
 	public int execute()
 	{
-
-		var an = LocalPlayer.get().getAnimation();
-		var fishspot = NPCs.getNearest(6825);
-		if (fishspot == null)
+		var npc = NPCs.getNearest(x -> x.hasAction(config.action()));
+		if (npc != null)
 		{
-
-			Movement.walkTo(new WorldPoint(1828, 3775, 0));
+			if (Reachable.isInteractable(npc) && LocalPlayer.get().distanceTo(npc) < 8)
+			{
+				if (!Tools.isAnimating(5))
+				{
+					npc.interact(config.action());
+					Time.sleep(Rand.nextInt(config.minDelay() * 1000, config.maxDelay() * 1000));
+				}
+			}
+			else if (!Movement.isWalking())
+			{
+				Movement.walkTo(npc);
+			}
 		}
-		else if (an != 623 && an != 622)
+		else if (!Movement.isWalking())
 		{
-
-			fishspot.interact("Bait");
-			return -3;
-		}
-		else if (LocalPlayer.get().getAnimation() == 623)
-		{
-
-			return Rand.nextInt(1000 * 30, 1000 * 120);
+			Movement.walkTo(VitalFisher.fish_location);
 		}
 
-		return -3;
+		return -1;
 	}
 }

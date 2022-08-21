@@ -180,10 +180,9 @@ public class Tools
 
 	public static boolean isAnimating(int delta)
 	{
-
 		var local_player = LocalPlayer.get();
 		int tick_count = Static.getClient().getTickCount();
-		if (local_player.isAnimating() /*|| local_player.getPoseAnimation() == 824*/)
+		if (local_player.isAnimating() /*|| local_player.getPoseAnimation() == 824 || local_player.getPoseAnimation() == 819*/)
 		{
 			animation_tick = tick_count;
 		}
@@ -193,7 +192,6 @@ public class Tools
 
 	public static int sellTo(String name, WorldPoint point, int id, int amount, boolean stack)
 	{
-
 		int current_amount = Inventory.getCount(stack, id);
 		if (current_amount == amount)
 		{

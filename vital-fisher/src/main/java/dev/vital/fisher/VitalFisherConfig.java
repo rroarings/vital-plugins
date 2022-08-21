@@ -21,7 +21,7 @@ public interface VitalFisherConfig extends Config
 
 	@ConfigItem(
 			keyName = "minDelay",
-			name = "Post interaction delay",
+			name = "Minimum delay",
 			description = "minimum amount of seconds to wait before interacting with another fish spot",
 			position = 0
 	)
@@ -32,9 +32,9 @@ public interface VitalFisherConfig extends Config
 
 	@ConfigItem(
 			keyName = "maxDelay",
-			name = "Post interaction delay",
+			name = "Maximum delay",
 			description = "maximum amount of seconds to wait before interacting with another fish spot",
-			position = 0
+			position = 1
 	)
 	default int maxDelay()
 	{

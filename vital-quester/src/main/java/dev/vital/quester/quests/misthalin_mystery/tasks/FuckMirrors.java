@@ -4,32 +4,28 @@ import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
 import dev.vital.quester.tasks.BasicTask;
 import dev.vital.quester.tasks.WalkTask;
-import net.runelite.api.GameObject;
-import net.runelite.api.GraphicsObject;
-import net.runelite.api.TileObject;
 import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.NPCs;
-import net.unethicalite.api.entities.TileObjects;
 import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.quests.QuestVarbits;
-import net.unethicalite.client.Static;
 
 public class FuckMirrors implements ScriptTask
 {
 	VitalQuesterConfig config;
 	WalkTask walk1 = new WalkTask(new WorldPoint(8022, 5083, 0));
-	boolean getWardrobe() {
+	boolean getWardrobe()
+	{
 
 		//var wardrobe_south = TileObjects.getFirstAt(new WorldPoint(8024, 5081, 0), 30141);
 		//var ttt = (GameObject)(wardrobe_south);
 		//ttt.getOrientation();
-		for (GraphicsObject graphicsObject : Static.getClient().getGraphicsObjects()) {
-
+		//for (GraphicsObject graphicsObject : Static.getClient().getGraphicsObjects())
+		//{
 			//if(graphicsObject.getId() == 483 && wardrobe_south.getLocalLocation().equals(graphicsObject.getLocation())) {
 			//	return true;
 			//}
-		}
+		//}
 		return false;
 	}
 

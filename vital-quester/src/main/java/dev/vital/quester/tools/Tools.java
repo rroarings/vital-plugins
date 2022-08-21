@@ -2,22 +2,17 @@ package dev.vital.quester.tools;
 
 import net.runelite.api.Item;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetID;
 import net.unethicalite.api.SceneEntity;
 import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.game.Vars;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
-import net.unethicalite.api.quests.QuestVarPlayer;
 import net.unethicalite.api.widgets.Dialog;
-import net.unethicalite.api.widgets.Widgets;
 import net.unethicalite.client.Static;
 
 import java.util.List;
@@ -29,19 +24,13 @@ public class Tools
 {
 	static int animation_tick = 0;
 
-	public static boolean localHas(int... ids)
-	{
-
-		return Inventory.contains(ids) || Equipment.contains(ids);
-	}
-
 	public static boolean localHas(Predicate<Item> item)
 	{
 
 		return Inventory.contains(item) || Equipment.contains(item);
 	}
 
-	public static String getDialogueHeader()
+	/*public static String getDialogueHeader()
 	{
 		Widget widget = Widgets.get(WidgetID.DIALOG_OPTION_GROUP_ID, 1);
 		if (!Widgets.isVisible(widget))
@@ -56,7 +45,7 @@ public class Tools
 		}
 
 		return children[0].getText();
-	}
+	}*/
 
 	/*public static int pickUpItem(int id, WorldPoint point) {
 		var item = TileItems.getNearest(id);
@@ -189,36 +178,12 @@ public class Tools
 		return -1;
 	}
 
-	public static boolean startQuest(String quest)
-	{
-
-		if (Dialog.isViewingOptions() && getDialogueHeader().contains(quest))
-		{
-
-			return Dialog.chooseOption("Yes.");
-		}
-
-		return false;
-	}
-
-	public static boolean selectOptions(String... options)
-	{
-
-		if (Dialog.isViewingOptions() && Tools.getDialogueHeader().contains("Select an Option"))
-		{
-
-			return Dialog.chooseOption(options);
-		}
-
-		return false;
-	}
-
 	public static boolean isAnimating(int delta)
 	{
 
 		var local_player = LocalPlayer.get();
 		int tick_count = Static.getClient().getTickCount();
-		if (local_player.isAnimating() || local_player.getPoseAnimation() == 824)
+		if (local_player.isAnimating() /*|| local_player.getPoseAnimation() == 824*/)
 		{
 			animation_tick = tick_count;
 		}
@@ -318,11 +283,6 @@ public class Tools
 		}
 
 		return -1;
-	}
-
-	public static int getQuestProgress(QuestVarPlayer quest)
-	{
-		return Vars.getVarp(quest.getId());
 	}
 
 	public enum EntityType

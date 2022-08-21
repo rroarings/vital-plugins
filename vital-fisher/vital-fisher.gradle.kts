@@ -1,7 +1,11 @@
-version = "0.0.12"
+version = "0.1.0"
 
 project.extra["PluginName"] = "Vital Fisher"
 project.extra["PluginDescription"] = "Fishes angler fish only for now"
+
+dependencies {
+    compileOnly(project(":vital-quester"))
+}
 
 tasks {
     jar {
@@ -11,7 +15,10 @@ tasks {
                     "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
                     "Plugin-Provider" to project.extra["PluginProvider"],
                     "Plugin-Description" to project.extra["PluginDescription"],
-                    "Plugin-License" to project.extra["PluginLicense"]
+                    "Plugin-License" to project.extra["PluginLicense"],
+                "Plugin-Dependencies" to
+                        arrayOf(
+                            nameToId("vital-quester")).joinToString(),
             ))
         }
     }

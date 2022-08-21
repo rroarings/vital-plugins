@@ -1,16 +1,17 @@
 package dev.vital.fisher.tasks;
 
+import dev.vital.fisher.InventoryMethod;
 import dev.vital.fisher.VitalFisher;
 import dev.vital.fisher.VitalFisherConfig;
 import net.runelite.api.Item;
 import net.unethicalite.api.commons.Time;
 import net.unethicalite.api.items.Inventory;
 
-public class Drop implements ScriptTask
+public class GoDrop implements ScriptTask
 {
     VitalFisherConfig config;
 
-    public Drop(VitalFisherConfig config)
+    public GoDrop(VitalFisherConfig config)
     {
         this.config = config;
     }
@@ -29,7 +30,7 @@ public class Drop implements ScriptTask
             drop_items = false;
         }
 
-        return config.dropFish() && drop_items;
+        return config.method().equals(InventoryMethod.DROP) && drop_items;
     }
 
     @Override

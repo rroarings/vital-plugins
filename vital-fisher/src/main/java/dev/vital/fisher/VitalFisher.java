@@ -1,7 +1,9 @@
 package dev.vital.fisher;
 
 import com.google.inject.Provides;
-import dev.vital.fisher.tasks.Drop;
+import dev.vital.fisher.tasks.GoBank;
+import dev.vital.fisher.tasks.GoCook;
+import dev.vital.fisher.tasks.GoDrop;
 import dev.vital.fisher.tasks.GoFish;
 import dev.vital.fisher.tasks.ScriptTask;
 import dev.vital.quester.tools.Tools;
@@ -31,6 +33,7 @@ public class VitalFisher extends Script
 
 	static List<ScriptTask> tasks = new ArrayList<>();
 
+	public static WorldPoint cook_location;
 	public static WorldPoint fish_location;
 	public static WorldPoint bank_location;
 	public static List<Integer> items_to_drop = new ArrayList<>();
@@ -43,17 +46,42 @@ public class VitalFisher extends Script
 				Arrays.stream(string.split(",")).map(String::trim).map(Integer::parseInt).collect(Collectors.toList());
 	}
 
+	void setConfig()
+	{
+		var fish_location_list = stringToIntList(config.fishingLocation());
+		if (fish_location_list.size() == 3)
+		{
+			fish_location = new WorldPoint(fish_location_list.get(0), fish_location_list.get(1), fish_location_list.get(2));
+		}
+
+		var bank_location_list = stringToIntList(config.bankingLocation());
+		if (bank_location_list.size() == 3)
+		{
+			bank_location = new WorldPoint(bank_location_list.get(0), bank_location_list.get(1), bank_location_list.get(2));
+		}
+
+		var cook_location_list = stringToIntList(config.cookingLocation());
+		if (cook_location_list.size() == 3)
+		{
+			cook_location = new WorldPoint(cook_location_list.get(0), cook_location_list.get(1), cook_location_list.get(2));
+		}
+
+		items_to_drop = stringToIntList(config.itemsToDrop());
+	}
+
 	@Override
 	public void onStart(String... args)
 	{
-		//configManager.setConfiguration(VitalQuesterConfig.CONFIG_GROUP, "startStopPlugin", false);
-
 		plugin_enabled = false;
 
 		tasks.clear();
 
-		tasks.add(new Drop(config));
+		tasks.add(new GoCook(config));
+		tasks.add(new GoBank(config));
+		tasks.add(new GoDrop(config));
 		tasks.add(new GoFish(config));
+
+		setConfig();
 	}
 
 	@Override
@@ -89,7 +117,6 @@ public class VitalFisher extends Script
 	@Subscribe
 	public void onConfigButtonClicked(ConfigButtonClicked e)
 	{
-
 		if (!e.getGroup().equals("vitalfisherconfig"))
 		{
 			return;
@@ -109,19 +136,7 @@ public class VitalFisher extends Script
 			return;
 		}
 
-		var fish_location_list = stringToIntList(config.fishLocation());
-		if (fish_location_list.size() == 3)
-		{
-			fish_location = new WorldPoint(fish_location_list.get(0), fish_location_list.get(1), fish_location_list.get(2));
-		}
-
-		var bank_location_list = stringToIntList(config.bankLocation());
-		if (bank_location_list.size() == 3)
-		{
-			bank_location = new WorldPoint(bank_location_list.get(0), bank_location_list.get(1), bank_location_list.get(2));
-		}
-
-		items_to_drop = stringToIntList(config.itemsToDrop());
+		setConfig();
 	}
 
 	@Provides

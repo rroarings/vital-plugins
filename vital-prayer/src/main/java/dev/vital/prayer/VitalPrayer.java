@@ -54,16 +54,12 @@ public class VitalPrayer extends LoopedPlugin
 	@Override
 	protected int loop()
 	{
-
 		if (plugin_enabled && Game.isLoggedIn())
 		{
-
 			for (ScriptTask task : tasks)
 			{
-
 				if (task.validate())
 				{
-
 					int sleep = task.execute();
 					if (task.blocking())
 					{
@@ -80,15 +76,12 @@ public class VitalPrayer extends LoopedPlugin
 	@Subscribe
 	private void onGameTick(GameTick event)
 	{
-
 		if (LocalPlayer.get().getAnimation() == 3705)
 		{
-
 			is_animating = 0;
 		}
 		else
 		{
-
 			is_animating++;
 		}
 	}
@@ -96,10 +89,8 @@ public class VitalPrayer extends LoopedPlugin
 	@Subscribe
 	public void onConfigButtonClicked(ConfigButtonClicked e)
 	{
-
 		if (!e.getGroup().equals("vitalprayerconfig"))
 		{
-
 			return;
 		}
 
@@ -112,7 +103,6 @@ public class VitalPrayer extends LoopedPlugin
 	@Provides
 	VitalPrayerConfig getConfig(ConfigManager configManager)
 	{
-
 		return configManager.getConfig(VitalPrayerConfig.class);
 	}
 }

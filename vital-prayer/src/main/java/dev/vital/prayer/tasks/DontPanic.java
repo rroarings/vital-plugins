@@ -29,9 +29,15 @@ public class DontPanic implements ScriptTask
 	public int execute()
 	{
 
-		if (Movement.walkTo(safe_location) && LocalPlayer.get().getWorldLocation().equals(safe_location))
+		if (!LocalPlayer.get().getWorldLocation().equals(safe_location))
 		{
-
+			if (!Movement.isWalking())
+			{
+				Movement.walkTo(safe_location);
+			}
+		}
+		else
+		{
 			Worlds.hopTo(Worlds.getRandom(x -> x.isMembers() && x.isNormal()), true);
 		}
 

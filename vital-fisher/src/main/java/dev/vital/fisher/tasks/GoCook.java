@@ -23,14 +23,7 @@ public class GoCook implements ScriptTask
     @Override
     public boolean validate()
     {
-        if (Inventory.isFull() && Inventory.query().results().stream().anyMatch(x -> x.getName().contains("Raw")))
-        {
-            cook_items = true;
-        }
-        else if (Inventory.query().results().stream().noneMatch(x -> x.getName().contains("Raw")))
-        {
-            cook_items = false;
-        }
+        cook_items = Inventory.isFull() && Inventory.query().results().stream().anyMatch(x -> x.getName().contains("Raw"));
 
         return config.cookFish() && cook_items;
     }
@@ -38,17 +31,6 @@ public class GoCook implements ScriptTask
     @Override
     public int execute()
     {
-        if (Tools.isAnimating(5))
-        {
-            return -1;
-        }
-
-        if (Production.isOpen())
-        {
-            Production.chooseOption(1);
-            return -3;
-        }
-
         var cooking_object = TileObjects.getNearest(config.cookingObject());
         if (cooking_object == null || !Reachable.isInteractable(cooking_object))
         {
@@ -60,9 +42,21 @@ public class GoCook implements ScriptTask
             return -1;
         }
 
-        if (!Tools.isAnimating(5))
+        if (Tools.isAnimating(5))
         {
-            Inventory.getFirst(x -> x.getName().contains("Raw")).useOn(cooking_object);
+            return -1;
+        }
+
+        if (Production.isOpen())
+        {
+            Production.chooseOption(1);
+            return -3;
+        }
+
+        var raw_food = Inventory.getFirst(x -> x.getName().contains("Raw"));
+        if (raw_food != null)
+        {
+            raw_food.useOn(cooking_object);
         }
 
         return -1;

@@ -1,14 +1,36 @@
 package dev.vital.bankstander;
 
+import net.runelite.client.config.Button;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
-import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("vitalbankstanderconfig")
 public interface VitalBankStanderConfig extends Config
 {
-	@ConfigSection(
+	@ConfigItem(
+			keyName = "mode",
+			name = "Mode",
+			description = "",
+			position = 0
+	)
+	default Mode mode()
+	{
+		return Mode.JUGS_OF_WINE;
+	}
+
+	@ConfigItem(
+			keyName = "animationDelta",
+			name = "Animation delta",
+			description = "",
+			position = 4
+	)
+	default int animationDelta()
+	{
+		return 5;
+	}
+
+	/* @ConfigSection(
 			keyName = "glassBlow",
 			name = "Glass Configuration",
 			description = "",
@@ -315,4 +337,15 @@ public interface VitalBankStanderConfig extends Config
 			position = 10
 	)
 	default int tickMaxDelay() { return 0; }*/
+
+	@ConfigItem(
+			keyName = "startStopPlugin",
+			name = "Start / Stop",
+			description = "",
+			position = 85
+	)
+	default Button startStopPlugin()
+	{
+		return new Button();
+	}
 }

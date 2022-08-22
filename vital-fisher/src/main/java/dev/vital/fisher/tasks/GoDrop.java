@@ -40,7 +40,7 @@ public class GoDrop implements ScriptTask
             if (VitalFisher.items_to_drop.stream().anyMatch(x -> x == item.getId()))
             {
                 item.drop();
-                Time.sleep(150, 300);
+                Time.sleep(config.dropDelay(), config.dropDelay() * 2);
             }
         });
 

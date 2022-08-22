@@ -1,7 +1,7 @@
-version = "0.1.3"
+version = "0.1.5"
 
 project.extra["PluginName"] = "Vital Fisher"
-project.extra["PluginDescription"] = "Fishes angler fish only for now"
+project.extra["PluginDescription"] = "Fish anywhere based on your configuration."
 
 dependencies {
     compileOnly(project(":vital-quester"))

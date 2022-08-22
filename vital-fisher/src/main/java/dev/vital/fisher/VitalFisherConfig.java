@@ -63,6 +63,18 @@ public interface VitalFisherConfig extends Config
 		return 21;
 	}
 
+	@ConfigItem(
+			keyName = "dropDelay",
+			name = "Drop delay",
+			description = "Amount of milliseconds between dropping items",
+			position = 26,
+			section = "delay"
+	)
+	default int dropDelay()
+	{
+		return 80;
+	}
+
 	@ConfigSection(
 			keyName = "fishing",
 			name = "Fishing Configuration",

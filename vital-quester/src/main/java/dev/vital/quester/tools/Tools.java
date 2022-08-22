@@ -7,11 +7,13 @@ import net.unethicalite.api.account.LocalPlayer;
 import net.unethicalite.api.entities.NPCs;
 import net.unethicalite.api.entities.TileItems;
 import net.unethicalite.api.entities.TileObjects;
+import net.unethicalite.api.items.Bank;
 import net.unethicalite.api.items.Equipment;
 import net.unethicalite.api.items.Inventory;
 import net.unethicalite.api.items.Shop;
 import net.unethicalite.api.movement.Movement;
 import net.unethicalite.api.movement.Reachable;
+import net.unethicalite.api.movement.pathfinder.model.BankLocation;
 import net.unethicalite.api.widgets.Dialog;
 import net.unethicalite.client.Static;
 
@@ -59,6 +61,35 @@ public class Tools
 
 		return -1;
 	}*/
+
+	public static boolean openNearestBank()
+	{
+		if (Bank.isOpen())
+		{
+			return true;
+		}
+
+		var nearest_bank = BankLocation.getNearest();
+		if (nearest_bank.getArea().contains(LocalPlayer.get().getWorldLocation()))
+		{
+			var bank_booth = TileObjects.getNearest("Bank booth");
+			var banker = NPCs.getNearest("Banker");
+			if (bank_booth != null)
+			{
+				bank_booth.interact("Bank");
+			}
+			else if (banker != null)
+			{
+				banker.interact("Bank");
+			}
+		}
+		else if (!Movement.isWalking())
+		{
+			Movement.walkTo(nearest_bank);
+		}
+
+		return false;
+	}
 
 	public static int talkTo(String name, WorldPoint point, List<String> dialog)
 	{
@@ -182,7 +213,7 @@ public class Tools
 	{
 		var local_player = LocalPlayer.get();
 		int tick_count = Static.getClient().getTickCount();
-		if (local_player.isAnimating() /*|| local_player.getPoseAnimation() == 824 || local_player.getPoseAnimation() == 819*/)
+		if (local_player.isAnimating() || local_player.getPoseAnimation() == 824 || local_player.getPoseAnimation() == 819)
 		{
 			animation_tick = tick_count;
 		}

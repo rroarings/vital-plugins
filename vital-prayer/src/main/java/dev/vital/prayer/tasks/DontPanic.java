@@ -28,7 +28,6 @@ public class DontPanic implements ScriptTask
 	@Override
 	public int execute()
 	{
-
 		if (!LocalPlayer.get().getWorldLocation().equals(safe_location))
 		{
 			if (!Movement.isWalking())

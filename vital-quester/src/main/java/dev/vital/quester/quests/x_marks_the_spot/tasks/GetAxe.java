@@ -22,7 +22,7 @@ public class GetAxe implements ScriptTask
 	@Override
 	public boolean validate()
 	{
-		return !Inventory.contains(ItemID.BRONZE_AXE) && !Inventory.contains(ItemID.SPADE);
+		return !Inventory.contains(ItemID.BRONZE_AXE) && !Inventory.contains(ItemID.SPADE) && Inventory.getCount(true, ItemID.COINS_995) < 3;
 	}
 
 	@Override

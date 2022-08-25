@@ -2,8 +2,8 @@ package dev.vital.quester.quests.tutorial_island.tasks;
 
 import dev.vital.quester.ScriptTask;
 import dev.vital.quester.VitalQuesterConfig;
-import net.unethicalite.api.entities.TileObjects;
-import net.unethicalite.api.movement.Reachable;
+import dev.vital.quester.tools.Tools;
+import net.runelite.api.coords.WorldPoint;
 import net.unethicalite.api.widgets.Widgets;
 
 public class GoToCombatInstructor implements ScriptTask
@@ -33,12 +33,6 @@ public class GoToCombatInstructor implements ScriptTask
 	@Override
 	public int execute()
 	{
-		var gate = TileObjects.getNearest("Gate");
-		if (gate != null && Reachable.isInteractable(gate))
-		{
-			gate.interact("Open");
-		}
-
-		return -5;
+		return Tools.interactWith("Gate", "Open", new WorldPoint(3094, 9502, 0), Tools.EntityType.TILE_OBJECT);
 	}
 }

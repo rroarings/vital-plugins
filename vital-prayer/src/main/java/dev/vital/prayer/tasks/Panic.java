@@ -25,7 +25,6 @@ public class Panic implements ScriptTask
 	@Override
 	public int execute()
 	{
-
 		Worlds.hopTo(Worlds.getRandom(x -> x.isNormal() && !x.isMembers()), true);
 
 		return 100;

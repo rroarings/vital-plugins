@@ -33,18 +33,14 @@ public class UnnoteBones implements ScriptTask
 		var elder_chaos_druid = NPCs.getNearest(7995);
 		if (elder_chaos_druid != null)
 		{
-
 			if (Reachable.isInteractable(elder_chaos_druid))
 			{
-
 				if (Dialog.isViewingOptions())
 				{
-
 					Dialog.chooseOption("Exchange All:");
 				}
 				else
 				{
-
 					Inventory.getFirst(config.notedBoneID()).useOn(elder_chaos_druid);
 				}
 			}
@@ -52,17 +48,14 @@ public class UnnoteBones implements ScriptTask
 			{
 				if (!Movement.isWalking())
 				{
-
 					Movement.walkTo(elder_chaos_druid);
 				}
 			}
 		}
 		else
 		{
-
 			if (!Movement.isWalking())
 			{
-
 				Movement.walkTo(inside_widly_chaos_alter);
 			}
 		}

@@ -24,23 +24,34 @@ public interface VitalPrayerConfig extends Config
 	@ConfigItem(
 			keyName = "boneID",
 			name = "Bone ID",
-			description = "ex: 535 = Dragon Bones",
+			description = "ex: 536 = Dragon Bones",
 			position = 5
 	)
 	default int boneID()
 	{
-		return 535;
+		return 536;
 	}
 
 	@ConfigItem(
 			keyName = "notedBoneID",
 			name = "Noted Bone ID",
-			description = "ex: 536 = Noted Dragon Bones",
+			description = "ex: 537 = Noted Dragon Bones",
 			position = 10
 	)
 	default int notedBoneID()
 	{
-		return 536;
+		return 537;
+	}
+
+	@ConfigItem(
+			keyName = "animationDelay",
+			name = "Animation delay",
+			description = "",
+			position = 10
+	)
+	default int animationDelay()
+	{
+		return 3;
 	}
 
 	@ConfigItem(
